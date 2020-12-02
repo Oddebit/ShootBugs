@@ -1,5 +1,5 @@
 package com.od.objects;
 
 public enum ID {
-    Hero, Enemy, Projectile
+    Hero, Enemy, Weapon, Projectile
 }

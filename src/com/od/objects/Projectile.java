@@ -1,6 +1,5 @@
 package com.od.objects;
 
-import com.od.game.Game;
 import com.od.game.Handler;
 
 import java.awt.*;
@@ -8,38 +7,49 @@ import java.awt.*;
 public class Projectile extends GameObject {
 
     Handler handler;
+
     private static final float diameter = 5;
     private static final float speed = 10;
-    private float targetX;
-    private float targetY;
+    private final GameObject shooter;
+    private final int damage;
 
-    public Projectile(float x, float y, float targetX, float targetY, Handler handler) {
+    private float distance;
+    private final float targetX;
+    private final float targetY;
+
+    public Projectile(float x, float y, float targetX, float targetY, GameObject shooter, int damage, Handler handler) {
         super(x, y, diameter, diameter, ID.Projectile);
+        this.damage = damage;
+        this.shooter = shooter;
         this.handler = handler;
-        this.targetX = targetX;
-        this.targetY = targetY;
 
-        float deltaX = x + Hero.getDiameter() / 2 - targetX;
-        float deltaY = y + Hero.getDiameter() / 2 - targetY;
-        float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        //initial triangle
+        float deltaX = x - targetX;
+        float deltaY = y - targetY;
+        distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
-        this.targetX *= Hero.getRange()/distance;
-        this.targetY *= Hero.getRange()/distance;
-        deltaX *= Hero.getRange()/distance;
-        deltaY *= Hero.getRange()/distance;
+        //conversion
+        deltaX *= shooter.getRange()/distance;
+        deltaY *= shooter.getRange()/distance;
 
-        velocityX = -speed * deltaX / distance;
-        velocityY = -speed * deltaY / distance;
+        //within range
+        this.targetX = x - deltaX;
+        this.targetY = y - deltaY;
+        distance = shooter.getRange();
+
+        velocityX = - deltaX * speed/shooter.getRange();
+        velocityY = - deltaY * speed/shooter.getRange();
     }
 
     @Override
     public void tick() {
-        if (x >= targetX && y >= targetY) {
+        if (distance <= 0) {
             handler.removeObject(this);
         }
 
         x += velocityX;
         y += velocityY;
+        distance -= speed;
     }
 
     @Override
@@ -51,6 +61,14 @@ public class Projectile extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return null;
+        return new Rectangle((int)x, (int)y, (int)diameter, (int)diameter);
+    }
+
+    public GameObject getShooter() {
+        return shooter;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }

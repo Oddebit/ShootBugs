@@ -7,9 +7,12 @@ import java.awt.*;
 public class Enemy extends GameObject {
 
     Handler handler;
-    GameObject hero;
-    private static final float diameter = 16;
-    private static final float speed = 3;
+    Hero hero;
+    private static final float diameter = 40;
+    private final float speed = 3;
+
+    private int HP = 20;
+    private boolean isHittingHero = false;
 
     public Enemy(float x, float y, Handler handler) {
         super(x, y, diameter, diameter, ID.Enemy);
@@ -17,39 +20,71 @@ public class Enemy extends GameObject {
 
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObject = handler.objects.get(i);
-            if (tempObject.getId() == ID.Hero) hero = tempObject;
+            if (tempObject.getId() == ID.Hero) hero = (Hero)tempObject;
         }
     }
 
     @Override
     public void tick() {
-        float deltaX = x + diameter/2 - hero.getX() - hero.getW()/2;
-        float deltaY = y + diameter/2 - hero.getY() - hero.getH()/2;
-        float distance = (float) Math.sqrt(Math.pow(deltaX,2) + Math.pow(deltaY,2));
 
-        velocityX = -speed * deltaX/distance;
-        velocityY = -speed * deltaY/distance;
+        float deltaX = x + diameter / 2 - hero.getX() - hero.getW() / 2;
+        float deltaY = y + diameter / 2 - hero.getY() - hero.getH() / 2;
+        float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+
+        velocityX = -speed * deltaX / distance;
+        velocityY = -speed * deltaY / distance;
 
         x += velocityX;
         y += velocityY;
+
+        collision();
+
+        if (HP <= 0) handler.removeObject(this);
     }
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(0, 120, 120));
-        graphics.fillOval((int)x, (int)y, (int)diameter, (int)diameter);
+        graphics.setColor(new Color(0, Math.max(6 * HP, 0), Math.max(6 * HP, 0)));
+        graphics.fillOval((int) x, (int) y, (int) diameter, (int) diameter);
+    }
+
+    public void collision() {
+        boolean hitsHero = false;
+        for (int i = 0; i < handler.objects.size(); i++) {
+            GameObject tempObject = handler.objects.get(i);
+
+            if (getBounds().intersects(tempObject.getBounds())) {
+                if (tempObject.getId() == ID.Hero) {
+                    if (!isHittingHero) {
+                        hero.setHP(hero.getHP() - HP);
+                    }
+                    hitsHero = true;
+                }
+                if (tempObject.getId() == ID.Projectile) {
+                    if (((Projectile) tempObject).getShooter() == hero) {
+                        handler.removeObject(tempObject);
+                        this.HP -= ((Projectile) tempObject).getDamage();
+                    }
+                }
+            }
+        }
+        isHittingHero = hitsHero;
     }
 
     @Override
     public Rectangle getBounds() {
-        return null;
+        return new Rectangle((int) x, (int) y, (int) diameter, (int) diameter);
     }
 
     public static float getDiameter() {
         return diameter;
     }
 
-    public static float getSpeed() {
+    public float getSpeed() {
         return speed;
+    }
+
+    public int getHP() {
+        return HP;
     }
 }

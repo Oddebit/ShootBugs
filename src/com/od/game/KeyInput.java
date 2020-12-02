@@ -29,16 +29,19 @@ public class KeyInput extends KeyAdapter {
 
         switch (key) {
             case KeyEvent.VK_UP:
-                hero.setVelocityY(-Hero.getSpeed());
+                hero.setVelocityY(-hero.getSpeed());
                 break;
             case KeyEvent.VK_DOWN:
-                hero.setVelocityY(+Hero.getSpeed());
+                hero.setVelocityY(+hero.getSpeed());
                 break;
             case KeyEvent.VK_LEFT:
-                hero.setVelocityX(-Hero.getSpeed());
+                hero.setVelocityX(-hero.getSpeed());
                 break;
             case KeyEvent.VK_RIGHT:
-                hero.setVelocityX(+Hero.getSpeed());
+                hero.setVelocityX(+hero.getSpeed());
+                break;
+            case KeyEvent.VK_R:
+                hero.getActiveWeapon().reload();
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(1);

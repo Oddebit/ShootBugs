@@ -9,9 +9,9 @@ public abstract class GameObject {
     protected ID id;
     protected float velocityX, velocityY;
 
-    private static final float diameter = 24;
-    private static final float speed = 5;
-    private static final float range = 500;
+    private final float diameter = 24;
+    private final float speed = 5;
+    private final float range = 0;
 
     public GameObject(float x, float y, float w, float h, ID id) {
         this.x = x; this.y = y;
@@ -74,5 +74,9 @@ public abstract class GameObject {
 
     public void setVelocityY(float velocityY) {
         this.velocityY = velocityY;
+    }
+
+    public float getRange() {
+        return range;
     }
 }

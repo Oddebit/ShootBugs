@@ -19,11 +19,6 @@ public class Game extends Canvas implements Runnable {
     public static final int WIDTH = 1306, HEIGHT = 708;
     public static final int REAL_WIDTH = WIDTH - 16, REAL_HEIGHT = HEIGHT - 39;
     public static final int WIDTH_CENTER = REAL_WIDTH / 2, HEIGHT_CENTER = REAL_HEIGHT / 2;
-    public static final double BORDER_PROPORTION = 0.03;
-    public static final int WIDTH_BORDER = (int) (REAL_WIDTH * BORDER_PROPORTION), HEIGHT_BORDER = (int) (REAL_HEIGHT * BORDER_PROPORTION);
-    public static final int BORDER_WIDTH = REAL_WIDTH - 2 * WIDTH_BORDER, BORDER_HEIGHT = REAL_HEIGHT - 2 * HEIGHT_BORDER;
-    public static final int GRAPH_HEIGHT = 50;
-
 
     public Game() {
         handler = new Handler();
@@ -33,8 +28,8 @@ public class Game extends Canvas implements Runnable {
         new Window(WIDTH, HEIGHT, "Shoot Bad Guys", this);
 
         for (int i = 0; i < 20; i++) {
-            int enemyX = random.nextInt(REAL_WIDTH - (int)Enemy.getDiameter());
-            int enemyY = random.nextInt(REAL_HEIGHT - (int)Enemy.getDiameter());
+            int enemyX = random.nextInt(REAL_WIDTH + (int)Enemy.getDiameter());
+            int enemyY = random.nextInt(REAL_HEIGHT + (int)Enemy.getDiameter());
             int proba = random.nextInt(4);
 
             switch (proba) {

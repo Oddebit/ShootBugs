@@ -7,6 +7,7 @@ import com.od.objects.Projectile;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class MouseInput extends MouseAdapter {
 
@@ -25,18 +26,25 @@ public class MouseInput extends MouseAdapter {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-
-        handler.addObject(new Projectile(hero.getX() + hero.getW()/2, hero.getY() + hero.getH()/2, mouseX, mouseY, handler));
+    public void mouseClicked(MouseEvent event) {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
+    public void mousePressed(MouseEvent event) {
+        int mouseX = event.getX();
+        int mouseY = event.getY();
 
-        handler.addObject(new Projectile(hero.getX() + hero.getW()/2, hero.getY() + hero.getH()/2, mouseX, mouseY, handler));
+        hero.getActiveWeapon().shoot(mouseX, mouseY);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent event) {
+
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent event) {
+        int scroll = event.getWheelRotation();
+        hero.setActiveWeapon(scroll);
     }
 }
