@@ -6,7 +6,7 @@ public class Rifle extends Weapon{
 
     public Rifle(GameObject owner, ObjectHandler handler) {
         super(Type.Rifle, owner, handler);
-        this.damage = 5;
+        this.damage = 10;
         this.magazine = 30;
         this.munitionLeft = magazine;
         this.reloadTime = 5;

@@ -13,7 +13,9 @@ import static com.od.game.Game.*;
 
 public class Hero extends GameObject {
 
-    private ObjectHandler handler;
+    private ObjectHandler oHandler;
+    private Game game;
+
     private static final float diameter = 51;
     private final float speed = 5;
     private final float range = 500;
@@ -21,13 +23,15 @@ public class Hero extends GameObject {
     ArrayList<Weapon> arsenal = new ArrayList<>();
     Weapon activeWeapon;
 
-    private int HP = 100;
+    private int HP = 500;
 
-    public Hero(ObjectHandler handler) {
+    public Hero(ObjectHandler oHandler, Game game) {
         super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.Hero);
-        this.handler = handler;
-        Weapon firstWeapon = new Pistol(this, handler);
-        Weapon secondWeapon = new Rifle(this, handler);
+        this.oHandler = oHandler;
+        this.game = game;
+
+        Weapon firstWeapon = new Pistol(this, oHandler);
+        Weapon secondWeapon = new Rifle(this, oHandler);
 
         this.addWeapon(firstWeapon);
         this.addWeapon(secondWeapon);
@@ -36,6 +40,10 @@ public class Hero extends GameObject {
 
     @Override
     public void tick() {
+
+        if(HP <= 0) {
+            game.setState(State.GameOver);
+        }
 
         x += velocityX;
         y += velocityY;
@@ -48,7 +56,7 @@ public class Hero extends GameObject {
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(255, Math.max(2 * HP, 0), 0));
+        graphics.setColor(new Color(255, (int)Game.clamp(1/2f * HP, 0, 255), 0));
         graphics.drawOval((int) x, (int) y, (int) diameter, (int) diameter);
 
         float reloadState;
@@ -64,14 +72,14 @@ public class Hero extends GameObject {
     }
 
     public void collision() {
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObject = handler.objects.get(i);
+        for (int i = 0; i < oHandler.objects.size(); i++) {
+            GameObject tempObject = oHandler.objects.get(i);
 
             if (getBounds().intersects(tempObject.getBounds())) {
 
                 if (tempObject.getId() == ID.Projectile) {
                     if (((Projectile) tempObject).getShooter() != this) {
-                        handler.removeObject(tempObject);
+                        oHandler.removeObject(tempObject);
                         this.HP -= ((Projectile) tempObject).getDamage();
                     }
                 }
@@ -122,7 +130,7 @@ public class Hero extends GameObject {
     }
 
     public void addWeapon(Weapon weapon) {
-        handler.addObject(weapon);
+        oHandler.addObject(weapon);
         this.arsenal.add(weapon);
     }
 }

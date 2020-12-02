@@ -1,6 +1,5 @@
 package com.od.objects;
 
-import com.od.game.ObjectHandler;
 import com.od.game.ID;
 import com.od.game.SurroundingsHandler;
 
@@ -12,15 +11,15 @@ public class Blood extends GameObject{
 
     Random random= new Random();
     SurroundingsHandler sHandler;
-    Instant spawnInstant;
-    long lifeTime = 30;
+    Instant lastTime;
+    long timeLeft = 30;
     int radiusSpawn = 50;
     int diameter;
 
     public Blood(float x, float y, SurroundingsHandler sHandler) {
         super(x, y, 1, 1, ID.Blood);
         this.sHandler = sHandler;
-        this.spawnInstant = Instant.now();
+        this.lastTime = Instant.now();
         this.diameter = random.nextInt(32);
         float tempX;
         float tempY;
@@ -34,19 +33,19 @@ public class Blood extends GameObject{
 
     @Override
     public void tick() {
-        if (lifeTime <= 0) {
+        if (timeLeft <= 0) {
             sHandler.removeSurrounding(this);
         }
 
-        if (spawnInstant.plusSeconds(1).isBefore(Instant.now())){
-            spawnInstant = spawnInstant.plusSeconds(1);
-            lifeTime -= 1;
+        if (lastTime.plusSeconds(1).isBefore(Instant.now())){
+            lastTime = lastTime.plusSeconds(1);
+            timeLeft -= 1;
         }
     }
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(8 * (int)lifeTime, 0, 0));
+        graphics.setColor(new Color(8 * (int) timeLeft, 0, 0));
         graphics.fillOval((int)x, (int)y, diameter, diameter);
     }
 

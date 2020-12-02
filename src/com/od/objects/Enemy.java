@@ -1,16 +1,21 @@
 package com.od.objects;
 
+import com.od.game.Game;
 import com.od.game.ObjectHandler;
 import com.od.game.ID;
 import com.od.game.SurroundingsHandler;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Enemy extends GameObject {
+
+    Random random = new Random();
 
     ObjectHandler oHandler;
     SurroundingsHandler sHandler;
     Hero hero;
+
     private static final float diameter = 40;
     private final float speed = 3;
 
@@ -22,9 +27,11 @@ public class Enemy extends GameObject {
         this.oHandler = oHandler;
         this.sHandler = sHandler;
 
+        setStartingPosition();
+
         for (int i = 0; i < oHandler.objects.size(); i++) {
             GameObject tempObject = oHandler.objects.get(i);
-            if (tempObject.getId() == ID.Hero) hero = (Hero)tempObject;
+            if (tempObject.getId() == ID.Hero) hero = (Hero) tempObject;
         }
     }
 
@@ -74,6 +81,24 @@ public class Enemy extends GameObject {
             }
         }
         isHittingHero = hitsHero;
+    }
+
+    public void setStartingPosition() {
+        int proba = random.nextInt(4);
+        switch (proba) {
+            case 0:
+                this.y = 0;
+                break;
+            case 1:
+                this.x = 0;
+                break;
+            case 2:
+                this.y = Game.REAL_HEIGHT - (int) Enemy.getDiameter();
+                break;
+            case 3:
+                this.x = Game.REAL_WIDTH - (int) Enemy.getDiameter();
+                break;
+        }
     }
 
     @Override

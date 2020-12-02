@@ -1,11 +1,9 @@
 package com.od.game;
 
-import com.od.objects.Enemy;
 import com.od.objects.Hero;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
 
@@ -15,42 +13,21 @@ public class Game extends Canvas implements Runnable {
     private SurroundingsHandler sHandler;
     private Thread thread;
     private boolean running = false;
-    Random random = new Random();
+    State state;
 
     public static final int WIDTH = 1306, HEIGHT = 708;
     public static final int REAL_WIDTH = WIDTH - 16, REAL_HEIGHT = HEIGHT - 39;
     public static final int WIDTH_CENTER = REAL_WIDTH / 2, HEIGHT_CENTER = REAL_HEIGHT / 2;
 
     public Game() {
+        state = State.Play;
         sHandler = new SurroundingsHandler();
         oHandler = new ObjectHandler();
-        oHandler.addObject(new Hero(oHandler));
+        oHandler.addObject(new Hero(oHandler, this));
+        oHandler.addObject(new Spawner(oHandler, sHandler));
         this.addKeyListener(new KeyInput(oHandler));
         this.addMouseListener(new MouseInput(oHandler));
         new Window(WIDTH, HEIGHT, "Shoot Bad Guys", this);
-
-        for (int i = 0; i < 20; i++) {
-            int enemyX = random.nextInt(REAL_WIDTH + (int)Enemy.getDiameter());
-            int enemyY = random.nextInt(REAL_HEIGHT + (int)Enemy.getDiameter());
-            int proba = random.nextInt(4);
-
-            switch (proba) {
-                case 0:
-                    enemyY = 0;
-                    break;
-                case 1:
-                    enemyX = 0;
-                    break;
-                case 2:
-                    enemyY = REAL_HEIGHT - (int)Enemy.getDiameter();
-                    break;
-                case 3:
-                    enemyX = REAL_WIDTH - (int)Enemy.getDiameter();
-                    break;
-            }
-            oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
-        }
-
     }
 
     public synchronized void start() {
@@ -105,7 +82,9 @@ public class Game extends Canvas implements Runnable {
 
     private void tick() {
         sHandler.tick();
-        oHandler.tick();
+        if(state == State.Play) {
+            oHandler.tick();
+        }
     }
 
     private void render() {
@@ -121,10 +100,24 @@ public class Game extends Canvas implements Runnable {
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
         sHandler.render(graphics);
-        oHandler.render(graphics);
+        if(state == State.Play) {
+            oHandler.render(graphics);
+        } else {
+            graphics.setColor(Color.RED);
+            graphics.setFont(new Font(Font.DIALOG, 1, 100));
+            String str = "GAME OVER";
+            int height = graphics.getFontMetrics().getHeight();
+            int width = graphics.getFontMetrics().stringWidth(str);
+            graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
+        }
+
 
         graphics.dispose();
         bufferStrategy.show();
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public static float clamp(float var, float min, float max) {
@@ -138,6 +131,10 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String[] args) {
         new Game();
+    }
+
+    public enum State {
+        Play, GameOver
     }
 }
 

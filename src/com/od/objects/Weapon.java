@@ -33,12 +33,14 @@ public class Weapon extends GameObject{
 
     public void shoot(float mouseX, float mouseY) {
         if (munitionLeft > 0) {
-            handler.addObject(new Projectile(
-                    owner.getX() + owner.getW() / 2,
-                    owner.getY() + owner.getH() / 2,
-                    mouseX, mouseY,
-                    owner, damage, handler));
-            this.munitionLeft -= 1;
+            if (!isReloading) {
+                handler.addObject(new Projectile(
+                        owner.getX() + owner.getW() / 2,
+                        owner.getY() + owner.getH() / 2,
+                        mouseX, mouseY,
+                        owner, damage, handler));
+                this.munitionLeft -= 1;
+            }
         } else {
             reload();
         }
