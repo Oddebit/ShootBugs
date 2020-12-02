@@ -1,10 +1,10 @@
 package com.od.objects;
 
-import com.od.game.Handler;
+import com.od.game.ObjectHandler;
 
 public class Rifle extends Weapon{
 
-    public Rifle(GameObject owner, Handler handler) {
+    public Rifle(GameObject owner, ObjectHandler handler) {
         super(Type.Rifle, owner, handler);
         this.damage = 5;
         this.magazine = 30;

@@ -1,5 +1,7 @@
 package com.od.objects;
 
+import com.od.game.ID;
+
 import java.awt.*;
 
 public abstract class GameObject {

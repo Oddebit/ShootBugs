@@ -1,12 +1,13 @@
 package com.od.objects;
 
-import com.od.game.Handler;
+import com.od.game.ObjectHandler;
+import com.od.game.ID;
 
 import java.awt.*;
 
 public class Projectile extends GameObject {
 
-    Handler handler;
+    ObjectHandler handler;
 
     private static final float diameter = 5;
     private static final float speed = 10;
@@ -17,7 +18,7 @@ public class Projectile extends GameObject {
     private final float targetX;
     private final float targetY;
 
-    public Projectile(float x, float y, float targetX, float targetY, GameObject shooter, int damage, Handler handler) {
+    public Projectile(float x, float y, float targetX, float targetY, GameObject shooter, int damage, ObjectHandler handler) {
         super(x, y, diameter, diameter, ID.Projectile);
         this.damage = damage;
         this.shooter = shooter;

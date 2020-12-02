@@ -1,12 +1,15 @@
 package com.od.objects;
 
-import com.od.game.Handler;
+import com.od.game.ObjectHandler;
+import com.od.game.ID;
+import com.od.game.SurroundingsHandler;
 
 import java.awt.*;
 
 public class Enemy extends GameObject {
 
-    Handler handler;
+    ObjectHandler oHandler;
+    SurroundingsHandler sHandler;
     Hero hero;
     private static final float diameter = 40;
     private final float speed = 3;
@@ -14,12 +17,13 @@ public class Enemy extends GameObject {
     private int HP = 20;
     private boolean isHittingHero = false;
 
-    public Enemy(float x, float y, Handler handler) {
+    public Enemy(float x, float y, ObjectHandler oHandler, SurroundingsHandler sHandler) {
         super(x, y, diameter, diameter, ID.Enemy);
-        this.handler = handler;
+        this.oHandler = oHandler;
+        this.sHandler = sHandler;
 
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObject = handler.objects.get(i);
+        for (int i = 0; i < oHandler.objects.size(); i++) {
+            GameObject tempObject = oHandler.objects.get(i);
             if (tempObject.getId() == ID.Hero) hero = (Hero)tempObject;
         }
     }
@@ -39,7 +43,7 @@ public class Enemy extends GameObject {
 
         collision();
 
-        if (HP <= 0) handler.removeObject(this);
+        if (HP <= 0) oHandler.removeObject(this);
     }
 
     @Override
@@ -50,8 +54,8 @@ public class Enemy extends GameObject {
 
     public void collision() {
         boolean hitsHero = false;
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObject = handler.objects.get(i);
+        for (int i = 0; i < oHandler.objects.size(); i++) {
+            GameObject tempObject = oHandler.objects.get(i);
 
             if (getBounds().intersects(tempObject.getBounds())) {
                 if (tempObject.getId() == ID.Hero) {
@@ -62,7 +66,8 @@ public class Enemy extends GameObject {
                 }
                 if (tempObject.getId() == ID.Projectile) {
                     if (((Projectile) tempObject).getShooter() == hero) {
-                        handler.removeObject(tempObject);
+                        oHandler.removeObject(tempObject);
+                        sHandler.addSurrounding(new Blood(x, y, sHandler));
                         this.HP -= ((Projectile) tempObject).getDamage();
                     }
                 }

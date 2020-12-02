@@ -2,8 +2,6 @@ package com.od.game;
 
 import com.od.objects.GameObject;
 import com.od.objects.Hero;
-import com.od.objects.ID;
-import com.od.objects.Projectile;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,10 +9,10 @@ import java.awt.event.MouseWheelEvent;
 
 public class MouseInput extends MouseAdapter {
 
-    Handler handler;
+    ObjectHandler handler;
     Hero hero;
 
-    public MouseInput(Handler handler) {
+    public MouseInput(ObjectHandler handler) {
         this.handler = handler;
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObject = handler.objects.get(i);

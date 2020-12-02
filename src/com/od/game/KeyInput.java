@@ -2,17 +2,16 @@ package com.od.game;
 
 import com.od.objects.GameObject;
 import com.od.objects.Hero;
-import com.od.objects.ID;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
-    Handler handler;
+    ObjectHandler handler;
     Hero hero;
 
-    public KeyInput(Handler handler) {
+    public KeyInput(ObjectHandler handler) {
         this.handler = handler;
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObject = handler.objects.get(i);
@@ -40,8 +39,11 @@ public class KeyInput extends KeyAdapter {
             case KeyEvent.VK_RIGHT:
                 hero.setVelocityX(+hero.getSpeed());
                 break;
-            case KeyEvent.VK_R:
+            case KeyEvent.VK_NUMPAD0:
                 hero.getActiveWeapon().reload();
+                break;
+            case KeyEvent.VK_SHIFT:
+                hero.setActiveWeapon(1);
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(1);

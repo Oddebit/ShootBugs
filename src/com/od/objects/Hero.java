@@ -1,7 +1,8 @@
 package com.od.objects;
 
 import com.od.game.Game;
-import com.od.game.Handler;
+import com.od.game.ObjectHandler;
+import com.od.game.ID;
 
 import java.awt.*;
 import java.time.Instant;
@@ -12,7 +13,7 @@ import static com.od.game.Game.*;
 
 public class Hero extends GameObject {
 
-    private Handler handler;
+    private ObjectHandler handler;
     private static final float diameter = 51;
     private final float speed = 5;
     private final float range = 500;
@@ -22,7 +23,7 @@ public class Hero extends GameObject {
 
     private int HP = 100;
 
-    public Hero(Handler handler) {
+    public Hero(ObjectHandler handler) {
         super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.Hero);
         this.handler = handler;
         Weapon firstWeapon = new Pistol(this, handler);
@@ -103,13 +104,14 @@ public class Hero extends GameObject {
         this.HP = HP;
     }
 
-    public void setActiveWeapon(int scroll) {
+    public void setActiveWeapon(int increment) {
         Weapon tempWeapon;
         for (int i = 0; i < arsenal.size(); i++) {
             tempWeapon = arsenal.get(i);
             if(tempWeapon == activeWeapon) {
-                while (i + scroll >= arsenal.size()) i = i + scroll - arsenal.size();
-                activeWeapon = arsenal.get(i);
+                int index = i + increment;
+                while (index >= arsenal.size()) index = index - arsenal.size();
+                activeWeapon = arsenal.get(index);
                 break;
             }
         }

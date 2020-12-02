@@ -1,13 +1,14 @@
 package com.od.objects;
 
-import com.od.game.Handler;
+import com.od.game.ObjectHandler;
+import com.od.game.ID;
 
 import java.awt.*;
 import java.time.Instant;
 
 public class Weapon extends GameObject{
 
-    Handler handler;
+    ObjectHandler handler;
     GameObject owner;
     private Type type;
 
@@ -21,7 +22,7 @@ public class Weapon extends GameObject{
     protected Instant lastReload;
 
 
-    public Weapon(Type type, GameObject owner, Handler handler) {
+    public Weapon(Type type, GameObject owner, ObjectHandler handler) {
         super(-1000, -1000, 1,1, ID.Weapon);
         this.type = type;
         this.owner = owner;

@@ -11,7 +11,8 @@ public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1550691097823471818L;
 
-    private Handler handler;
+    private ObjectHandler oHandler;
+    private SurroundingsHandler sHandler;
     private Thread thread;
     private boolean running = false;
     Random random = new Random();
@@ -21,10 +22,11 @@ public class Game extends Canvas implements Runnable {
     public static final int WIDTH_CENTER = REAL_WIDTH / 2, HEIGHT_CENTER = REAL_HEIGHT / 2;
 
     public Game() {
-        handler = new Handler();
-        handler.addObject(new Hero(handler));
-        this.addKeyListener(new KeyInput(handler));
-        this.addMouseListener(new MouseInput(handler));
+        sHandler = new SurroundingsHandler();
+        oHandler = new ObjectHandler();
+        oHandler.addObject(new Hero(oHandler));
+        this.addKeyListener(new KeyInput(oHandler));
+        this.addMouseListener(new MouseInput(oHandler));
         new Window(WIDTH, HEIGHT, "Shoot Bad Guys", this);
 
         for (int i = 0; i < 20; i++) {
@@ -46,7 +48,7 @@ public class Game extends Canvas implements Runnable {
                     enemyX = REAL_WIDTH - (int)Enemy.getDiameter();
                     break;
             }
-            handler.addObject(new Enemy(enemyX, enemyY, handler));
+            oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
         }
 
     }
@@ -102,7 +104,8 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
-        handler.tick();
+        sHandler.tick();
+        oHandler.tick();
     }
 
     private void render() {
@@ -117,7 +120,8 @@ public class Game extends Canvas implements Runnable {
         graphics.setColor(Color.black);
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
-        handler.render(graphics);
+        sHandler.render(graphics);
+        oHandler.render(graphics);
 
         graphics.dispose();
         bufferStrategy.show();
