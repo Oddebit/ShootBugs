@@ -17,7 +17,7 @@ public class Enemy extends GameObject {
     Hero hero;
 
     private static final float diameter = 40;
-    private final float speed = 3;
+    private final float speed = 2;
 
     private int HP = 20;
     private boolean isHittingHero = false;
