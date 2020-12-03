@@ -14,11 +14,14 @@ public class Weapon extends GameObject{
 
     protected float range;
     protected int damage;
+
     protected int magazine;
-    protected int munitionLeft;
+    protected int magMunition;
+    protected int maxTotalMunition;
+    protected int totalMunitions;
+
     protected int reloadTime;
     protected boolean isReloading;
-
     protected Instant lastReload;
 
 
@@ -32,14 +35,17 @@ public class Weapon extends GameObject{
     }
 
     public void shoot(float mouseX, float mouseY) {
-        if (munitionLeft > 0) {
+        if(totalMunitions <= 0) {
+            return;
+        }else if (magMunition > 0) {
             if (!isReloading) {
                 handler.addObject(new Projectile(
                         owner.getX() + owner.getW() / 2,
                         owner.getY() + owner.getH() / 2,
                         mouseX, mouseY,
                         owner, damage, handler));
-                this.munitionLeft -= 1;
+                this.magMunition--;
+                this.totalMunitions--;
             }
         } else {
             reload();
@@ -54,7 +60,7 @@ public class Weapon extends GameObject{
     }
 
     private void effectiveReload() {
-        this.munitionLeft = magazine;
+        this.magMunition = magazine;
     }
 
     @Override
@@ -80,12 +86,24 @@ public class Weapon extends GameObject{
         return new Rectangle((int)x, (int)y, (int)w, (int)h);
     }
 
-    public int getMunitionLeft() {
-        return munitionLeft;
+    public int getMagMunition() {
+        return magMunition;
     }
 
     public int getMagazine() {
         return magazine;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setTotalMunitions(int totalMunitions) {
+        this.totalMunitions = totalMunitions;
+    }
+
+    public int getMaxTotalMunition() {
+        return maxTotalMunition;
     }
 
     public enum Type {

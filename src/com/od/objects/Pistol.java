@@ -8,8 +8,16 @@ public class Pistol extends Weapon {
         super(Type.Pistol, owner, handler);
         this.damage = 5;
         this.magazine = 10;
-        this.munitionLeft = magazine;
+        this.magMunition = magazine;
         this.reloadTime = 2;
         this.range = 200;
+        this.maxTotalMunition = 1;
+        this.totalMunitions = maxTotalMunition;
+    }
+
+    @Override
+    public void shoot(float mouseX, float mouseY) {
+        super.shoot(mouseX, mouseY);
+        totalMunitions++;
     }
 }

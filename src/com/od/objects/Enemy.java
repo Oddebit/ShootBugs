@@ -74,7 +74,9 @@ public class Enemy extends GameObject {
                 if (tempObject.getId() == ID.Projectile) {
                     if (((Projectile) tempObject).getShooter() == hero) {
                         oHandler.removeObject(tempObject);
-                        sHandler.addSurrounding(new Blood(x, y, sHandler));
+                        for (int j = 0; j < ((Projectile) tempObject).getDamage(); j++) {
+                            sHandler.addSurrounding(new Blood(x, y, sHandler));
+                        }
                         this.HP -= ((Projectile) tempObject).getDamage();
                     }
                 }

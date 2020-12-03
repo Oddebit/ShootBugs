@@ -23,18 +23,17 @@ public class Hero extends GameObject {
     ArrayList<Weapon> arsenal = new ArrayList<>();
     Weapon activeWeapon;
 
-    private int HP = 500;
+    public int maxHP = 200;
+    private int HP;
 
     public Hero(ObjectHandler oHandler, Game game) {
         super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.Hero);
         this.oHandler = oHandler;
         this.game = game;
+        this.HP = maxHP;
 
         Weapon firstWeapon = new Pistol(this, oHandler);
-        Weapon secondWeapon = new Rifle(this, oHandler);
-
         this.addWeapon(firstWeapon);
-        this.addWeapon(secondWeapon);
         activeWeapon = firstWeapon;
     }
 
@@ -56,12 +55,12 @@ public class Hero extends GameObject {
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(255, (int)Game.clamp(1/2f * HP, 0, 255), 0));
+        graphics.setColor(new Color(255, (int)Game.clamp(HP, 0, 255), 0));
         graphics.drawOval((int) x, (int) y, (int) diameter, (int) diameter);
 
         float reloadState;
         if(!activeWeapon.isReloading) {
-            reloadState = (float)activeWeapon.munitionLeft / activeWeapon.magazine;
+            reloadState = (float)activeWeapon.magMunition / activeWeapon.magazine;
         } else{
             long period = ChronoUnit.SECONDS.between(Instant.now(), activeWeapon.lastReload);
             reloadState = period/(float)(activeWeapon.reloadTime);

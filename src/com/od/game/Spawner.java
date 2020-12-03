@@ -1,5 +1,6 @@
 package com.od.game;
 
+import com.od.objects.Bonus;
 import com.od.objects.Enemy;
 import com.od.objects.GameObject;
 
@@ -35,12 +36,16 @@ public class Spawner extends GameObject {
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
+            } else if(timeInGame == 60) {
+                oHandler.addObject(new Bonus(oHandler, Bonus.Type.Weapon));
             } else if(timeInGame < 120) {
                 if((random.nextInt(100) < 50)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
+            } else if(timeInGame == 120) {
+                oHandler.addObject(new Bonus(oHandler, Bonus.Type.Health));
             } else if(timeInGame < 180) {
                 if((random.nextInt(100) < 66)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());

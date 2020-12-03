@@ -39,10 +39,10 @@ public class KeyInput extends KeyAdapter {
             case KeyEvent.VK_RIGHT:
                 hero.setVelocityX(+hero.getSpeed());
                 break;
-            case KeyEvent.VK_NUMPAD0:
+            case KeyEvent.VK_SHIFT:
                 hero.getActiveWeapon().reload();
                 break;
-            case KeyEvent.VK_SHIFT:
+            case KeyEvent.VK_NUMPAD0:
                 hero.setActiveWeapon(1);
                 break;
             case KeyEvent.VK_ESCAPE:
