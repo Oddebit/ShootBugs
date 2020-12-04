@@ -13,13 +13,13 @@ public class Bonus extends GameObject {
     Random random = new Random();
 
     ObjectHandler oHandler;
-    Type type;
+    Weapon.Type type;
     Hero hero;
 
     private long timeLeft = 10;
     Instant lastTime;
 
-    public Bonus(ObjectHandler oHandler, Type type) {
+    public Bonus(ObjectHandler oHandler, Weapon.Type type) {
         super(0, 0, 0, 0, ID.Bonus);
         this.oHandler = oHandler;
         this.lastTime = Instant.now();
@@ -52,12 +52,15 @@ public class Bonus extends GameObject {
     public void render(Graphics graphics) {
         graphics.setFont(new Font(Font.DIALOG, 0, 12));
         String display = "";
-        if (type == Type.Health) {
+        if (type == Weapon.Type.Health) {
             graphics.setColor(new Color(0, 255, 50));
             display = "Health";
-        } else if (type == Type.Weapon) {
+        } else if (type == Weapon.Type.Rifle) {
             graphics.setColor(new Color(255, 120, 50));
             display = "Rifle";
+        } else if (type == Weapon.Type.Shotgun) {
+            graphics.setColor(new Color(255, 120, 50));
+            display = "Shotgun";
         }
         graphics.drawString(display, (int)(x + w + 3), (int)y);
         graphics.fillRect((int)x, (int)y, (int)w, (int)h);
@@ -65,20 +68,25 @@ public class Bonus extends GameObject {
 
     public void collision() {
         if (getBounds().intersects(hero.getBounds())) {
-            if (type == Type.Health) {
+            if (type == Weapon.Type.Health) {
                 hero.setHP(hero.maxHP);
-            }
-            if (type == Type.Weapon) {
+            } else {
                 boolean isThisWeapon = false;
                 for (int i = 0; i < hero.arsenal.size(); i++) {
                     Weapon tempWeapon = hero.arsenal.get(i);
-                    if (tempWeapon.getType() == Weapon.Type.Rifle) {
-                        tempWeapon.setTotalMunitions(tempWeapon.getMaxTotalMunition());
+                    if (tempWeapon.getType() == type) {
+                        tempWeapon.setTotalMunition(tempWeapon.getMaxTotalMunition());
                         isThisWeapon = true;
                         break;
                     }
                 }
-                if (!isThisWeapon) hero.addWeapon(new Rifle(hero, oHandler));
+                if (!isThisWeapon) {
+                    if (type == Weapon.Type.Rifle) {
+                        hero.addWeapon(new Rifle(hero, oHandler));
+                    } else if (type == Weapon.Type.Shotgun) {
+                        hero.addWeapon(new Shotgun(hero, oHandler));
+                    }
+                }
             }
 
             oHandler.removeObject(this);
@@ -96,8 +104,4 @@ public class Bonus extends GameObject {
         return new Rectangle((int) x, (int) y, (int) w, (int) h);
     }
 
-
-    public enum Type {
-        Health, Weapon
-    }
 }

@@ -15,10 +15,10 @@ public class Weapon extends GameObject{
     protected float range;
     protected int damage;
 
-    protected int magazine;
+    protected int maxMagMunition;
     protected int magMunition;
     protected int maxTotalMunition;
-    protected int totalMunitions;
+    protected int totalMunition;
 
     protected int reloadTime;
     protected boolean isReloading;
@@ -35,17 +35,11 @@ public class Weapon extends GameObject{
     }
 
     public void shoot(float mouseX, float mouseY) {
-        if(totalMunitions <= 0) {
-            return;
-        }else if (magMunition > 0) {
+        if (magMunition > 0) {
             if (!isReloading) {
-                handler.addObject(new Projectile(
-                        owner.getX() + owner.getW() / 2,
-                        owner.getY() + owner.getH() / 2,
-                        mouseX, mouseY,
-                        owner, damage, handler));
+                handler.addObject(new Projectile(mouseX, mouseY, owner, handler));
                 this.magMunition--;
-                this.totalMunitions--;
+                this.totalMunition--;
             }
         } else {
             reload();
@@ -53,14 +47,14 @@ public class Weapon extends GameObject{
     }
 
     public void reload() {
-        if (!isReloading) {
+        if (!isReloading && totalMunition > 0) {
             this.lastReload = Instant.now();
             this.isReloading = true;
         }
     }
 
     private void effectiveReload() {
-        this.magMunition = magazine;
+        this.magMunition = Math.min(maxMagMunition, totalMunition);
     }
 
     @Override
@@ -94,15 +88,15 @@ public class Weapon extends GameObject{
     }
 
     public int getMagazine() {
-        return magazine;
+        return maxMagMunition;
     }
 
     public Type getType() {
         return type;
     }
 
-    public void setTotalMunitions(int totalMunitions) {
-        this.totalMunitions = totalMunitions;
+    public void setTotalMunition(int totalMunition) {
+        this.totalMunition = totalMunition;
     }
 
     public int getMaxTotalMunition() {
@@ -110,6 +104,6 @@ public class Weapon extends GameObject{
     }
 
     public enum Type {
-        Pistol, Rifle, Shotgun
+        Pistol, Rifle, Shotgun, Health
     }
 }

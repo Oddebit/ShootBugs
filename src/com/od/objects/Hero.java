@@ -32,7 +32,7 @@ public class Hero extends GameObject {
         this.game = game;
         this.HP = maxHP;
 
-        Weapon firstWeapon = new Pistol(this, oHandler);
+        Weapon firstWeapon = new Shotgun(this, oHandler);
         this.addWeapon(firstWeapon);
         activeWeapon = firstWeapon;
     }
@@ -40,7 +40,7 @@ public class Hero extends GameObject {
     @Override
     public void tick() {
 
-        if(HP <= 0) {
+        if (HP <= 0) {
             game.setState(State.GameOver);
         }
 
@@ -55,21 +55,21 @@ public class Hero extends GameObject {
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(255, (int)Game.clamp(HP, 0, 255), 0));
+        graphics.setColor(new Color(255, (int) Game.clamp(HP, 0, 255), 0));
         graphics.drawOval((int) x, (int) y, (int) diameter, (int) diameter);
 
         float reloadState;
-        if(!activeWeapon.isReloading) {
-            reloadState = (float)activeWeapon.magMunition / activeWeapon.magazine;
-        } else if (activeWeapon.totalMunitions > 0){
+        if (!activeWeapon.isReloading) {
+            reloadState = (float) activeWeapon.magMunition / activeWeapon.maxMagMunition;
+        } else if (activeWeapon.totalMunition > 0) {
             long period = ChronoUnit.MILLIS.between(activeWeapon.lastReload, Instant.now());
-            reloadState = period/(float)(activeWeapon.reloadTime);
+            reloadState = ((float)activeWeapon.magMunition + (float) period/activeWeapon.reloadTime) / (float)activeWeapon.maxMagMunition;
         } else {
             reloadState = 0;
         }
 
         int newDiameter = (int) (reloadState * diameter);
-        graphics.fillOval((int) (x + diameter/2 - newDiameter/2), (int) (y + diameter/2 - newDiameter/2), newDiameter, newDiameter);
+        graphics.fillOval((int) (x + diameter / 2 - newDiameter / 2), (int) (y + diameter / 2 - newDiameter / 2), newDiameter, newDiameter);
     }
 
     public void collision() {
@@ -117,7 +117,7 @@ public class Hero extends GameObject {
         Weapon tempWeapon;
         for (int i = 0; i < arsenal.size(); i++) {
             tempWeapon = arsenal.get(i);
-            if(tempWeapon == activeWeapon) {
+            if (tempWeapon == activeWeapon) {
                 int index = i + increment;
                 while (index >= arsenal.size()) index = index - arsenal.size();
                 activeWeapon = arsenal.get(index);

@@ -3,6 +3,7 @@ package com.od.game;
 import com.od.objects.Bonus;
 import com.od.objects.Enemy;
 import com.od.objects.GameObject;
+import com.od.objects.Weapon;
 
 import java.awt.*;
 import java.time.Instant;
@@ -37,7 +38,7 @@ public class Spawner extends GameObject {
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
             } else if(timeInGame == 60) {
-                oHandler.addObject(new Bonus(oHandler, Bonus.Type.Weapon));
+                spawnBonus();
             } else if(timeInGame < 120) {
                 if((random.nextInt(100) < 50)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
@@ -45,7 +46,7 @@ public class Spawner extends GameObject {
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
             } else if(timeInGame == 120) {
-                oHandler.addObject(new Bonus(oHandler, Bonus.Type.Health));
+                spawnBonus();
             } else if(timeInGame < 180) {
                 if((random.nextInt(100) < 66)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
@@ -58,6 +59,23 @@ public class Spawner extends GameObject {
 
     @Override
     public void render(Graphics graphics) {}
+
+    public void spawnBonus() {
+        int proba = random.nextInt(3);
+
+        switch (proba) {
+            case 0:
+                oHandler.addObject(new Bonus(oHandler, Weapon.Type.Health));
+                break;
+            case 1:
+                oHandler.addObject(new Bonus(oHandler, Weapon.Type.Rifle));
+                break;
+            case 2:
+                oHandler.addObject(new Bonus(oHandler, Weapon.Type.Shotgun));
+                break;
+
+        }
+    }
 
     @Override
     public Rectangle getBounds() {

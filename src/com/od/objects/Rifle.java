@@ -7,11 +7,11 @@ public class Rifle extends Weapon{
     public Rifle(GameObject owner, ObjectHandler handler) {
         super(Type.Rifle, owner, handler);
         this.damage = 8;
-        this.magazine = 30;
-        this.magMunition = magazine;
+        this.maxMagMunition = 30;
+        this.magMunition = maxMagMunition;
         this.reloadTime = 4000;
         this.range = 300;
         this.maxTotalMunition = 90;
-        this.totalMunitions = maxTotalMunition;
+        this.totalMunition = maxTotalMunition;
     }
 }
