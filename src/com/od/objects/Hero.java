@@ -32,7 +32,7 @@ public class Hero extends GameObject {
         this.game = game;
         this.HP = maxHP;
 
-        Weapon firstWeapon = new Shotgun(this, oHandler);
+        Weapon firstWeapon = new Pistol(this, oHandler);
         this.addWeapon(firstWeapon);
         activeWeapon = firstWeapon;
     }
@@ -63,7 +63,11 @@ public class Hero extends GameObject {
             reloadState = (float) activeWeapon.magMunition / activeWeapon.maxMagMunition;
         } else if (activeWeapon.totalMunition > 0) {
             long period = ChronoUnit.MILLIS.between(activeWeapon.lastReload, Instant.now());
-            reloadState = ((float)activeWeapon.magMunition + (float) period/activeWeapon.reloadTime) / (float)activeWeapon.maxMagMunition;
+            if(activeWeapon.getType() == Weapon.Type.Shotgun) {
+                reloadState = ((float) activeWeapon.magMunition + (float) period / activeWeapon.reloadTime) / (float) activeWeapon.maxMagMunition;
+            } else {
+                reloadState = (float) period / activeWeapon.reloadTime;
+            }
         } else {
             reloadState = 0;
         }
@@ -133,5 +137,10 @@ public class Hero extends GameObject {
     public void addWeapon(Weapon weapon) {
         oHandler.addObject(weapon);
         this.arsenal.add(weapon);
+    }
+
+    public void removeWeapon(Weapon weapon) {
+        oHandler.removeObject(weapon);
+        this.arsenal.remove(weapon);
     }
 }

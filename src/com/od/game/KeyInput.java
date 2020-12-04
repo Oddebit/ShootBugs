@@ -28,21 +28,27 @@ public class KeyInput extends KeyAdapter {
 
         switch (key) {
             case KeyEvent.VK_UP:
+            case KeyEvent.VK_Z:
                 hero.setVelocityY(-hero.getSpeed());
                 break;
             case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 hero.setVelocityY(+hero.getSpeed());
                 break;
             case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_Q:
                 hero.setVelocityX(-hero.getSpeed());
                 break;
             case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 hero.setVelocityX(+hero.getSpeed());
                 break;
             case KeyEvent.VK_SHIFT:
+            case KeyEvent.VK_R:
                 hero.getActiveWeapon().reload();
                 break;
             case KeyEvent.VK_NUMPAD0:
+            case KeyEvent.VK_CONTROL:
                 hero.setActiveWeapon(1);
                 break;
             case KeyEvent.VK_ESCAPE:
@@ -57,13 +63,21 @@ public class KeyInput extends KeyAdapter {
 
         switch (key) {
             case KeyEvent.VK_UP:
+            case KeyEvent.VK_Z:
                 hero.setVelocityY(0);
+                break;
             case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 hero.setVelocityY(0);
-            case KeyEvent.VK_RIGHT:
-                hero.setVelocityX(0);
+                break;
             case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_Q:
                 hero.setVelocityX(0);
+                break;
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
+                hero.setVelocityX(0);
+                break;
         }
     }
 }

@@ -13,6 +13,7 @@ public class Projectile extends GameObject {
     private static final float speed = 10;
     private final Hero shooter;
     private final int damage;
+    private final float range;
 
     private float distance;
     private final float targetX;
@@ -23,6 +24,7 @@ public class Projectile extends GameObject {
         this.handler = handler;
         this.shooter = (Hero) shooter;
         this.damage = this.shooter.getActiveWeapon().damage;
+        this.range = ((Hero) shooter).activeWeapon.range;
 
         //initial triangle
         float deltaX = targetX - x;
@@ -30,16 +32,16 @@ public class Projectile extends GameObject {
         distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
         //conversion
-        deltaX *= shooter.getRange()/distance;
-        deltaY *= shooter.getRange()/distance;
+        deltaX *= range/distance;
+        deltaY *= range/distance;
 
         //within range
         this.targetX = x + deltaX;
         this.targetY = y + deltaY;
-        distance = shooter.getRange();
+        distance = range;
 
-        velocityX = deltaX * speed/shooter.getRange();
-        velocityY = deltaY * speed/shooter.getRange();
+        velocityX = deltaX * speed/range;
+        velocityY = deltaY * speed/range;
     }
 
     @Override

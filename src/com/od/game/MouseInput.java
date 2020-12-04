@@ -17,7 +17,7 @@ public class MouseInput extends MouseAdapter {
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObject = handler.objects.get(i);
             if (tempObject.getId() == ID.Hero) {
-                hero = (Hero)tempObject;
+                hero = (Hero) tempObject;
                 break;
             }
         }
@@ -29,10 +29,21 @@ public class MouseInput extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent event) {
-        int mouseX = event.getX();
-        int mouseY = event.getY();
+        int click = event.getButton();
 
-        hero.getActiveWeapon().shoot(mouseX, mouseY);
+        switch (click) {
+            case 1:
+                int mouseX = event.getX();
+                int mouseY = event.getY();
+                hero.getActiveWeapon().shoot(mouseX, mouseY);
+                break;
+            case 2:
+                hero.setActiveWeapon(1);
+                break;
+            case 3:
+                hero.getActiveWeapon().reload();
+                break;
+        }
     }
 
     @Override

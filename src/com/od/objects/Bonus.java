@@ -16,7 +16,7 @@ public class Bonus extends GameObject {
     Weapon.Type type;
     Hero hero;
 
-    private long timeLeft = 10;
+    private long timeLeft = 6;
     Instant lastTime;
 
     public Bonus(ObjectHandler oHandler, Weapon.Type type) {

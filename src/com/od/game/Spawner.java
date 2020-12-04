@@ -15,14 +15,17 @@ public class Spawner extends GameObject {
 
     ObjectHandler oHandler;
     SurroundingsHandler sHandler;
+    Game game;
+
     private Instant lastTime;
     private long timeInGame;
 
-    public Spawner(ObjectHandler oHandler, SurroundingsHandler sHandler) {
+    public Spawner(ObjectHandler oHandler, SurroundingsHandler sHandler, Game game) {
         super(-1000, -1000, 0, 0, ID.Spawner);
         this.lastTime = Instant.now();
         this.oHandler = oHandler;
         this.sHandler = sHandler;
+        this.game = game;
     }
 
     @Override
@@ -31,28 +34,70 @@ public class Spawner extends GameObject {
             lastTime = lastTime.plusSeconds(1);
             timeInGame++;
 
-            if(timeInGame < 60) {
-                if(random.nextInt(100) < 33) {
+            if(timeInGame < 45) {
+                if(random.nextInt(100) < 30) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 60) {
+            } else if(timeInGame == 45) {
                 spawnBonus();
-            } else if(timeInGame < 120) {
+            } else if(timeInGame < 90) {
+                if((random.nextInt(100) < 40)) {
+                    int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+                    int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+                    oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
+                }
+            } else if(timeInGame == 90) {
+                spawnBonus();
+            } else if(timeInGame < 135) {
                 if((random.nextInt(100) < 50)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 120) {
+            } else if(timeInGame == 135) {
                 spawnBonus();
             } else if(timeInGame < 180) {
-                if((random.nextInt(100) < 66)) {
+                if((random.nextInt(100) < 60)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
+            } else if(timeInGame == 180) {
+                spawnBonus();
+            } else if(timeInGame < 225) {
+                if((random.nextInt(100) < 50)) {
+                    int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+                    int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+                    oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
+                }
+            } else if(timeInGame == 225) {
+                spawnBonus();
+            } else if(timeInGame < 270) {
+                if((random.nextInt(100) < 60)) {
+                    int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+                    int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+                    oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
+                }
+            } else if(timeInGame == 270) {
+                spawnBonus();
+            } else if(timeInGame < 315) {
+                if((random.nextInt(100) < 70)) {
+                    int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+                    int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+                    oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
+                }
+            } else if(timeInGame == 315) {
+                spawnBonus();
+            } else if(timeInGame < 360) {
+                if((random.nextInt(100) < 80)) {
+                    int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+                    int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+                    oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
+                }
+            } else if(timeInGame == 405) {
+                this.game.state = Game.State.Win;
             }
         }
     }

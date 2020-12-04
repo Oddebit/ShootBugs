@@ -6,7 +6,7 @@ import com.od.game.ID;
 import java.awt.*;
 import java.time.Instant;
 
-public class Weapon extends GameObject{
+public class Weapon extends GameObject {
 
     ObjectHandler handler;
     GameObject owner;
@@ -26,7 +26,7 @@ public class Weapon extends GameObject{
 
 
     public Weapon(Type type, GameObject owner, ObjectHandler handler) {
-        super(-1000, -1000, 1,1, ID.Weapon);
+        super(-1000, -1000, 1, 1, ID.Weapon);
         this.type = type;
         this.owner = owner;
         this.handler = handler;
@@ -50,16 +50,21 @@ public class Weapon extends GameObject{
         if (!isReloading && totalMunition > 0) {
             this.lastReload = Instant.now();
             this.isReloading = true;
+        } else if (totalMunition <=0 && this.owner.getId() == ID.Hero) {
+            ((Hero) owner).setActiveWeapon(1);
+            ((Hero) owner).removeWeapon(this);
         }
     }
 
     private void effectiveReload() {
-        this.magMunition = Math.min(maxMagMunition, totalMunition);
+        if (totalMunition > 0) {
+            this.magMunition = Math.min(maxMagMunition, totalMunition);
+        }
     }
 
     @Override
     public void tick() {
-        if(magMunition <= 0 && !isReloading) {
+        if (magMunition <= 0 && !isReloading) {
             reload();
         }
         if (lastReload.plusMillis(reloadTime).isBefore(Instant.now()) && isReloading) {
@@ -70,17 +75,21 @@ public class Weapon extends GameObject{
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(255,120, 0));
-        if(this.owner.getId() == ID.Hero) {
-            if (this == ((Hero)owner).getActiveWeapon()) {
-                graphics.drawString(this.type.toString(), 10, 20);
+        graphics.setColor(new Color(255, 120, 0));
+        graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 64));
+        if (this.owner.getId() == ID.Hero) {
+            if (this == ((Hero) owner).getActiveWeapon()) {
+                String name = this.type.toString();
+                int height = graphics.getFontMetrics().getHeight();
+                int width = graphics.getFontMetrics().stringWidth(name);
+                graphics.drawString(name, 10, (int) (3d / 4 * height));
             }
         }
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, (int)w, (int)h);
+        return new Rectangle((int) x, (int) y, (int) w, (int) h);
     }
 
     public int getMagMunition() {

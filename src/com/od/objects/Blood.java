@@ -12,7 +12,7 @@ public class Blood extends GameObject{
     Random random= new Random();
     SurroundingsHandler sHandler;
     Instant lastTime;
-    long timeLeft = 30;
+    long timeLeft = 60;
     int radiusSpawn = 50;
     int diameter;
 
@@ -45,7 +45,7 @@ public class Blood extends GameObject{
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(8 * (int) timeLeft, 0, 0));
+        graphics.setColor(new Color(4 * (int) timeLeft, 0, 0));
         graphics.fillOval((int)x, (int)y, diameter, diameter);
     }
 

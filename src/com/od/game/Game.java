@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable {
         sHandler = new SurroundingsHandler();
         oHandler = new ObjectHandler();
         oHandler.addObject(new Hero(oHandler, this));
-        oHandler.addObject(new Spawner(oHandler, sHandler));
+        oHandler.addObject(new Spawner(oHandler, sHandler, this));
         this.addKeyListener(new KeyInput(oHandler));
         this.addMouseListener(new MouseInput(oHandler));
         new Window(WIDTH, HEIGHT, "Shoot Bad Guys", this);
@@ -102,10 +102,17 @@ public class Game extends Canvas implements Runnable {
         sHandler.render(graphics);
         if(state == State.Play) {
             oHandler.render(graphics);
-        } else {
+        } else if (state == State.GameOver) {
             graphics.setColor(Color.RED);
-            graphics.setFont(new Font(Font.DIALOG, 1, 100));
+            graphics.setFont(new Font(Font.DIALOG, 1, 150));
             String str = "GAME OVER";
+            int height = graphics.getFontMetrics().getHeight();
+            int width = graphics.getFontMetrics().stringWidth(str);
+            graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
+        } else {
+            graphics.setColor(new Color(0, 255, 50));
+            graphics.setFont(new Font(Font.DIALOG, 1, 150));
+            String str = "YOU WON";
             int height = graphics.getFontMetrics().getHeight();
             int width = graphics.getFontMetrics().stringWidth(str);
             graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
@@ -134,7 +141,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public enum State {
-        Play, GameOver
+        Play, GameOver, Win
     }
 }
 

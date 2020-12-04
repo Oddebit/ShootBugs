@@ -1,21 +1,22 @@
 package com.od.objects;
 
+import com.od.game.ID;
 import com.od.game.ObjectHandler;
 
 import java.time.Instant;
 
 public class Shotgun extends Weapon {
-
+//20DPS
     private int reloadCounter = 0;
 
     public Shotgun(GameObject owner, ObjectHandler handler) {
         super(Type.Shotgun, owner, handler);
-        this.damage = 8;
-        this.maxMagMunition = 5;
+        this.damage = 6;
+        this.maxMagMunition = 8;
         this.magMunition = maxMagMunition;
-        this.reloadTime = 1_500;
-        this.range = 100;
-        this.maxTotalMunition = 25;
+        this.reloadTime = 1_000;
+        this.range = 250;
+        this.maxTotalMunition = 40;
         this.totalMunition = maxTotalMunition;
     }
 
@@ -39,6 +40,9 @@ public class Shotgun extends Weapon {
             lastReload = Instant.now();
             magMunition++;
             reloadCounter++;
+        } else if (totalMunition <=0 && this.owner.getId() == ID.Hero) {
+            ((Hero) owner).setActiveWeapon(1);
+            ((Hero) owner).removeWeapon(this);
         } else {
             isReloading = false;
             reloadCounter = 0;
