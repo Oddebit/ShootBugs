@@ -65,7 +65,10 @@ public class Weapon extends GameObject{
 
     @Override
     public void tick() {
-        if (lastReload.plusSeconds(reloadTime).isBefore(Instant.now()) && isReloading) {
+        if(magMunition <= 0 && !isReloading) {
+            reload();
+        }
+        if (lastReload.plusMillis(reloadTime).isBefore(Instant.now()) && isReloading) {
             effectiveReload();
             isReloading = false;
         }

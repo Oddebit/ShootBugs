@@ -9,7 +9,7 @@ public class Pistol extends Weapon {
         this.damage = 5;
         this.magazine = 10;
         this.magMunition = magazine;
-        this.reloadTime = 2;
+        this.reloadTime = 1_800;
         this.range = 200;
         this.maxTotalMunition = 1;
         this.totalMunitions = maxTotalMunition;

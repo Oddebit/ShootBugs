@@ -9,7 +9,7 @@ public class Rifle extends Weapon{
         this.damage = 8;
         this.magazine = 30;
         this.magMunition = magazine;
-        this.reloadTime = 5;
+        this.reloadTime = 4000;
         this.range = 300;
         this.maxTotalMunition = 90;
         this.totalMunitions = maxTotalMunition;

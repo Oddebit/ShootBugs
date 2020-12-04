@@ -61,9 +61,11 @@ public class Hero extends GameObject {
         float reloadState;
         if(!activeWeapon.isReloading) {
             reloadState = (float)activeWeapon.magMunition / activeWeapon.magazine;
-        } else{
-            long period = ChronoUnit.SECONDS.between(Instant.now(), activeWeapon.lastReload);
+        } else if (activeWeapon.totalMunitions > 0){
+            long period = ChronoUnit.MILLIS.between(activeWeapon.lastReload, Instant.now());
             reloadState = period/(float)(activeWeapon.reloadTime);
+        } else {
+            reloadState = 0;
         }
 
         int newDiameter = (int) (reloadState * diameter);
