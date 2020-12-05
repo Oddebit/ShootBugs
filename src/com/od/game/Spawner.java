@@ -96,7 +96,7 @@ public class Spawner extends GameObject {
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 405) {
+            } else if(timeInGame == 390) {
                 this.game.state = Game.State.Win;
             }
         }

@@ -50,7 +50,7 @@ public class Weapon extends GameObject {
         if (!isReloading && totalMunition > 0) {
             this.lastReload = Instant.now();
             this.isReloading = true;
-        } else if (totalMunition <=0 && this.owner.getId() == ID.Hero) {
+        } else if (totalMunition <= 0) {
             ((Hero) owner).setActiveWeapon(1);
             ((Hero) owner).removeWeapon(this);
         }

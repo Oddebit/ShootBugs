@@ -40,7 +40,7 @@ public class Shotgun extends Weapon {
             lastReload = Instant.now();
             magMunition++;
             reloadCounter++;
-        } else if (totalMunition <=0 && this.owner.getId() == ID.Hero) {
+        } else if (totalMunition <=0) {
             ((Hero) owner).setActiveWeapon(1);
             ((Hero) owner).removeWeapon(this);
         } else {
