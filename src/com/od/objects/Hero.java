@@ -25,8 +25,9 @@ public class Hero extends GameObject {
     ArrayList<Weapon> arsenal = new ArrayList<>();
     Weapon activeWeapon;
 
-    public int maxHP = 200;
+    public int maxHP = 100;
     private int HP;
+    private int killCount;
 
     public Hero(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, Game game) {
         super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.Hero);
@@ -35,16 +36,9 @@ public class Hero extends GameObject {
         this.game = game;
         this.HP = maxHP;
 
-        // TEST //
         Weapon firstWeapon = new Pistol(this, objectHandler, surroundingsHandler);
-        Weapon secondWeapon = new Rifle(this, objectHandler, surroundingsHandler);
-        Weapon thirdWeapon = new Shotgun(this, objectHandler, surroundingsHandler);
-        Weapon forthWeapon = new Sniper(this, objectHandler, surroundingsHandler);
 
         this.addWeapon(firstWeapon);
-        this.addWeapon(secondWeapon);
-        this.addWeapon(thirdWeapon);
-        this.addWeapon(forthWeapon);
         activeWeapon = firstWeapon;
     }
 
@@ -137,6 +131,7 @@ public class Hero extends GameObject {
                 int index = i + increment;
                 while (index >= arsenal.size()) index = index - arsenal.size();
                 activeWeapon = arsenal.get(index);
+                activeWeapon.lastActivation = Instant.now();
                 break;
             }
         }
@@ -154,5 +149,13 @@ public class Hero extends GameObject {
     public void removeWeapon(Weapon weapon) {
         objectHandler.removeObject(weapon);
         this.arsenal.remove(weapon);
+    }
+
+    public void addKill() {
+        killCount++;
+    }
+
+    public int getKillCount() {
+        return killCount;
     }
 }

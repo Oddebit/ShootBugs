@@ -7,12 +7,13 @@ import com.od.game.SurroundingsHandler;
 
 import java.awt.*;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class Weapon extends GameObject {
 
-    ObjectHandler objectHandler;
-    SurroundingsHandler surroundingsHandler;
-    GameObject owner;
+    protected ObjectHandler objectHandler;
+    protected SurroundingsHandler surroundingsHandler;
+    protected GameObject owner;
     private Type type;
 
     protected float range;
@@ -24,8 +25,9 @@ public class Weapon extends GameObject {
     protected int maxTotalMunition;
     protected int totalMunition;
 
+    protected Instant lastActivation;
+
     protected int reshotTime;
-    protected boolean isReshoting;
     protected Instant lastShot;
 
     protected int reloadTime;
@@ -42,6 +44,7 @@ public class Weapon extends GameObject {
         this.lastShot = Instant.now();
         this.isReloading = false;
         this.lastReload = Instant.now();
+        this.lastActivation = Instant.now();
     }
 
     public void shoot(float mouseX, float mouseY) {
@@ -121,7 +124,8 @@ public class Weapon extends GameObject {
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(255, 120, 0));
+        long period = ChronoUnit.MILLIS.between(lastActivation, Instant.now());
+        graphics.setColor(new Color(255, 120, 0, (int)(Game.clamp(510 - period/5f, 0, 255))));
         graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 64));
         if (this.owner.getId() == ID.Hero) {
             if (this == ((Hero) owner).getActiveWeapon()) {

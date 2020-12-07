@@ -7,5 +7,6 @@ public enum ID {
     Projectile,
     Blood,
     Spawner,
-    Bonus
+    Bonus,
+    KillCount
 }

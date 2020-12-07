@@ -27,11 +27,6 @@ public class MouseInput extends MouseAdapter {
         }
     }
 
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent event) {
-        int scroll = event.getWheelRotation();
-        hero.setActiveWeapon(scroll);
-    }
 
     private void initShootingThread() {
         new Thread() {
@@ -83,5 +78,11 @@ public class MouseInput extends MouseAdapter {
     public void mouseMoved(MouseEvent e) {
         x = e.getX();
         y = e.getY();
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent event) {
+        int scroll = event.getScrollAmount();
+        hero.setActiveWeapon(scroll);
     }
 }

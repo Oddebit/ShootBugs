@@ -50,7 +50,10 @@ public class Enemy extends GameObject {
 
         collision();
 
-        if (HP <= 0) oHandler.removeObject(this);
+        if (HP <= 0) {
+            hero.addKill();
+            oHandler.removeObject(this);
+        }
     }
 
     @Override

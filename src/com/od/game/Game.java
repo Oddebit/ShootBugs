@@ -1,6 +1,7 @@
 package com.od.game;
 
 import com.od.objects.Hero;
+import com.od.objects.KillCount;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -15,6 +16,7 @@ public class Game extends Canvas implements Runnable {
 
     private ObjectHandler oHandler;
     private SurroundingsHandler sHandler;
+    private Hero hero;
     private Thread thread;
     private boolean running = false;
     State state;
@@ -28,8 +30,10 @@ public class Game extends Canvas implements Runnable {
         playMusic("sounds/battlefieldTheme.wav");
         sHandler = new SurroundingsHandler();
         oHandler = new ObjectHandler();
-        oHandler.addObject(new Hero(oHandler, sHandler, this));
+        hero = new Hero(oHandler, sHandler, this);
+        oHandler.addObject(hero);
         oHandler.addObject(new Spawner(oHandler, sHandler, this));
+        oHandler.addObject(new KillCount(oHandler));
         this.addKeyListener(new KeyInput(oHandler));
         this.addMouseListener(new MouseInput(oHandler));
         new Window(WIDTH, HEIGHT, "Shoot Bad Guys", this);
@@ -114,6 +118,12 @@ public class Game extends Canvas implements Runnable {
             int height = graphics.getFontMetrics().getHeight();
             int width = graphics.getFontMetrics().stringWidth(str);
             graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
+
+            graphics.setFont(new Font(Font.DIALOG, 1, 60));
+            String kills = "You killed " + hero.getKillCount() + " zombies.";
+            int height2 = graphics.getFontMetrics().getHeight();
+            int width2 = graphics.getFontMetrics().stringWidth(kills);
+            graphics.drawString(kills, (int)(WIDTH_CENTER - width2/2d), (int)(HEIGHT_CENTER));
         } else {
             graphics.setColor(new Color(0, 255, 50));
             graphics.setFont(new Font(Font.DIALOG, 1, 150));
@@ -121,6 +131,12 @@ public class Game extends Canvas implements Runnable {
             int height = graphics.getFontMetrics().getHeight();
             int width = graphics.getFontMetrics().stringWidth(str);
             graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
+
+            graphics.setFont(new Font(Font.DIALOG, 1, 60));
+            String kills = "You killed " + hero.getKillCount() + " zombies.";
+            int height2 = graphics.getFontMetrics().getHeight();
+            int width2 = graphics.getFontMetrics().stringWidth(kills);
+            graphics.drawString(kills, (int)(WIDTH_CENTER - width2/2d), (int)(HEIGHT_CENTER));
         }
 
 
