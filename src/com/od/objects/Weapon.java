@@ -71,12 +71,26 @@ public class Weapon extends GameObject {
 
     public void reload() {
         if (!isReloading && totalMunition > 0) {
-            Game.playSound("sounds/reload.wav");
+            reloadSound();
             this.lastReload = Instant.now();
             this.isReloading = true;
         } else if (totalMunition <= 0) {
             ((Hero) owner).setActiveWeapon(1);
             ((Hero) owner).removeWeapon(this);
+        }
+    }
+
+    public void reloadSound() {
+        switch (this.type) {
+            case Pistol:
+                Game.playSound("sounds/reload.wav");
+                break;
+            case Rifle:
+                Game.playSound("sounds/rifleReload.wav");
+                break;
+            case Shotgun:
+                Game.playSound("sounds/shotgunInsertBullet.wav");
+                break;
         }
     }
 

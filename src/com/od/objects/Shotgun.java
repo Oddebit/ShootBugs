@@ -1,6 +1,5 @@
 package com.od.objects;
 
-import com.od.game.Game;
 import com.od.game.ObjectHandler;
 import com.od.game.SurroundingsHandler;
 
@@ -40,7 +39,7 @@ public class Shotgun extends Weapon {
     private void effectiveReload() {
         if (magMunition < maxMagMunition && reloadCounter < maxMagMunition) {
             lastReload = Instant.now();
-            Game.playSound("sounds/shotgunInsertBullet.wav");
+            reloadSound();
             magMunition++;
             reloadCounter++;
         } else if (totalMunition <=0) {
