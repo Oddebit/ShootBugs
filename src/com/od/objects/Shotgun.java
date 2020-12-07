@@ -24,7 +24,7 @@ public class Shotgun extends Weapon {
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
             new MultiPojectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler);
-            Game.playSound("sounds/shotgunShoot.wav");
+            shootSound();
             this.magMunition--;
             this.totalMunition--;
         }

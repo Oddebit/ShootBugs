@@ -17,6 +17,7 @@ public class Weapon extends GameObject {
 
     protected float range;
     protected int damage;
+    protected int speed = 8;
 
     protected int maxMagMunition;
     protected int magMunition;
@@ -41,13 +42,30 @@ public class Weapon extends GameObject {
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
             if (!isReloading) {
-                Game.playSound("sounds/shoot.wav");
+                shootSound();
                 objectHandler.addObject(new Projectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler));
                 this.magMunition--;
                 this.totalMunition--;
             }
         } else {
             reload();
+        }
+    }
+
+    public void shootSound() {
+        switch (this.type) {
+            case Pistol:
+                Game.playSound("sounds/shoot.wav");
+                break;
+            case Rifle:
+                Game.playSound("sounds/rifleShoot.wav");
+                break;
+            case Shotgun:
+                Game.playSound("sounds/shotgunShoot.wav");
+                break;
+            case Sniper:
+                Game.playSound("sounds/sniperShoot.wav");
+                break;
         }
     }
 

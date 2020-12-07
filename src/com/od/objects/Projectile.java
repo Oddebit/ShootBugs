@@ -12,7 +12,7 @@ public class Projectile extends GameObject {
     SurroundingsHandler surroundingsHandler;
 
     private static final float diameter = 5;
-    private static final float speed = 10;
+    private float speed;
     private Hero shooter;
     private Weapon weapon;
     private final int damage;
@@ -28,6 +28,7 @@ public class Projectile extends GameObject {
         this.surroundingsHandler = surroundingsHandler;
         this.shooter = (Hero) shooter;
         this.weapon = ((Hero) shooter).getActiveWeapon();
+        this.speed = weapon.speed;
         this.damage = this.shooter.getActiveWeapon().damage;
         this.range = ((Hero) shooter).activeWeapon.range;
 
