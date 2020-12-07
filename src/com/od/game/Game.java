@@ -25,7 +25,7 @@ public class Game extends Canvas implements Runnable {
 
     public Game() {
         state = State.Play;
-        playMusic("music/theme.wav");
+        playMusic("sounds/battlefieldTheme.wav");
         sHandler = new SurroundingsHandler();
         oHandler = new ObjectHandler();
         oHandler.addObject(new Hero(oHandler, this));

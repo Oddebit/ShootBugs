@@ -38,7 +38,7 @@ public class Weapon extends GameObject {
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
             if (!isReloading) {
-                Game.playSound("music/gunShot.wav");
+                Game.playSound("sounds/shoot.wav");
                 handler.addObject(new Projectile(mouseX, mouseY, owner, handler));
                 this.magMunition--;
                 this.totalMunition--;
@@ -50,6 +50,7 @@ public class Weapon extends GameObject {
 
     public void reload() {
         if (!isReloading && totalMunition > 0) {
+            Game.playSound("sounds/reload.wav");
             this.lastReload = Instant.now();
             this.isReloading = true;
         } else if (totalMunition <= 0) {
