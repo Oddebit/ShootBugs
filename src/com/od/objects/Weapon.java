@@ -150,6 +150,10 @@ public class Weapon extends GameObject {
         return maxTotalMunition;
     }
 
+    public int getTotalMunition() {
+        return totalMunition;
+    }
+
     public enum Type {
         Pistol, Rifle, Shotgun, Health, Sniper
     }

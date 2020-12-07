@@ -78,7 +78,7 @@ public class Bonus extends GameObject {
                 for (int i = 0; i < hero.arsenal.size(); i++) {
                     Weapon tempWeapon = hero.arsenal.get(i);
                     if (tempWeapon.getType() == type) {
-                        tempWeapon.setTotalMunition(tempWeapon.getMaxTotalMunition());
+                        tempWeapon.setTotalMunition(tempWeapon.getTotalMunition() + tempWeapon.getMaxTotalMunition());
                         isThisWeapon = true;
                         break;
                     }
