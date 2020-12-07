@@ -16,6 +16,7 @@ public class Shotgun extends Weapon {
         this.magMunition = maxMagMunition;
         this.reloadTime = 800;
         this.range = 250;
+        this.speed = 8;
         this.maxTotalMunition = 40;
         this.totalMunition = maxTotalMunition;
     }

@@ -64,7 +64,7 @@ public class Enemy extends GameObject {
         for (int i = 0; i < oHandler.objects.size(); i++) {
             GameObject tempObject = oHandler.objects.get(i);
 
-            if (getBounds().intersects(tempObject.getBounds())) {
+            if (this.intersects(tempObject)) {
                 if (tempObject.getId() == ID.Hero) {
                     if (!isHittingHero) {
                         hero.setHP(hero.getHP() - HP);

@@ -79,7 +79,7 @@ public class Projectile extends GameObject {
         for (int i = 0; i < objectHandler.objects.size(); i++) {
             GameObject tempObject = objectHandler.objects.get(i);
 
-            if (getBounds().intersects(tempObject.getBounds())) {
+            if (this.intersects(tempObject)) {
 
                 if (tempObject.getId() == ID.Enemy) {
                     for (int j = 0; j < damage; j++) {

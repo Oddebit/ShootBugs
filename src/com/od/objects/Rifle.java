@@ -12,6 +12,7 @@ public class Rifle extends Weapon{
         this.magMunition = maxMagMunition;
         this.reloadTime = 4000;
         this.range = 600;
+        this.speed = 12;
         this.maxTotalMunition = 100;
         this.totalMunition = maxTotalMunition;
     }

@@ -81,4 +81,11 @@ public abstract class GameObject {
     public float getRange() {
         return range;
     }
+
+    public boolean intersects(GameObject gameObject){
+        float deltaX = gameObject.getX() - this.x;
+        float deltaY = gameObject.getY() - this.y;
+
+        return Math.pow(deltaX, 2) + Math.pow(deltaY, 2) < Math.pow(gameObject.getH() + h / 2d, 2);
+    }
 }

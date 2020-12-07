@@ -81,19 +81,19 @@ public class Hero extends GameObject {
     }
 
     public void collision() {
-        for (int i = 0; i < objectHandler.objects.size(); i++) {
-            GameObject tempObject = objectHandler.objects.get(i);
-
-            if (getBounds().intersects(tempObject.getBounds())) {
-
-                if (tempObject.getId() == ID.Projectile) {
-                    if (((Projectile) tempObject).getShooter() != this) {
-                        objectHandler.removeObject(tempObject);
-                        this.HP -= ((Projectile) tempObject).getDamage();
-                    }
-                }
-            }
-        }
+//        for (int i = 0; i < objectHandler.objects.size(); i++) {
+//            GameObject tempObject = objectHandler.objects.get(i);
+//
+//            if (this.intersects(tempObject)) {
+//
+//                if (tempObject.getId() == ID.Projectile) {
+//                    if (((Projectile) tempObject).getShooter() != this) {
+//                        objectHandler.removeObject(tempObject);
+//                        this.HP -= ((Projectile) tempObject).getDamage();
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Override
