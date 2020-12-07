@@ -1,7 +1,8 @@
 package com.od.objects;
 
-import com.od.game.ObjectHandler;
+import com.od.game.Game;
 import com.od.game.ID;
+import com.od.game.ObjectHandler;
 
 import java.awt.*;
 import java.time.Instant;
@@ -37,6 +38,7 @@ public class Weapon extends GameObject {
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
             if (!isReloading) {
+                Game.playSound("music/gunShot.wav");
                 handler.addObject(new Projectile(mouseX, mouseY, owner, handler));
                 this.magMunition--;
                 this.totalMunition--;

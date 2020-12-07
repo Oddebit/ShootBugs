@@ -1,6 +1,5 @@
 package com.od.objects;
 
-import com.od.game.ID;
 import com.od.game.ObjectHandler;
 
 import java.time.Instant;
@@ -14,7 +13,7 @@ public class Shotgun extends Weapon {
         this.damage = 6;
         this.maxMagMunition = 8;
         this.magMunition = maxMagMunition;
-        this.reloadTime = 1_000;
+        this.reloadTime = 800;
         this.range = 250;
         this.maxTotalMunition = 40;
         this.totalMunition = maxTotalMunition;

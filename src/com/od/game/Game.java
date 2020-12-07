@@ -2,8 +2,12 @@ package com.od.game;
 
 import com.od.objects.Hero;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 
 public class Game extends Canvas implements Runnable {
 
@@ -21,6 +25,7 @@ public class Game extends Canvas implements Runnable {
 
     public Game() {
         state = State.Play;
+        playMusic("music/theme.wav");
         sHandler = new SurroundingsHandler();
         oHandler = new ObjectHandler();
         oHandler.addObject(new Hero(oHandler, this));
@@ -134,6 +139,39 @@ public class Game extends Canvas implements Runnable {
             return min;
         else
             return var;
+    }
+
+    public static void playMusic(String musicLocation) {
+        try {
+            File musicPath = new File(musicLocation);
+            if(musicPath.exists()) {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }else {
+                System.out.println("File not found.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playSound(String soundLocation) {
+        try {
+            File musicPath = new File(soundLocation);
+            if(musicPath.exists()) {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+            }else {
+                System.out.println("File not found.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
