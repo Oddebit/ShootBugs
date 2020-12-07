@@ -1,5 +1,6 @@
 package com.od.objects;
 
+import com.od.game.Game;
 import com.od.game.ObjectHandler;
 
 import java.time.Instant;
@@ -22,6 +23,7 @@ public class Shotgun extends Weapon {
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
             new MultiPojectile(mouseX, mouseY, owner, handler);
+            Game.playSound("sounds/shotgunShoot.wav");
             this.magMunition--;
             this.totalMunition--;
         }
@@ -37,6 +39,7 @@ public class Shotgun extends Weapon {
     private void effectiveReload() {
         if (magMunition < maxMagMunition && reloadCounter < maxMagMunition) {
             lastReload = Instant.now();
+            Game.playSound("sounds/shotgunInsertBullet.wav");
             magMunition++;
             reloadCounter++;
         } else if (totalMunition <=0) {

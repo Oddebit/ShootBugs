@@ -32,7 +32,7 @@ public class Hero extends GameObject {
         this.game = game;
         this.HP = maxHP;
 
-        Weapon firstWeapon = new Pistol(this, oHandler);
+        Weapon firstWeapon = new Shotgun(this, oHandler);
         this.addWeapon(firstWeapon);
         activeWeapon = firstWeapon;
     }
@@ -41,6 +41,7 @@ public class Hero extends GameObject {
     public void tick() {
 
         if (HP <= 0) {
+            Game.playSound("sounds/manYawn.wav");
             game.setState(State.GameOver);
         }
 
