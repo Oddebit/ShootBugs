@@ -2,6 +2,7 @@ package com.od.game;
 
 import com.od.objects.GameObject;
 import com.od.objects.Hero;
+import com.od.objects.Weapon;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +12,9 @@ public class MouseInput extends MouseAdapter {
 
     ObjectHandler handler;
     Hero hero;
+    float x;
+    float y;
+    boolean mousePressed;
 
     public MouseInput(ObjectHandler handler) {
         this.handler = handler;
@@ -24,18 +28,36 @@ public class MouseInput extends MouseAdapter {
     }
 
     @Override
-    public void mouseClicked(MouseEvent event) {
+    public void mouseWheelMoved(MouseWheelEvent event) {
+        int scroll = event.getWheelRotation();
+        hero.setActiveWeapon(scroll);
     }
 
-    @Override
+    private void initShootingThread() {
+        new Thread() {
+            public void run() {
+                do {
+                    hero.getActiveWeapon().shoot(x, y);
+                } while (mousePressed && hero.getActiveWeapon().getTotalMunition() > 0);
+            }
+        }.start();
+    }
+
+    // // PLAYER SHOOTING EVENTS // //
+
     public void mousePressed(MouseEvent event) {
         int click = event.getButton();
 
         switch (click) {
             case 1:
-                int mouseX = event.getX();
-                int mouseY = event.getY();
-                hero.getActiveWeapon().shoot(mouseX, mouseY);
+                x = event.getX();
+                y = event.getY();
+                if(hero.getActiveWeapon().getType() == Weapon.Type.Rifle) {
+                    mousePressed = true;
+                    initShootingThread();
+                } else {
+                    hero.getActiveWeapon().shoot(x, y);
+                }
                 break;
             case 2:
                 hero.setActiveWeapon(1);
@@ -44,16 +66,22 @@ public class MouseInput extends MouseAdapter {
                 hero.getActiveWeapon().reload();
                 break;
         }
+        x = event.getX();
+        y = event.getY();
     }
 
-    @Override
-    public void mouseReleased(MouseEvent event) {
-
+    public void mouseDragged(MouseEvent e) {
+        hero.getActiveWeapon().shoot(x, y);
+        x = e.getX();
+        y = e.getY();
     }
 
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent event) {
-        int scroll = event.getWheelRotation();
-        hero.setActiveWeapon(scroll);
+    public void mouseReleased(MouseEvent e) {
+        mousePressed = false;
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        x = e.getX();
+        y = e.getY();
     }
 }

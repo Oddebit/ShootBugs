@@ -14,6 +14,7 @@ public class Shotgun extends Weapon {
         this.damage = 6;
         this.maxMagMunition = 8;
         this.magMunition = maxMagMunition;
+        this.reshotTime = 800;
         this.reloadTime = 800;
         this.range = 250;
         this.speed = 8;
@@ -23,10 +24,14 @@ public class Shotgun extends Weapon {
 
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
-            new MultiPojectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler);
-            shootSound();
-            this.magMunition--;
-            this.totalMunition--;
+            if(lastShot.plusMillis(reshotTime).isBefore(Instant.now())) {
+                new MultiPojectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler);
+                shootSound();
+                this.isReloading = false;
+                this.magMunition--;
+                this.totalMunition--;
+                this.lastShot = Instant.now();
+            }
         }
     }
 

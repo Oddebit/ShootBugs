@@ -24,6 +24,10 @@ public class Weapon extends GameObject {
     protected int maxTotalMunition;
     protected int totalMunition;
 
+    protected int reshotTime;
+    protected boolean isReshoting;
+    protected Instant lastShot;
+
     protected int reloadTime;
     protected boolean isReloading;
     protected Instant lastReload;
@@ -35,6 +39,7 @@ public class Weapon extends GameObject {
         this.owner = owner;
         this.objectHandler = objectHandler;
         this.surroundingsHandler = surroundingsHandler;
+        this.lastShot = Instant.now();
         this.isReloading = false;
         this.lastReload = Instant.now();
     }
@@ -42,10 +47,13 @@ public class Weapon extends GameObject {
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
             if (!isReloading) {
-                shootSound();
-                objectHandler.addObject(new Projectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler));
-                this.magMunition--;
-                this.totalMunition--;
+                if(lastShot.plusMillis(reshotTime).isBefore(Instant.now())) {
+                    shootSound();
+                    objectHandler.addObject(new Projectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler));
+                    this.magMunition--;
+                    this.totalMunition--;
+                    this.lastShot = Instant.now();
+                }
             }
         } else {
             reload();

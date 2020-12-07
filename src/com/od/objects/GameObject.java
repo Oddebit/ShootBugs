@@ -83,9 +83,9 @@ public abstract class GameObject {
     }
 
     public boolean intersects(GameObject gameObject){
-        float deltaX = gameObject.getX() - this.x;
-        float deltaY = gameObject.getY() - this.y;
+        float deltaX = (gameObject.getX() - gameObject.getH()/2) - (this.x - h);
+        float deltaY = (gameObject.getY() - gameObject.getH()/2) - (this.y - h);
 
-        return Math.pow(deltaX, 2) + Math.pow(deltaY, 2) < Math.pow(gameObject.getH() + h / 2d, 2);
+        return Math.pow(deltaX, 2) + Math.pow(deltaY, 2) < Math.pow(gameObject.getH()/2 + h/2, 2);
     }
 }
