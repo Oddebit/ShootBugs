@@ -2,6 +2,7 @@ package com.od.objects;
 
 import com.od.game.Game;
 import com.od.game.ObjectHandler;
+import com.od.game.SurroundingsHandler;
 
 import java.time.Instant;
 
@@ -9,8 +10,8 @@ public class Shotgun extends Weapon {
 //20DPS
     private int reloadCounter = 0;
 
-    public Shotgun(GameObject owner, ObjectHandler handler) {
-        super(Type.Shotgun, owner, handler);
+    public Shotgun(GameObject owner, ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler) {
+        super(Type.Shotgun, owner, objectHandler, surroundingsHandler);
         this.damage = 6;
         this.maxMagMunition = 8;
         this.magMunition = maxMagMunition;
@@ -22,7 +23,7 @@ public class Shotgun extends Weapon {
 
     public void shoot(float mouseX, float mouseY) {
         if (magMunition > 0) {
-            new MultiPojectile(mouseX, mouseY, owner, handler);
+            new MultiPojectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler);
             Game.playSound("sounds/shotgunShoot.wav");
             this.magMunition--;
             this.totalMunition--;

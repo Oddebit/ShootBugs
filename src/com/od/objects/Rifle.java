@@ -1,11 +1,12 @@
 package com.od.objects;
 
 import com.od.game.ObjectHandler;
+import com.od.game.SurroundingsHandler;
 
 public class Rifle extends Weapon{
 //Environ 50DPS
-    public Rifle(GameObject owner, ObjectHandler handler) {
-        super(Type.Rifle, owner, handler);
+    public Rifle(GameObject owner, ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler) {
+        super(Type.Rifle, owner, objectHandler, surroundingsHandler);
         this.damage = 8;
         this.maxMagMunition = 25;
         this.magMunition = maxMagMunition;

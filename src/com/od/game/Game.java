@@ -28,7 +28,7 @@ public class Game extends Canvas implements Runnable {
         playMusic("sounds/battlefieldTheme.wav");
         sHandler = new SurroundingsHandler();
         oHandler = new ObjectHandler();
-        oHandler.addObject(new Hero(oHandler, this));
+        oHandler.addObject(new Hero(oHandler, sHandler, this));
         oHandler.addObject(new Spawner(oHandler, sHandler, this));
         this.addKeyListener(new KeyInput(oHandler));
         this.addMouseListener(new MouseInput(oHandler));

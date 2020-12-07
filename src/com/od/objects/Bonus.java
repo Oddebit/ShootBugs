@@ -12,7 +12,7 @@ public class Bonus extends GameObject {
 
     Random random = new Random();
 
-    ObjectHandler oHandler;
+    ObjectHandler objectHandler;
     Weapon.Type type;
     Hero hero;
 
@@ -21,7 +21,7 @@ public class Bonus extends GameObject {
 
     public Bonus(ObjectHandler oHandler, Weapon.Type type) {
         super(0, 0, 0, 0, ID.Bonus);
-        this.oHandler = oHandler;
+        this.objectHandler = oHandler;
         this.lastTime = Instant.now();
         this.type = type;
         this.h = 24;
@@ -38,7 +38,7 @@ public class Bonus extends GameObject {
     @Override
     public void tick() {
         if (timeLeft <= 0) {
-            oHandler.removeObject(this);
+            objectHandler.removeObject(this);
         }
 
         if (lastTime.plusSeconds(1).isBefore(Instant.now())) {
@@ -85,16 +85,16 @@ public class Bonus extends GameObject {
                 }
                 if (!isThisWeapon) {
                     if (type == Weapon.Type.Rifle) {
-                        hero.addWeapon(new Rifle(hero, oHandler));
+                        hero.addWeapon(new Rifle(hero, objectHandler, hero.surroundingsHandler));
                     } else if (type == Weapon.Type.Shotgun) {
-                        hero.addWeapon(new Shotgun(hero, oHandler));
+                        hero.addWeapon(new Shotgun(hero, objectHandler, hero.surroundingsHandler));
                     } else if (type == Weapon.Type.Sniper) {
-                        hero.addWeapon(new Sniper(hero, oHandler));
+                        hero.addWeapon(new Sniper(hero, objectHandler, hero.surroundingsHandler));
                     }
                 }
             }
 
-            oHandler.removeObject(this);
+            objectHandler.removeObject(this);
         }
     }
 

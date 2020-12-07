@@ -3,13 +3,15 @@ package com.od.objects;
 import com.od.game.Game;
 import com.od.game.ID;
 import com.od.game.ObjectHandler;
+import com.od.game.SurroundingsHandler;
 
 import java.awt.*;
 import java.time.Instant;
 
 public class Weapon extends GameObject {
 
-    ObjectHandler handler;
+    ObjectHandler objectHandler;
+    SurroundingsHandler surroundingsHandler;
     GameObject owner;
     private Type type;
 
@@ -26,11 +28,12 @@ public class Weapon extends GameObject {
     protected Instant lastReload;
 
 
-    public Weapon(Type type, GameObject owner, ObjectHandler handler) {
+    public Weapon(Type type, GameObject owner, ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler) {
         super(-1000, -1000, 1, 1, ID.Weapon);
         this.type = type;
         this.owner = owner;
-        this.handler = handler;
+        this.objectHandler = objectHandler;
+        this.surroundingsHandler = surroundingsHandler;
         this.isReloading = false;
         this.lastReload = Instant.now();
     }
@@ -39,7 +42,7 @@ public class Weapon extends GameObject {
         if (magMunition > 0) {
             if (!isReloading) {
                 Game.playSound("sounds/shoot.wav");
-                handler.addObject(new Projectile(mouseX, mouseY, owner, handler));
+                objectHandler.addObject(new Projectile(mouseX, mouseY, owner, objectHandler, surroundingsHandler));
                 this.magMunition--;
                 this.totalMunition--;
             }

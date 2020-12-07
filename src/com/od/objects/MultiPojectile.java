@@ -1,12 +1,13 @@
 package com.od.objects;
 
-import com.od.game.ID;
 import com.od.game.ObjectHandler;
+import com.od.game.SurroundingsHandler;
 
 
 public class MultiPojectile {
 
     ObjectHandler objectHandler;
+    SurroundingsHandler surroundingsHandler;
     GameObject shooter;
 
     private final float x;
@@ -16,9 +17,10 @@ public class MultiPojectile {
     private float distance;
     private double angle;
 
-    public MultiPojectile(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler) {
+    public MultiPojectile(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler) {
 
         this.objectHandler = objectHandler;
+        this.surroundingsHandler = surroundingsHandler;
         this.shooter = shooter;
 
         this.x = shooter.x + shooter.w/2;
@@ -58,7 +60,7 @@ public class MultiPojectile {
             double tempAngle = angle + i * Math.PI/27;
             float tempTargetX = (float) (x + Math.cos(tempAngle) * 1000);
             float tempTargetY = (float) (y + Math.sin(tempAngle) * 1000);
-            objectHandler.addObject(new Projectile(tempTargetX, tempTargetY, shooter, objectHandler));
+            objectHandler.addObject(new Projectile(tempTargetX, tempTargetY, shooter, objectHandler, surroundingsHandler));
         }
     }
 }

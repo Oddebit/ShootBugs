@@ -2,16 +2,19 @@ package com.od.objects;
 
 import com.od.game.ObjectHandler;
 import com.od.game.ID;
+import com.od.game.SurroundingsHandler;
 
 import java.awt.*;
 
 public class Projectile extends GameObject {
 
     ObjectHandler objectHandler;
+    SurroundingsHandler surroundingsHandler;
 
     private static final float diameter = 5;
     private static final float speed = 10;
-    private final Hero shooter;
+    private Hero shooter;
+    private Weapon weapon;
     private final int damage;
     private final float range;
 
@@ -19,10 +22,12 @@ public class Projectile extends GameObject {
     private final float targetX;
     private final float targetY;
 
-    public Projectile(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler) {
+    public Projectile(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler) {
         super(shooter.x + shooter.w/2, shooter.y + shooter.h/2, diameter, diameter, ID.Projectile);
         this.objectHandler = objectHandler;
+        this.surroundingsHandler = surroundingsHandler;
         this.shooter = (Hero) shooter;
+        this.weapon = ((Hero) shooter).getActiveWeapon();
         this.damage = this.shooter.getActiveWeapon().damage;
         this.range = ((Hero) shooter).activeWeapon.range;
 
@@ -76,8 +81,12 @@ public class Projectile extends GameObject {
             if (getBounds().intersects(tempObject.getBounds())) {
 
                 if (tempObject.getId() == ID.Enemy) {
-                    if (this.shooter.getActiveWeapon().getType() != Weapon.Type.Sniper) {
-                        objectHandler.removeObject(tempObject);
+                    for (int j = 0; j < damage; j++) {
+                        surroundingsHandler.addSurrounding(new Blood(x, y, surroundingsHandler));
+                    }
+                    ((Enemy)tempObject).setHP(((Enemy)tempObject).getHP() - damage);
+                    if (weapon.getType() != Weapon.Type.Sniper) {
+                        objectHandler.removeObject(this);
                     }
                 }
             }

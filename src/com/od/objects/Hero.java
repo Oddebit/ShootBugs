@@ -3,6 +3,7 @@ package com.od.objects;
 import com.od.game.Game;
 import com.od.game.ObjectHandler;
 import com.od.game.ID;
+import com.od.game.SurroundingsHandler;
 
 import java.awt.*;
 import java.time.Instant;
@@ -13,7 +14,8 @@ import static com.od.game.Game.*;
 
 public class Hero extends GameObject {
 
-    private ObjectHandler oHandler;
+    private ObjectHandler objectHandler;
+    SurroundingsHandler surroundingsHandler;
     private Game game;
 
     private static final float diameter = 51;
@@ -26,13 +28,14 @@ public class Hero extends GameObject {
     public int maxHP = 200;
     private int HP;
 
-    public Hero(ObjectHandler oHandler, Game game) {
+    public Hero(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, Game game) {
         super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.Hero);
-        this.oHandler = oHandler;
+        this.objectHandler = objectHandler;
+        this.surroundingsHandler = surroundingsHandler;
         this.game = game;
         this.HP = maxHP;
 
-        Weapon firstWeapon = new Pistol(this, oHandler);
+        Weapon firstWeapon = new Pistol(this, objectHandler, surroundingsHandler);
         this.addWeapon(firstWeapon);
         activeWeapon = firstWeapon;
     }
@@ -78,14 +81,14 @@ public class Hero extends GameObject {
     }
 
     public void collision() {
-        for (int i = 0; i < oHandler.objects.size(); i++) {
-            GameObject tempObject = oHandler.objects.get(i);
+        for (int i = 0; i < objectHandler.objects.size(); i++) {
+            GameObject tempObject = objectHandler.objects.get(i);
 
             if (getBounds().intersects(tempObject.getBounds())) {
 
                 if (tempObject.getId() == ID.Projectile) {
                     if (((Projectile) tempObject).getShooter() != this) {
-                        oHandler.removeObject(tempObject);
+                        objectHandler.removeObject(tempObject);
                         this.HP -= ((Projectile) tempObject).getDamage();
                     }
                 }
@@ -136,12 +139,12 @@ public class Hero extends GameObject {
     }
 
     public void addWeapon(Weapon weapon) {
-        oHandler.addObject(weapon);
+        objectHandler.addObject(weapon);
         this.arsenal.add(weapon);
     }
 
     public void removeWeapon(Weapon weapon) {
-        oHandler.removeObject(weapon);
+        objectHandler.removeObject(weapon);
         this.arsenal.remove(weapon);
     }
 }
