@@ -30,80 +30,95 @@ public class Spawner extends GameObject {
 
     @Override
     public void tick() {
-        if (lastTime.plusSeconds(1).isBefore(Instant.now())){
+        if (lastTime.plusSeconds(1).isBefore(Instant.now())) {
             lastTime = lastTime.plusSeconds(1);
             timeInGame++;
 
-            if(timeInGame < 45) {
-                if(random.nextInt(100) < 30) {
+            if (timeInGame < 45) {
+                if (random.nextInt(100) < 30) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 45) {
+            } else if (timeInGame == 45) {
                 spawnBonus();
-            } else if(timeInGame < 90) {
-                if((random.nextInt(100) < 40)) {
+            } else if (timeInGame < 90) {
+                if ((random.nextInt(100) < 40)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 90) {
+            } else if (timeInGame == 90) {
                 spawnBonus();
-            } else if(timeInGame < 135) {
-                if((random.nextInt(100) < 50)) {
+            } else if (timeInGame < 135) {
+                if ((random.nextInt(100) < 50)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 135) {
+            } else if (timeInGame == 135) {
                 spawnBonus();
-            } else if(timeInGame < 180) {
-                if((random.nextInt(100) < 60)) {
+            } else if (timeInGame < 180) {
+                if ((random.nextInt(100) < 60)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 180) {
+            } else if (timeInGame == 180) {
                 spawnBonus();
-            } else if(timeInGame < 225) {
-                if((random.nextInt(100) < 50)) {
+            } else if (timeInGame < 225) {
+                if ((random.nextInt(100) < 50)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 225) {
+            } else if (timeInGame == 225) {
                 spawnBonus();
-            } else if(timeInGame < 270) {
-                if((random.nextInt(100) < 60)) {
+            } else if (timeInGame < 270) {
+                if ((random.nextInt(100) < 60)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 270) {
+            } else if (timeInGame == 270) {
                 spawnBonus();
-            } else if(timeInGame < 315) {
-                if((random.nextInt(100) < 70)) {
+            } else if (timeInGame < 315) {
+                if ((random.nextInt(100) < 70)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 315) {
+            } else if (timeInGame == 315) {
                 spawnBonus();
-            } else if(timeInGame < 360) {
-                if((random.nextInt(100) < 80)) {
+            } else if (timeInGame < 360) {
+                if ((random.nextInt(100) < 80)) {
                     int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
                     int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
                     oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
                 }
-            } else if(timeInGame == 390) {
+            } else if (timeInGame == 360) {
+                spawnBonus();
+            } else if (timeInGame < 405) {
+                if ((random.nextInt(100) < 90)) {
+                    int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+                    int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+                    oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
+                }
+            } else if (timeInGame == 405) {
+                spawnBonus();
+            } else if (timeInGame < 450) {
+                int enemyX = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+                int enemyY = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+                oHandler.addObject(new Enemy(enemyX, enemyY, oHandler, sHandler));
+            } else if (timeInGame == 495) {
                 this.game.state = Game.State.Win;
             }
         }
     }
 
     @Override
-    public void render(Graphics graphics) {}
+    public void render(Graphics graphics) {
+    }
 
     public void spawnBonus() {
         int proba = random.nextInt(4);
@@ -126,6 +141,6 @@ public class Spawner extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int)x,(int)y,(int)w,(int)h);
+        return new Rectangle((int) x, (int) y, (int) w, (int) h);
     }
 }
