@@ -106,7 +106,7 @@ public class Spawner extends GameObject {
     public void render(Graphics graphics) {}
 
     public void spawnBonus() {
-        int proba = random.nextInt(3);
+        int proba = random.nextInt(4);
 
         switch (proba) {
             case 0:
@@ -118,7 +118,9 @@ public class Spawner extends GameObject {
             case 2:
                 oHandler.addObject(new Bonus(oHandler, Weapon.Type.Shotgun));
                 break;
-
+            case 3:
+                oHandler.addObject(new Bonus(oHandler, Weapon.Type.Sniper));
+                break;
         }
     }
 

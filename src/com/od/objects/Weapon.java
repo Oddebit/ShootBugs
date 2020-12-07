@@ -116,6 +116,6 @@ public class Weapon extends GameObject {
     }
 
     public enum Type {
-        Pistol, Rifle, Shotgun, Health
+        Pistol, Rifle, Shotgun, Health, Sniper
     }
 }

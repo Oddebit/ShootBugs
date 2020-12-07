@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Projectile extends GameObject {
 
-    ObjectHandler handler;
+    ObjectHandler objectHandler;
 
     private static final float diameter = 5;
     private static final float speed = 10;
@@ -19,9 +19,9 @@ public class Projectile extends GameObject {
     private final float targetX;
     private final float targetY;
 
-    public Projectile(float targetX, float targetY, GameObject shooter, ObjectHandler handler) {
+    public Projectile(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler) {
         super(shooter.x + shooter.w/2, shooter.y + shooter.h/2, diameter, diameter, ID.Projectile);
-        this.handler = handler;
+        this.objectHandler = objectHandler;
         this.shooter = (Hero) shooter;
         this.damage = this.shooter.getActiveWeapon().damage;
         this.range = ((Hero) shooter).activeWeapon.range;
@@ -47,12 +47,14 @@ public class Projectile extends GameObject {
     @Override
     public void tick() {
         if (distance <= 0) {
-            handler.removeObject(this);
+            objectHandler.removeObject(this);
         }
 
         x += velocityX;
         y += velocityY;
         distance -= speed;
+
+        collision();
     }
 
     @Override
@@ -66,6 +68,22 @@ public class Projectile extends GameObject {
     public Rectangle getBounds() {
         return new Rectangle((int)x, (int)y, (int)diameter, (int)diameter);
     }
+
+    public void collision() {
+        for (int i = 0; i < objectHandler.objects.size(); i++) {
+            GameObject tempObject = objectHandler.objects.get(i);
+
+            if (getBounds().intersects(tempObject.getBounds())) {
+
+                if (tempObject.getId() == ID.Enemy) {
+                    if (this.shooter.getActiveWeapon().getType() != Weapon.Type.Sniper) {
+                        objectHandler.removeObject(tempObject);
+                    }
+                }
+            }
+        }
+    }
+
 
     public GameObject getShooter() {
         return shooter;

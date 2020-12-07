@@ -61,6 +61,9 @@ public class Bonus extends GameObject {
         } else if (type == Weapon.Type.Shotgun) {
             graphics.setColor(new Color(255, 120, 50));
             display = "Shotgun";
+        } else if (type == Weapon.Type.Sniper) {
+            graphics.setColor(new Color(255, 120, 50));
+            display = "Sniper";
         }
         graphics.drawString(display, (int)(x + w + 3), (int)y);
         graphics.fillRect((int)x, (int)y, (int)w, (int)h);
@@ -85,6 +88,8 @@ public class Bonus extends GameObject {
                         hero.addWeapon(new Rifle(hero, oHandler));
                     } else if (type == Weapon.Type.Shotgun) {
                         hero.addWeapon(new Shotgun(hero, oHandler));
+                    } else if (type == Weapon.Type.Sniper) {
+                        hero.addWeapon(new Sniper(hero, oHandler));
                     }
                 }
             }

@@ -32,7 +32,7 @@ public class Hero extends GameObject {
         this.game = game;
         this.HP = maxHP;
 
-        Weapon firstWeapon = new Shotgun(this, oHandler);
+        Weapon firstWeapon = new Pistol(this, oHandler);
         this.addWeapon(firstWeapon);
         activeWeapon = firstWeapon;
     }
