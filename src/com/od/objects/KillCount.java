@@ -29,7 +29,7 @@ public class KillCount extends GameObject {
     public void render(Graphics graphics) {
         graphics.setColor(new Color(0, 95, 95));
         graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 32));
-        String name = hero.getKillCount() + " kills";
+        String name = String.valueOf(hero.getKillCount());
         int height = graphics.getFontMetrics().getHeight();
         int width = graphics.getFontMetrics().stringWidth(name);
         graphics.drawString(name, Game.REAL_WIDTH - 10 - width, (int) (3d / 4 * height));
