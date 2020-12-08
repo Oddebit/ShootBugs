@@ -119,14 +119,14 @@ public class Game extends Canvas implements Runnable {
             int width = graphics.getFontMetrics().stringWidth(str);
             graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
 
-            graphics.setFont(new Font(Font.DIALOG, 1, 60));
+            graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 60));
             String kills = "You killed " + hero.getKillCount() + " zombies.";
             int height2 = graphics.getFontMetrics().getHeight();
             int width2 = graphics.getFontMetrics().stringWidth(kills);
             graphics.drawString(kills, (int)(WIDTH_CENTER - width2/2d), (int)(HEIGHT_CENTER));
         } else {
             graphics.setColor(new Color(0, 255, 50));
-            graphics.setFont(new Font(Font.DIALOG, 1, 150));
+            graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 150));
             String str = "YOU WON";
             int height = graphics.getFontMetrics().getHeight();
             int width = graphics.getFontMetrics().stringWidth(str);

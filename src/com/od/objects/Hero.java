@@ -29,6 +29,8 @@ public class Hero extends GameObject {
     private int HP;
     private int killCount;
 
+    private Color color = new Color (255, 120, 0);
+
     public Hero(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, Game game) {
         super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.Hero);
         this.objectHandler = objectHandler;
@@ -61,8 +63,11 @@ public class Hero extends GameObject {
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(new Color(255, (int) Game.clamp(HP, 0, 255), 0));
-        graphics.drawOval((int) x, (int) y, (int) diameter, (int) diameter);
+
+        graphics.setColor(color);
+        graphics.fillOval((int) x, (int) y, (int) diameter, (int) diameter);
+
+
 
         float reloadState;
         if (!activeWeapon.isReloading) {
@@ -78,8 +83,19 @@ public class Hero extends GameObject {
             reloadState = 0;
         }
 
-        int newDiameter = (int) (reloadState * diameter);
-        graphics.fillOval((int) (x + diameter / 2 - newDiameter / 2), (int) (y + diameter / 2 - newDiameter / 2), newDiameter, newDiameter);
+        reloadState *= 100;
+
+        int height = 10;
+        int width = 100;
+        graphics.setColor(color);
+        graphics.drawRect((int)(WIDTH_CENTER - width/2d), 25, width, height);
+        graphics.fillRect((int)(WIDTH_CENTER - width/2d), 25, (int)reloadState, height);
+
+        int red = (int) Game.clamp(255 - 5.1f * HP, 0, 255);
+        int green = (int) Game.clamp(5.1f * HP, 0, 255);
+        graphics.setColor(new Color(red, green, 0));
+        graphics.drawRect((int)(WIDTH_CENTER - width/2d), 10, width, height);
+        graphics.fillRect((int)(WIDTH_CENTER - width/2d), 10, HP, height);
     }
 
     public void collision() {
