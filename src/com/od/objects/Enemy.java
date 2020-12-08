@@ -22,8 +22,8 @@ public class Enemy extends GameObject {
     private int HP = 20;
     private boolean isHittingHero = false;
 
-    public Enemy(float x, float y, ObjectHandler oHandler, SurroundingsHandler sHandler) {
-        super(x, y, diameter, diameter, ID.Enemy);
+    public Enemy(ObjectHandler oHandler, SurroundingsHandler sHandler) {
+        super(0, 0, diameter, diameter, ID.Enemy);
         this.oHandler = oHandler;
         this.sHandler = sHandler;
 
@@ -80,6 +80,9 @@ public class Enemy extends GameObject {
     }
 
     public void setStartingPosition() {
+        x = random.nextInt(Game.REAL_WIDTH + (int) Enemy.getDiameter());
+        y = random.nextInt(Game.REAL_HEIGHT + (int) Enemy.getDiameter());
+
         int proba = random.nextInt(4);
         switch (proba) {
             case 0:

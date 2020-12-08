@@ -125,14 +125,14 @@ public class Weapon extends GameObject {
     @Override
     public void render(Graphics graphics) {
         long period = ChronoUnit.MILLIS.between(lastActivation, Instant.now());
-        graphics.setColor(new Color(255, 120, 0, (int)(Game.clamp(510 - period/5f, 0, 255))));
+        graphics.setColor(new Color(255, 120, 0));
         graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 64));
         if (this.owner.getId() == ID.Hero) {
             if (this == ((Hero) owner).getActiveWeapon()) {
                 String name = this.type.toString();
                 int height = graphics.getFontMetrics().getHeight();
                 int width = graphics.getFontMetrics().stringWidth(name);
-                graphics.drawString(name, 10, (int) (3d / 4 * height));
+                graphics.drawString(name, 10, (int) (3d / 4 * height - Math.pow(period/100d - 10, 2)));
             }
         }
     }

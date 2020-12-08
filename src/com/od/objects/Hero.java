@@ -91,9 +91,10 @@ public class Hero extends GameObject {
         graphics.drawRect((int)(WIDTH_CENTER - width/2d), 25, width, height);
         graphics.fillRect((int)(WIDTH_CENTER - width/2d), 25, (int)reloadState, height);
 
-        int red = (int) Game.clamp(255 - 5.1f * HP, 0, 255);
-        int green = (int) Game.clamp(5.1f * HP, 0, 255);
-        graphics.setColor(new Color(red, green, 0));
+        int red = (int) Game.clamp(360 - 3.6f * HP, 0, 255);
+        int green = (int) Game.clamp((int)(-1.8 + 3.6f * HP), 0, 255);
+        int blue = (int) Game.clamp(1.8f * HP, 0, 255);
+        graphics.setColor(new Color(red, green, blue));
         graphics.drawRect((int)(WIDTH_CENTER - width/2d), 10, width, height);
         graphics.fillRect((int)(WIDTH_CENTER - width/2d), 10, HP, height);
     }

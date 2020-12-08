@@ -53,16 +53,16 @@ public class Bonus extends GameObject {
         graphics.setFont(new Font(Font.DIALOG, 0, 12));
         String display = "";
         if (type == Weapon.Type.Health) {
-            graphics.setColor(new Color(0, 255, 50));
+            graphics.setColor(new Color(0, 255, 180));
             display = "Health";
         } else if (type == Weapon.Type.Rifle) {
-            graphics.setColor(new Color(255, 120, 50));
+            graphics.setColor(new Color(255, 120, 0));
             display = "Rifle";
         } else if (type == Weapon.Type.Shotgun) {
-            graphics.setColor(new Color(255, 120, 50));
+            graphics.setColor(new Color(255, 120, 0));
             display = "Shotgun";
         } else if (type == Weapon.Type.Sniper) {
-            graphics.setColor(new Color(255, 120, 50));
+            graphics.setColor(new Color(255, 120, 0));
             display = "Sniper";
         }
         graphics.drawString(display, (int)(x + w + 3), (int)y);
