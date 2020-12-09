@@ -1,7 +1,7 @@
 package com.od.game;
 
+import com.od.objects.DashBoard;
 import com.od.objects.Hero;
-import com.od.objects.KillCount;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -14,28 +14,35 @@ public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1550691097823471818L;
 
-    private ObjectHandler oHandler;
-    private SurroundingsHandler sHandler;
+    private ObjectHandler objectHandler;
+    private SurroundingsHandler surroundingsHandler;
+    private DashBoard dashBoard;
+
     private Hero hero;
     private Thread thread;
     private boolean running = false;
     State state;
 
-    public static final int WIDTH = 1306, HEIGHT = 708;
+    public static final int WIDTH = 708, HEIGHT = 708;
     public static final int REAL_WIDTH = WIDTH - 16, REAL_HEIGHT = HEIGHT - 39;
     public static final int WIDTH_CENTER = REAL_WIDTH / 2, HEIGHT_CENTER = REAL_HEIGHT / 2;
 
     public Game() {
         state = State.Play;
         playMusic("sounds/battlefieldTheme.wav");
-        sHandler = new SurroundingsHandler();
-        oHandler = new ObjectHandler();
-        hero = new Hero(oHandler, sHandler, this);
-        oHandler.addObject(hero);
-        oHandler.addObject(new Spawner(oHandler, sHandler, this));
-        oHandler.addObject(new KillCount(oHandler));
-        this.addKeyListener(new KeyInput(oHandler));
-        this.addMouseListener(new MouseInput(oHandler));
+
+        surroundingsHandler = new SurroundingsHandler();
+        objectHandler = new ObjectHandler();
+
+        hero = new Hero(objectHandler, surroundingsHandler, this);
+        objectHandler.addObject(hero);
+
+        dashBoard = new DashBoard(objectHandler);
+
+        objectHandler.addObject(new Spawner(objectHandler, surroundingsHandler, dashBoard, this));
+//        objectHandler.addObject(new ToxicArea(objectHandler));
+        this.addKeyListener(new KeyInput(objectHandler));
+        this.addMouseListener(new MouseInput(objectHandler));
         new Window(WIDTH, HEIGHT, "Shoot Bad Guys", this);
     }
 
@@ -59,14 +66,14 @@ public class Game extends Canvas implements Runnable {
 
         long lastTime = System.nanoTime();
         double amountOfTicks = 60;
-        double ns = 1_000_000_000 / amountOfTicks;
+        double tickTime = 1_000_000_000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
 
         while (running) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
+            delta += (now - lastTime) / tickTime;
             lastTime = now;
 
             while (delta >= 1) {
@@ -90,9 +97,10 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
-        sHandler.tick();
+        surroundingsHandler.tick();
         if(state == State.Play) {
-            oHandler.tick();
+            objectHandler.tick();
+            dashBoard.tick();
         }
     }
 
@@ -108,32 +116,33 @@ public class Game extends Canvas implements Runnable {
         graphics.setColor(Color.black);
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
-        sHandler.render(graphics);
+        surroundingsHandler.render(graphics);
         if(state == State.Play) {
-            oHandler.render(graphics);
+            objectHandler.render(graphics);
+            dashBoard.render(graphics);
         } else if (state == State.GameOver) {
             graphics.setColor(Color.RED);
-            graphics.setFont(new Font(Font.DIALOG, 1, 150));
+            graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 75));
             String str = "GAME OVER";
             int height = graphics.getFontMetrics().getHeight();
             int width = graphics.getFontMetrics().stringWidth(str);
             graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
 
-            graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 60));
-            String kills = "You killed " + hero.getKillCount() + " zombies.";
+            graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
+            String kills = "You killed " + dashBoard.getKillCount() + " zombies.";
             int height2 = graphics.getFontMetrics().getHeight();
             int width2 = graphics.getFontMetrics().stringWidth(kills);
             graphics.drawString(kills, (int)(WIDTH_CENTER - width2/2d), (int)(HEIGHT_CENTER));
         } else {
             graphics.setColor(new Color(0, 255, 50));
-            graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 150));
+            graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 75));
             String str = "YOU WON";
             int height = graphics.getFontMetrics().getHeight();
             int width = graphics.getFontMetrics().stringWidth(str);
             graphics.drawString(str, (int)(WIDTH_CENTER - width/2d), (int)(HEIGHT_CENTER - height/2d));
 
-            graphics.setFont(new Font(Font.DIALOG, 1, 60));
-            String kills = "You killed " + hero.getKillCount() + " zombies.";
+            graphics.setFont(new Font(Font.DIALOG, 1, 30));
+            String kills = "You killed " + dashBoard.getKillCount() + " zombies.";
             int height2 = graphics.getFontMetrics().getHeight();
             int width2 = graphics.getFontMetrics().stringWidth(kills);
             graphics.drawString(kills, (int)(WIDTH_CENTER - width2/2d), (int)(HEIGHT_CENTER));

@@ -1,13 +1,12 @@
 package com.od.objects;
 
 import com.od.game.Game;
-import com.od.game.ObjectHandler;
 import com.od.game.ID;
+import com.od.game.ObjectHandler;
 import com.od.game.SurroundingsHandler;
 
 import java.awt.*;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import static com.od.game.Game.*;
@@ -27,7 +26,6 @@ public class Hero extends GameObject {
 
     public int maxHP = 100;
     private int HP;
-    private int killCount;
 
     private Color color = new Color (255, 120, 0);
 
@@ -69,34 +67,9 @@ public class Hero extends GameObject {
 
 
 
-        float reloadState;
-        if (!activeWeapon.isReloading) {
-            reloadState = (float) activeWeapon.magMunition / activeWeapon.maxMagMunition;
-        } else if (activeWeapon.totalMunition > 0) {
-            long period = ChronoUnit.MILLIS.between(activeWeapon.lastReload, Instant.now());
-            if(activeWeapon.getType() == Weapon.Type.Shotgun) {
-                reloadState = ((float) activeWeapon.magMunition + (float) period / activeWeapon.reloadTime) / (float) activeWeapon.maxMagMunition;
-            } else {
-                reloadState = (float) period / activeWeapon.reloadTime;
-            }
-        } else {
-            reloadState = 0;
-        }
 
-        reloadState *= 100;
 
-        int height = 10;
-        int width = 100;
-        graphics.setColor(color);
-        graphics.drawRect((int)(WIDTH_CENTER - width/2d), 25, width, height);
-        graphics.fillRect((int)(WIDTH_CENTER - width/2d), 25, (int)reloadState, height);
 
-        int red = (int) Game.clamp(360 - 3.6f * HP, 0, 255);
-        int green = (int) Game.clamp((int)(-1.8 + 3.6f * HP), 0, 255);
-        int blue = (int) Game.clamp(1.8f * HP, 0, 255);
-        graphics.setColor(new Color(red, green, blue));
-        graphics.drawRect((int)(WIDTH_CENTER - width/2d), 10, width, height);
-        graphics.fillRect((int)(WIDTH_CENTER - width/2d), 10, HP, height);
     }
 
     public void collision() {
@@ -140,6 +113,16 @@ public class Hero extends GameObject {
         this.HP = HP;
     }
 
+    @Override
+    public float getX() {
+        return super.getX();
+    }
+
+    @Override
+    public float getY() {
+        return super.getY();
+    }
+
     public void setActiveWeapon(int increment) {
         Weapon tempWeapon;
         for (int i = 0; i < arsenal.size(); i++) {
@@ -158,6 +141,10 @@ public class Hero extends GameObject {
         return activeWeapon;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     public void addWeapon(Weapon weapon) {
         objectHandler.addObject(weapon);
         this.arsenal.add(weapon);
@@ -166,13 +153,5 @@ public class Hero extends GameObject {
     public void removeWeapon(Weapon weapon) {
         objectHandler.removeObject(weapon);
         this.arsenal.remove(weapon);
-    }
-
-    public void addKill() {
-        killCount++;
-    }
-
-    public int getKillCount() {
-        return killCount;
     }
 }

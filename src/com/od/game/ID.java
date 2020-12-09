@@ -8,5 +8,6 @@ public enum ID {
     Blood,
     Spawner,
     Bonus,
-    KillCount
+    DashBoard,
+    ToxicArea
 }

@@ -12,8 +12,9 @@ public class Enemy extends GameObject {
 
     Random random = new Random();
 
-    ObjectHandler oHandler;
-    SurroundingsHandler sHandler;
+    ObjectHandler objectHandler;
+    SurroundingsHandler surroundingsHandler;
+    DashBoard dashBoard;
     Hero hero;
 
     private static final float diameter = 40;
@@ -22,10 +23,11 @@ public class Enemy extends GameObject {
     private int HP = 20;
     private boolean isHittingHero = false;
 
-    public Enemy(ObjectHandler oHandler, SurroundingsHandler sHandler) {
+    public Enemy(ObjectHandler oHandler, SurroundingsHandler sHandler, DashBoard dashBoard) {
         super(0, 0, diameter, diameter, ID.Enemy);
-        this.oHandler = oHandler;
-        this.sHandler = sHandler;
+        this.objectHandler = oHandler;
+        this.surroundingsHandler = sHandler;
+        this.dashBoard = dashBoard;
 
         setStartingPosition();
 
@@ -51,8 +53,8 @@ public class Enemy extends GameObject {
         collision();
 
         if (HP <= 0) {
-            hero.addKill();
-            oHandler.removeObject(this);
+            dashBoard.addKill();
+            objectHandler.removeObject(this);
         }
     }
 
@@ -64,8 +66,8 @@ public class Enemy extends GameObject {
 
     public void collision() {
         boolean hitsHero = false;
-        for (int i = 0; i < oHandler.objects.size(); i++) {
-            GameObject tempObject = oHandler.objects.get(i);
+        for (int i = 0; i < objectHandler.objects.size(); i++) {
+            GameObject tempObject = objectHandler.objects.get(i);
 
             if (this.intersects(tempObject)) {
                 if (tempObject.getId() == ID.Hero) {
