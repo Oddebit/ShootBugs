@@ -36,6 +36,10 @@ public class Shotgun extends Weapon {
     }
 
     public void reload() {
+        if (totalMunition <= 0) {
+            ((Hero) owner).setActiveWeapon(1);
+            ((Hero) owner).removeWeapon(this);
+        }
         if (magMunition < maxMagMunition && totalMunition > 0) {
             this.lastReload = Instant.now();
             this.isReloading = true;
@@ -48,9 +52,6 @@ public class Shotgun extends Weapon {
             reloadSound();
             magMunition++;
             reloadCounter++;
-        } else if (totalMunition <=0) {
-            ((Hero) owner).setActiveWeapon(1);
-            ((Hero) owner).removeWeapon(this);
         } else {
             isReloading = false;
             reloadCounter = 0;
