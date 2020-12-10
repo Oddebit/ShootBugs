@@ -49,7 +49,7 @@ public class DashBoard extends GameObject {
     }
 
     private void renderKillCount(Graphics graphics) {
-        graphics.setColor(new Color(180, 0, 0));
+        graphics.setColor(new Color(0, 120, 120));
         graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 32));
         String name = String.valueOf(killCount);
         int height = graphics.getFontMetrics().getHeight();
