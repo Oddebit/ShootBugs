@@ -3,11 +3,13 @@ package com.od.objects;
 import com.od.game.ObjectHandler;
 import com.od.game.SurroundingsHandler;
 
-public class ClassicEnemy extends Enemy {
+public class Bugs extends Enemy {
 
-
-    public ClassicEnemy(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, DashBoard dashBoard, Hero hero) {
+    public Bugs(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, DashBoard dashBoard, Hero hero) {
         super(objectHandler, surroundingsHandler, dashBoard, hero);
+        this.speed = 1.8f;
+        this.maxHP = 20;
+        this.HP = maxHP;
     }
 
     @Override

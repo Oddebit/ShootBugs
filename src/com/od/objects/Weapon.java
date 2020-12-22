@@ -76,6 +76,9 @@ public class Weapon extends GameObject {
             case Sniper:
                 Game.playSound("sounds/sniperShoot.wav");
                 break;
+            case AirStrike:
+                Game.playSound("sounds/airStrikeShoot.wav");
+                break;
         }
     }
 
@@ -104,7 +107,7 @@ public class Weapon extends GameObject {
         }
     }
 
-    private void effectiveReload() {
+    public void effectiveReload() {
         if (totalMunition > 0) {
             this.magMunition = Math.min(maxMagMunition, totalMunition);
         }
@@ -156,6 +159,6 @@ public class Weapon extends GameObject {
     }
 
     public enum Type {
-        Pistol, Rifle, Shotgun, Health, Sniper
+        Pistol, Rifle, Shotgun, Health, Sniper, AirStrike
     }
 }

@@ -54,17 +54,10 @@ public class Bonus extends GameObject {
         String display = "";
         if (type == Weapon.Type.Health) {
             graphics.setColor(new Color(0, 255, 180));
-            display = "Health";
-        } else if (type == Weapon.Type.Rifle) {
+        } else {
             graphics.setColor(new Color(255, 120, 0));
-            display = "Rifle";
-        } else if (type == Weapon.Type.Shotgun) {
-            graphics.setColor(new Color(255, 120, 0));
-            display = "Shotgun";
-        } else if (type == Weapon.Type.Sniper) {
-            graphics.setColor(new Color(255, 120, 0));
-            display = "Sniper";
         }
+        display = String.valueOf(type);
         graphics.drawString(display, (int)(x + w + 3), (int)y);
         graphics.fillRect((int)x, (int)y, (int)w, (int)h);
     }
@@ -90,6 +83,8 @@ public class Bonus extends GameObject {
                         hero.addWeapon(new Shotgun(hero, objectHandler, hero.surroundingsHandler));
                     } else if (type == Weapon.Type.Sniper) {
                         hero.addWeapon(new Sniper(hero, objectHandler, hero.surroundingsHandler));
+                    } else if (type == Weapon.Type.AirStrike) {
+                        hero.addWeapon(new AirStrike(hero, objectHandler, hero.surroundingsHandler));
                     }
                 }
             }

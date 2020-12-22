@@ -19,14 +19,17 @@ public class Spawner extends GameObject {
     private Instant lastTime;
     private long timeInGame;
 
+    private int level;
+
     public Spawner(ObjectHandler oHandler, SurroundingsHandler sHandler, DashBoard dashBoard, Game game, Hero hero) {
         super(-1000, -1000, 0, 0, ID.Spawner);
         this.lastTime = Instant.now();
         this.objectHandler = oHandler;
         this.surroundingsHandler = sHandler;
-        this. dashBoard = dashBoard;
+        this.dashBoard = dashBoard;
         this.game = game;
         this.hero = hero;
+        this.level = 0;
     }
 
     @Override
@@ -35,66 +38,19 @@ public class Spawner extends GameObject {
             lastTime = lastTime.plusSeconds(1);
             timeInGame++;
 
-            if (timeInGame < 45) {
-                if (random.nextInt(100) < 30) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-                if (random.nextInt(100) < 5) {
-                    objectHandler.addObject(new Spider(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 45) {
+            if (timeInGame % 45 == 0) {
                 spawnBonus();
-            } else if (timeInGame < 90) {
-                if ((random.nextInt(100) < 40)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 90) {
-                spawnBonus();
-            } else if (timeInGame < 135) {
-                if ((random.nextInt(100) < 50)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 135) {
-                spawnBonus();
-            } else if (timeInGame < 180) {
-                if ((random.nextInt(100) < 60)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 180) {
-                spawnBonus();
-            } else if (timeInGame < 225) {
-                if ((random.nextInt(100) < 50)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 225) {
-                spawnBonus();
-            } else if (timeInGame < 270) {
-                if ((random.nextInt(100) < 60)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 270) {
-                spawnBonus();
-            } else if (timeInGame < 315) {
-                if ((random.nextInt(100) < 70)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 315) {
-                spawnBonus();
-            } else if (timeInGame < 360) {
-                if ((random.nextInt(100) < 80)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 360) {
-                spawnBonus();
-            } else if (timeInGame < 405) {
-                if ((random.nextInt(100) < 90)) {
-                    objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-                }
-            } else if (timeInGame == 405) {
-                spawnBonus();
-            } else if (timeInGame < 450) {
-                objectHandler.addObject(new ClassicEnemy(objectHandler, surroundingsHandler, dashBoard, hero));
-            } else if (timeInGame == 495) {
+                level++;
+            }
+
+            if (random.nextInt(100) < 30 + level * 8) {
+                objectHandler.addObject(new Bugs(objectHandler, surroundingsHandler, dashBoard, hero));
+            }
+            if (random.nextInt(100) < 2 + level) {
+                objectHandler.addObject(new Spider(objectHandler, surroundingsHandler, dashBoard, hero));
+            }
+
+            if (timeInGame == 495) {
                 this.game.state = Game.State.Win;
             }
         }
@@ -105,22 +61,8 @@ public class Spawner extends GameObject {
     }
 
     public void spawnBonus() {
-        int proba = random.nextInt(4);
-
-        switch (proba) {
-            case 0:
-                objectHandler.addObject(new Bonus(objectHandler, Weapon.Type.Health));
-                break;
-            case 1:
-                objectHandler.addObject(new Bonus(objectHandler, Weapon.Type.Rifle));
-                break;
-            case 2:
-                objectHandler.addObject(new Bonus(objectHandler, Weapon.Type.Shotgun));
-                break;
-            case 3:
-                objectHandler.addObject(new Bonus(objectHandler, Weapon.Type.Sniper));
-                break;
-        }
+        int proba = random.nextInt(5);
+        objectHandler.addObject(new Bonus(objectHandler, Weapon.Type.values()[proba]));
     }
 
     @Override

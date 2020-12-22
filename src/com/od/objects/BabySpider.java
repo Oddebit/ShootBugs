@@ -8,8 +8,9 @@ public class BabySpider extends Enemy {
 
     public BabySpider(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, DashBoard dashBoard, Hero hero, double angle, float x, float y) {
         super(objectHandler, surroundingsHandler, dashBoard, hero);
-        this.speed = 3;
+        this.speed = 2.5f;
         this.maxHP = 5;
+        this.HP = maxHP;
         this.diameter = 15;
 
         this.x = x;

@@ -46,7 +46,7 @@ public class Shotgun extends Weapon {
         }
     }
 
-    private void effectiveReload() {
+    public void effectiveReload() {
         if (magMunition < maxMagMunition && reloadCounter < maxMagMunition) {
             lastReload = Instant.now();
             reloadSound();

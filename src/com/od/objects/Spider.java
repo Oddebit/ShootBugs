@@ -5,9 +5,12 @@ import com.od.game.SurroundingsHandler;
 
 public class Spider extends Enemy {
 
+    int miniSpiders = 4;
+
     public Spider(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, DashBoard dashBoard, Hero hero) {
         super(objectHandler, surroundingsHandler, dashBoard, hero);
-        this.maxHP = 100;
+        this.maxHP = 50;
+        this.HP = maxHP;
         this.speed = 1;
         this.diameter = 60;
     }
@@ -33,8 +36,9 @@ public class Spider extends Enemy {
         }
 
         if (HP <= 0) {
-            for (int i = 0; i < 12; i++) {
-                objectHandler.addObject(new BabySpider(objectHandler, surroundingsHandler, dashBoard, hero, Math.PI / 6 * i, x, y));
+            for (int i = 0; i < miniSpiders; i++) {
+                objectHandler.addObject(
+                        new BabySpider(objectHandler, surroundingsHandler, dashBoard, hero, Math.PI * 2 / miniSpiders * i, x, y));
             }
         }
     }

@@ -53,4 +53,11 @@ public class ObjectHandler {
     public void removeObject(GameObject object) {
         this.objects.remove(object);
     }
+
+    public void removeEnemies() {
+        for (int i = 0; i < objects.size(); i++) {
+            GameObject tempObject = objects.get(i);
+            if (tempObject.getId() == ID.Enemy) removeObject(tempObject);
+        }
+    }
 }

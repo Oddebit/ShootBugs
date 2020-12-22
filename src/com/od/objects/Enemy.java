@@ -18,7 +18,7 @@ public class Enemy extends GameObject {
 
     protected float diameter;
     protected float speed;
-    protected int maxHP = 20;
+    protected int maxHP;
     protected int HP;
 
     Hero hero;
@@ -30,9 +30,8 @@ public class Enemy extends GameObject {
         this.objectHandler = objectHandler;
         this.surroundingsHandler = surroundingsHandler;
         this.dashBoard = dashBoard;
-        this.speed = 2;
         this.hero = hero;
-        this.HP = maxHP;
+
         setStartingPosition();
     }
 
