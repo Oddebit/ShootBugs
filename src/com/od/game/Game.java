@@ -39,7 +39,7 @@ public class Game extends Canvas implements Runnable {
 
         dashBoard = new DashBoard(objectHandler);
 
-        objectHandler.addObject(new Spawner(objectHandler, surroundingsHandler, dashBoard, this));
+        objectHandler.addObject(new Spawner(objectHandler, surroundingsHandler, dashBoard, this, hero));
 //        objectHandler.addObject(new ToxicArea(objectHandler));
         this.addKeyListener(new KeyInput(objectHandler));
         this.addMouseListener(new MouseInput(objectHandler));
