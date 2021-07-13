@@ -1,9 +1,7 @@
 package com.od.input;
 
 import com.od.game.Game;
-import com.od.game.ID;
 import com.od.game.handlers.ObjectHandler;
-import com.od.game.objects.GameObject;
 import com.od.game.objects.creatures.Hero;
 
 import java.awt.event.KeyAdapter;
@@ -11,20 +9,14 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
-    ObjectHandler handler;
+    ObjectHandler objectHandler;
     Hero hero;
     Game game;
 
-    public KeyInput(ObjectHandler handler, Game game) {
-        this.handler = handler;
+    public KeyInput(ObjectHandler objectHandler, Game game) {
+        this.objectHandler = objectHandler;
         this.game = game;
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObject = handler.objects.get(i);
-            if (tempObject.getId() == ID.Hero) {
-                hero = (Hero)tempObject;
-                break;
-            }
-        }
+        this.hero = objectHandler.getHero();
     }
 
     @Override

@@ -1,24 +1,23 @@
 package com.od.game.objects.creatures.enemies;
 
-import com.od.game.handlers.ObjectHandler;
-import com.od.game.handlers.SurroundingsHandler;
-import com.od.game.objects.DashBoard;
 import com.od.game.objects.creatures.Hero;
 
 public class Bug extends Enemy {
 
-    public Bug(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, DashBoard dashBoard, Hero hero) {
-        super(objectHandler, surroundingsHandler, dashBoard, hero);
+    private final Hero hero;
+    public Bug(Hero hero) {
+        super();
+        this.hero = hero;
         this.speed = 1.8f;
+        this.diameter = 24;
         this.maxHP = 20;
-        this.HP = maxHP;
+        this.hp = maxHP;
     }
 
     @Override
     public void tick() {
 
         move();
-        askDie();
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.od.game;
 
+import com.od.game.data.ColorData;
 import com.od.game.handlers.ObjectHandler;
-import com.od.game.handlers.SurroundingsHandler;
-import com.od.input.*;
 import com.od.game.objects.DashBoard;
-import com.od.game.objects.creatures.Hero;
+import com.od.input.InputHandler;
 import com.od.output.SoundPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,9 +18,7 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1550691097823471818L;
 
     private ObjectHandler objectHandler;
-    private SurroundingsHandler surroundingsHandler;
     private DashBoard dashBoard;
-    private Hero hero;
 
     private Thread thread;
     private boolean running = false;
@@ -35,18 +32,11 @@ public class Game extends Canvas implements Runnable {
         state = State.Play;
         SoundPlayer.playMusic("sounds/battlefieldTheme.wav");
 
-        surroundingsHandler = new SurroundingsHandler();
-        objectHandler = new ObjectHandler();
-
-        hero = new Hero(objectHandler, surroundingsHandler, this);
-        objectHandler.addObject(hero);
+        objectHandler = new ObjectHandler(this);
 
         dashBoard = new DashBoard(objectHandler);
 
-        objectHandler.addObject(new Spawner(objectHandler, surroundingsHandler, dashBoard, this, hero));
-
         new InputHandler(this, objectHandler);
-
         new Window(WIDTH, HEIGHT, "Shoot Bugs", this);
     }
 
@@ -102,7 +92,6 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
-        surroundingsHandler.tick();
         if (state == State.Play) {
             objectHandler.tick();
             dashBoard.tick();
@@ -115,13 +104,10 @@ public class Game extends Canvas implements Runnable {
             this.createBufferStrategy(3);
             return;
         }
-
         Graphics graphics = bufferStrategy.getDrawGraphics();
-
         graphics.setColor(Color.black);
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
-        surroundingsHandler.render(graphics);
         if (state == State.Play) {
             objectHandler.render(graphics);
             dashBoard.render(graphics);
@@ -134,12 +120,11 @@ public class Game extends Canvas implements Runnable {
             graphics.drawString(str, (int) (WIDTH_CENTER - width / 2d), (int) (HEIGHT_CENTER - height / 2d));
 
             graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
-            String kills = "You killed " + dashBoard.getKillCount() + " zombies.";
-            int height2 = graphics.getFontMetrics().getHeight();
+            String kills = String.format("You killed %d zombies.", dashBoard.getKillCount());
             int width2 = graphics.getFontMetrics().stringWidth(kills);
             graphics.drawString(kills, (int) (WIDTH_CENTER - width2 / 2d), (int) (HEIGHT_CENTER));
         } else if (state == State.Win){
-            graphics.setColor(new Color(0, 255, 50));
+            graphics.setColor(ColorData.GREEN);
             graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 75));
             String str = "YOU WON";
             int height = graphics.getFontMetrics().getHeight();
@@ -147,12 +132,11 @@ public class Game extends Canvas implements Runnable {
             graphics.drawString(str, (int) (WIDTH_CENTER - width / 2d), (int) (HEIGHT_CENTER - height / 2d));
 
             graphics.setFont(new Font(Font.DIALOG, 1, 30));
-            String kills = "You killed " + dashBoard.getKillCount() + " zombies.";
-            int height2 = graphics.getFontMetrics().getHeight();
+            String kills = String.format("You killed %d zombies.", dashBoard.getKillCount());
             int width2 = graphics.getFontMetrics().stringWidth(kills);
             graphics.drawString(kills, (int) (WIDTH_CENTER - width2 / 2d), HEIGHT_CENTER);
         } else {
-            graphics.setColor(new Color(255, 120, 0));
+            graphics.setColor(ColorData.HERO_ORANGE);
             graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 75));
             String str = "PAUSE";
             int height = graphics.getFontMetrics().getHeight();

@@ -8,7 +8,7 @@ public class Sniper extends Weapon {
         this.damage = 15;
         this.maxMagMunition = 1;
         this.reshotTimeMillis = 3_000;
-        this.reloadTime = 3_000;
+        this.reloadTimeMillis = 3_000;
         this.range = 900;
         this.speed = 15;
         this.refillMunition = 20;

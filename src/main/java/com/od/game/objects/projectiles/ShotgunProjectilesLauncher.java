@@ -1,15 +1,13 @@
 package com.od.game.objects.projectiles;
 
 import com.od.game.handlers.ObjectHandler;
-import com.od.game.handlers.SurroundingsHandler;
 import com.od.game.util.GeomUtil;
 import com.od.game.objects.GameObject;
 
 
-public class MultiPojectile {
+public class ShotgunProjectilesLauncher {
 
     ObjectHandler objectHandler;
-    SurroundingsHandler surroundingsHandler;
     GameObject shooter;
 
     private final float x;
@@ -19,10 +17,9 @@ public class MultiPojectile {
     private float distance;
     private double angle;
 
-    public MultiPojectile(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler) {
+    public ShotgunProjectilesLauncher(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler) {
 
         this.objectHandler = objectHandler;
-        this.surroundingsHandler = surroundingsHandler;
         this.shooter = shooter;
 
         this.x = shooter.getX() + shooter.getW()/2;
@@ -50,7 +47,7 @@ public class MultiPojectile {
             double tempAngle = angle + i * Math.PI/27;
             float tempTargetX = (float) (x + Math.cos(tempAngle) * 1000);
             float tempTargetY = (float) (y + Math.sin(tempAngle) * 1000);
-            objectHandler.addObject(new Projectile(tempTargetX, tempTargetY, shooter, objectHandler, surroundingsHandler));
+            objectHandler.addProjectile(new Projectile(tempTargetX, tempTargetY, shooter, objectHandler));
         }
     }
 }

@@ -16,23 +16,15 @@ import static com.od.game.Game.WIDTH_CENTER;
 
 public class DashBoard extends GameObject {
 
-    private ObjectHandler objectHandler;
-
-    private Hero hero;
-    private int HP;
-
+    private final Hero hero;
     private Weapon weapon;
     private Instant lastWeaponActivation;
 
     private int killCount;
 
     public DashBoard(ObjectHandler objectHandler) {
-        super(0, 0, 0, 0, ID.DashBoard);
-        this.objectHandler = objectHandler;
-        for (int i = 0; i < objectHandler.objects.size(); i++) {
-            GameObject tempObject = objectHandler.objects.get(i);
-            if (tempObject.getId() == ID.Hero) hero = (Hero) tempObject;
-        }
+        super(0, 0, 0, 0, ID.DASH_BOARD);
+        this.hero = objectHandler.getHero();
     }
 
     @Override
@@ -41,7 +33,6 @@ public class DashBoard extends GameObject {
             weapon = hero.getActiveWeapon();
             lastWeaponActivation = Instant.now();
         }
-        HP = hero.getHP();
     }
 
     @Override
@@ -53,7 +44,7 @@ public class DashBoard extends GameObject {
     }
 
     private void renderKillCount(Graphics graphics) {
-        graphics.setColor(new Color(0, 120, 120));
+        graphics.setColor(ColorData.KILLCOUNT_TURQUOISE);
         graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 32));
         String name = String.valueOf(killCount);
         int height = graphics.getFontMetrics().getHeight();
@@ -95,14 +86,15 @@ public class DashBoard extends GameObject {
     }
 
     private void renderHP(Graphics graphics) {
+        int hp = hero.getHp();
         int height = 10;
         int width = 300;
-        int red = (int) GeomUtil.clamp(360 - 3.6f * HP, 0, 255);
-        int green = (int) GeomUtil.clamp((int)(-1.8 + 3.6f * HP), 0, 255);
-        int blue = (int) GeomUtil.clamp(1.8f * HP, 0, 255);
+        int red = (int) GeomUtil.clamp(360 - 3.6f * hp, 0, 255);
+        int green = (int) GeomUtil.clamp((int)(-1.8 + 3.6f * hp), 0, 255);
+        int blue = (int) GeomUtil.clamp(1.8f * hp, 0, 255);
         graphics.setColor(new Color(red, green, blue));
         graphics.drawRect((int)(WIDTH_CENTER - width/2d), 10, width, height);
-        graphics.fillRect((int)(WIDTH_CENTER - width/2d), 10, HP * width/hero.getMaxHP(), height);
+        graphics.fillRect((int)(WIDTH_CENTER - width/2d), 10, hp * width/hero.getMaxHP(), height);
     }
 
     @Override

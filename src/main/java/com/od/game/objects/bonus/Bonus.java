@@ -25,38 +25,21 @@ public abstract class Bonus extends GameObject {
     Hero hero;
 
     private Instant startingTime;
-    private long lifeTimeMillis;
+    private long lifeTimeMillis = 6_000;
 
 
     public Bonus(ObjectHandler objectHandler) {
-        super(0, 0, 24, 24, ID.Bonus);
+        super(0, 0, 24, 24, ID.BONUS);
 
         this.objectHandler = objectHandler;
 
         this.startingTime = Instant.now();
-        this.lifeTimeMillis = 6000;
-
-        for (int i = 0; i < objectHandler.objects.size(); i++) {
-            GameObject tempObject = objectHandler.objects.get(i);
-            if (tempObject.getId() == ID.Hero) hero = (Hero) tempObject;
-        }
 
         setRandomPosition();
     }
 
     @Override
     public void tick() {
-
-        askRemove();
-    }
-
-    private void askRemove() {
-        if (startingTime.plusMillis(lifeTimeMillis).isBefore(Instant.now()))
-            remove();
-    }
-
-    private void remove() {
-        objectHandler.removeObject(this);
     }
 
     @Override
@@ -70,6 +53,10 @@ public abstract class Bonus extends GameObject {
     }
 
     public abstract void getBonus(Hero hero);
+
+    public boolean isOver() {
+        return startingTime.plusMillis(lifeTimeMillis).isBefore(Instant.now());
+    }
 
     public void setRandomPosition() {
         this.x = random.nextInt(Game.REAL_WIDTH - (int) w);

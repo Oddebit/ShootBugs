@@ -1,18 +1,15 @@
 package com.od.game.objects.creatures.enemies;
 
 import com.od.game.Game;
-import com.od.game.handlers.ObjectHandler;
-import com.od.game.handlers.SurroundingsHandler;
-import com.od.game.objects.DashBoard;
 import com.od.game.objects.creatures.Hero;
 
 public class BabySpider extends Enemy {
 
-    public BabySpider(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, DashBoard dashBoard, Hero hero, double angle, float x, float y) {
-        super(objectHandler, surroundingsHandler, dashBoard, hero);
+    public BabySpider(Hero hero, double angle, float x, float y) {
+        super();
         this.speed = 2.5f;
         this.maxHP = 5;
-        this.HP = maxHP;
+        this.hp = maxHP;
         this.diameter = 15;
 
         this.x = x;
@@ -25,7 +22,6 @@ public class BabySpider extends Enemy {
     public void tick() {
 
         move();
-        askDie();
     }
 
     @Override

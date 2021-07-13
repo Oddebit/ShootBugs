@@ -1,13 +1,12 @@
 package com.od.game;
 
 public enum ID {
-    Hero,
-    Enemy,
-    Weapon,
-    Projectile,
-    Blood,
-    Spawner,
-    Bonus,
-    DashBoard,
-    ToxicArea
+    HERO,
+    ENEMY,
+    WEAPON,
+    PROJECTILE,
+    BLOOD,
+    SPAWNER,
+    BONUS,
+    DASH_BOARD
 }

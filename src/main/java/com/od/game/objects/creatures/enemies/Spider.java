@@ -1,18 +1,18 @@
 package com.od.game.objects.creatures.enemies;
 
-import com.od.game.handlers.ObjectHandler;
-import com.od.game.handlers.SurroundingsHandler;
-import com.od.game.objects.DashBoard;
 import com.od.game.objects.creatures.Hero;
 
 public class Spider extends Enemy {
 
-    int miniSpiders = 4;
+    private final Hero hero;
+    private final int miniSpiders = 4;
 
-    public Spider(ObjectHandler objectHandler, SurroundingsHandler surroundingsHandler, DashBoard dashBoard, Hero hero) {
-        super(objectHandler, surroundingsHandler, dashBoard, hero);
+
+    public Spider(Hero hero) {
+        super();
+        this.hero = hero;
         this.maxHP = 50;
-        this.HP = maxHP;
+        this.hp = maxHP;
         this.speed = 1;
         this.diameter = 60;
     }
@@ -21,7 +21,6 @@ public class Spider extends Enemy {
     public void tick() {
 
         move();
-        askDie();
     }
 
     @Override
@@ -37,12 +36,12 @@ public class Spider extends Enemy {
         y += velocityY;
     }
 
-    @Override
-    public void die() {
-        super.die();
-        for (int i = 0; i < miniSpiders; i++) {
-            objectHandler.addObject(
-                    new BabySpider(objectHandler, surroundingsHandler, dashBoard, hero, Math.PI * 2 / miniSpiders * i, x, y));
-        }
-    }
+//    @Override
+//    public void die() {
+//        super.die();
+//        for (int i = 0; i < miniSpiders; i++) {
+//            objectHandler.addObject(
+//                    new BabySpider(objectHandler, surroundingsHandler, dashBoard, hero, Math.PI * 2 / miniSpiders * i, x, y));
+//        }
+//    }
 }

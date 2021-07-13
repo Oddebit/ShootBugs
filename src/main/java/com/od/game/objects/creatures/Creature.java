@@ -9,8 +9,13 @@ import lombok.Setter;
 @Setter
 public abstract class Creature extends GameObject {
 
-    protected int HP;
-    protected int maxHP;
+    protected int hp;
+    protected int maxHp;
+
+    protected float diameter;
+    protected float speed;
+    protected float velocityX, velocityY;
+
 
     public Creature(float x, float y, float w, float h, ID id) {
         super(x, y, w, h, id);
@@ -18,13 +23,15 @@ public abstract class Creature extends GameObject {
 
     public abstract void move();
 
-    public void askDie() {
-        if(HP <= 0) die();
+    public boolean isDead() {
+        return hp <= 0;
     }
 
-    public abstract void die();
-
     public void resetHP() {
-        setHP(maxHP);
+        setHp(maxHp);
+    }
+
+    public void removeHp(int amount) {
+        hp = Math.max(0, hp - amount);
     }
 }
