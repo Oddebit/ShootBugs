@@ -1,7 +1,7 @@
 package com.od.game;
 
 import com.od.game.data.ColorData;
-import com.od.game.handlers.ObjectHandler;
+import com.od.game.handlers.GeneralHandler;
 import com.od.game.objects.DashBoard;
 import com.od.input.InputHandler;
 import com.od.output.SoundPlayer;
@@ -17,7 +17,7 @@ public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1550691097823471818L;
 
-    private ObjectHandler objectHandler;
+    private GeneralHandler generalHandler;
     private DashBoard dashBoard;
 
     private Thread thread;
@@ -32,11 +32,12 @@ public class Game extends Canvas implements Runnable {
         state = State.Play;
         SoundPlayer.playMusic("sounds/battlefieldTheme.wav");
 
-        objectHandler = new ObjectHandler(this);
+//        objectHandler =
+        generalHandler = new GeneralHandler();
 
-        dashBoard = new DashBoard(objectHandler);
+        dashBoard = new DashBoard(generalHandler);
 
-        new InputHandler(this, objectHandler);
+        new InputHandler(this, generalHandler);
         new Window(WIDTH, HEIGHT, "Shoot Bugs", this);
     }
 
@@ -93,7 +94,7 @@ public class Game extends Canvas implements Runnable {
 
     private void tick() {
         if (state == State.Play) {
-            objectHandler.tick();
+            generalHandler.tick();
             dashBoard.tick();
         }
     }
@@ -109,7 +110,7 @@ public class Game extends Canvas implements Runnable {
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
         if (state == State.Play) {
-            objectHandler.render(graphics);
+            generalHandler.render(graphics);
             dashBoard.render(graphics);
         } else if (state == State.GameOver) {
             graphics.setColor(Color.RED);

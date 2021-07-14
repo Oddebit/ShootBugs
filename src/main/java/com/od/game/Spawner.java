@@ -1,5 +1,6 @@
 package com.od.game;
 
+import com.od.game.handlers.GeneralHandler;
 import com.od.game.handlers.ObjectHandler;
 import com.od.game.objects.GameObject;
 import com.od.game.objects.bonus.HealthBonus;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 public class Spawner extends GameObject {
 
-    private final ObjectHandler objectHandler;
+    private final GeneralHandler generalHandler;
     private final Hero hero;
 
     private final Instant start;
@@ -25,10 +26,10 @@ public class Spawner extends GameObject {
 
     private final Random random = new Random();
 
-    public Spawner(ObjectHandler objectHandler, Hero hero) {
+    public Spawner(GeneralHandler generalHandler, Hero hero) {
         super(-1000, -1000, 0, 0, ID.SPAWNER);
 
-        this.objectHandler = objectHandler;
+        this.generalHandler = generalHandler;
         this.hero = hero;
 
         this.start = Instant.now();
@@ -53,10 +54,10 @@ public class Spawner extends GameObject {
 
     private void askSpawnEnemy() {
         if (random.nextInt(100) < 30 + level * 8) {
-            objectHandler.addEnemy(new Bug(hero));
+            generalHandler.getHandler(ID.ENEMY).add(new Bug(hero));
         }
         if (random.nextInt(100) < 2 + level) {
-            objectHandler.addEnemy(new Spider(hero));
+            generalHandler.getHandler(ID.ENEMY).add(new Spider(hero));
         }
     }
 
@@ -69,8 +70,8 @@ public class Spawner extends GameObject {
     private void spawnBonus() {
         int len = Weapon.Type.values().length;
         int rnd = random.nextInt(len + 1);
-        if (rnd == len) objectHandler.addBonus(new HealthBonus(objectHandler));
-        else objectHandler.addBonus(new WeaponBonus(objectHandler, Weapon.Type.values()[rnd]));
+        if (rnd == len) generalHandler.getHandler(ID.BONUS).add(new HealthBonus(generalHandler));
+        else generalHandler.getHandler(ID.BONUS).add(new WeaponBonus(generalHandler, Weapon.Type.values()[rnd]));
     }
 
     @Override

@@ -11,7 +11,7 @@ public class EnemiesHandler extends Handler<Enemy> {
 
     @Override
     public void check() {
-        Hero hero = getHero();
+        Hero hero = getGeneralHandler().getHero();
 
         toHandle.removeIf(Enemy::isDead);
 

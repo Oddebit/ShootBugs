@@ -2,7 +2,6 @@ package com.od.game.handlers;
 
 import com.od.game.ID;
 import com.od.game.objects.GameObject;
-import com.od.game.objects.creatures.Hero;
 import lombok.Getter;
 
 import java.awt.*;
@@ -21,6 +20,7 @@ public abstract class Handler<H extends GameObject> {
     }
 
     public void tick() {
+        check();
         toHandle.forEach(GameObject::tick);
     }
 
@@ -38,7 +38,4 @@ public abstract class Handler<H extends GameObject> {
         toHandle.remove(toRemove);
     }
 
-    public Hero getHero() {
-        return  (Hero) generalHandler.getHandler(ID.HERO).getToHandle().getFirst();
-    }
 }

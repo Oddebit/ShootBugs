@@ -2,7 +2,7 @@ package com.od.game.objects.projectiles;
 
 import com.od.game.ID;
 import com.od.game.data.ColorData;
-import com.od.game.handlers.ObjectHandler;
+import com.od.game.handlers.GeneralHandler;
 import com.od.game.objects.GameObject;
 import com.od.game.objects.creatures.Hero;
 import com.od.game.objects.weapons.Weapon;
@@ -15,7 +15,7 @@ import java.awt.*;
 @Setter
 public class Projectile extends GameObject {
 
-    ObjectHandler objectHandler;
+    private GeneralHandler objectHandler;
 
     private static final float diameter = 5;
     private final float speed;
@@ -28,9 +28,9 @@ public class Projectile extends GameObject {
     private final float targetX;
     private final float targetY;
 
-    public Projectile(float targetX, float targetY, GameObject shooter, ObjectHandler objectHandler) {
+    public Projectile(float targetX, float targetY, GameObject shooter, GeneralHandler generalHandler) {
         super(shooter.getX() + shooter.getW() / 2, shooter.getY() + shooter.getH() / 2, diameter, diameter, ID.PROJECTILE);
-        this.objectHandler = objectHandler;
+        this.objectHandler = generalHandler;
         this.shooter = (Hero) shooter;
         this.weapon = this.shooter.getActiveWeapon();
         this.speed = weapon.getSpeed();
@@ -58,15 +58,7 @@ public class Projectile extends GameObject {
     @Override
     public void tick() {
 
-        askRemove();
         move();
-    }
-
-    private void askRemove() {
-
-        if (distanceLeft <= 0) {
-            objectHandler.removeProjectile(this);
-        }
     }
 
     private void move() {

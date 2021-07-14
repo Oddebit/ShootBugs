@@ -3,6 +3,7 @@ package com.od.game.objects.weapons;
 import com.od.game.Game;
 import com.od.game.ID;
 import com.od.game.data.SoundData;
+import com.od.game.handlers.GeneralHandler;
 import com.od.game.handlers.ObjectHandler;
 import com.od.game.objects.GameObject;
 import com.od.game.objects.creatures.Hero;
@@ -20,9 +21,8 @@ import java.util.Optional;
 @Setter
 public abstract class Weapon extends GameObject {
 
-    protected Game game;
+    protected GeneralHandler generalHandler;
 
-    protected ObjectHandler objectHandler;
     protected GameObject owner;
     private Type type;
 
@@ -48,12 +48,11 @@ public abstract class Weapon extends GameObject {
     protected Optional<String> reloadSoundLocation;
 
 
-    public Weapon(Type type, Game game) {
+    public Weapon(Type type, GeneralHandler generalHandler) {
         super(-1000, -1000, 1, 1, ID.WEAPON);
         this.type = type;
 
-        this.game = game;
-        this.owner = game.getObjectHandler().getHero();
+        this.owner = generalHandler.getHero();
 
         this.totalMunition = 0;
 
@@ -92,7 +91,7 @@ public abstract class Weapon extends GameObject {
     public void shoot() {
 
         shootSound();
-        objectHandler.addProjectile(new Projectile(xShot, yShot, owner, objectHandler));
+        generalHandler.getHandler(ID.PROJECTILE).add(new Projectile(xShot, yShot, owner, generalHandler));
         this.totalMunition--;
     }
 

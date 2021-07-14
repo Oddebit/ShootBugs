@@ -2,6 +2,7 @@ package com.od.game.objects;
 
 import com.od.game.Game;
 import com.od.game.ID;
+import com.od.game.handlers.GeneralHandler;
 import com.od.game.handlers.ObjectHandler;
 import com.od.game.data.ColorData;
 import com.od.game.util.GeomUtil;
@@ -22,9 +23,9 @@ public class DashBoard extends GameObject {
 
     private int killCount;
 
-    public DashBoard(ObjectHandler objectHandler) {
+    public DashBoard(GeneralHandler generalHandler) {
         super(0, 0, 0, 0, ID.DASH_BOARD);
-        this.hero = objectHandler.getHero();
+        this.hero = generalHandler.getHero();
     }
 
     @Override

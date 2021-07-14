@@ -36,7 +36,7 @@ public class Hero extends Creature {
     private Color color = ColorData.HERO_ORANGE;
 
     public Hero() {
-        super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.Hero);
+        super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.HERO);
         this.HP = maxHP;
         this.speed = 5;
 

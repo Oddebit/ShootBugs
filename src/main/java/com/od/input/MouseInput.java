@@ -1,6 +1,6 @@
 package com.od.input;
 
-import com.od.game.handlers.ObjectHandler;
+import com.od.game.handlers.GeneralHandler;
 import com.od.game.objects.creatures.Hero;
 import com.od.game.objects.weapons.Weapon;
 
@@ -10,15 +10,13 @@ import java.awt.event.MouseWheelListener;
 
 public class MouseInput extends MouseAdapter implements MouseWheelListener {
 
-    private ObjectHandler objectHandler;
     private Hero hero;
     private float x;
     private float y;
     private boolean mousePressed;
 
-    public MouseInput(ObjectHandler objectHandler) {
-        this.objectHandler = objectHandler;
-        this.hero = this.objectHandler.getHero();
+    public MouseInput(GeneralHandler generalHandler) {
+        this.hero = generalHandler.getHero();
     }
 
 

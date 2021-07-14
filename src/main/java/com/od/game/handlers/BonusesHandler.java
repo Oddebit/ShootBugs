@@ -13,7 +13,7 @@ public class BonusesHandler extends Handler<Bonus> {
     public void check() {
         toHandle.removeIf(Bonus::isOver);
 
-        Hero hero = getHero();
+        Hero hero = generalHandler.getHero();
 
         toHandle.stream()
                 .filter(bonus -> bonus.intersects(hero))

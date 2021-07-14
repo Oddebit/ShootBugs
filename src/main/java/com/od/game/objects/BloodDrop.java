@@ -1,7 +1,6 @@
 package com.od.game.objects;
 
 import com.od.game.ID;
-import com.od.game.handlers.ObjectHandler;
 
 import java.awt.*;
 import java.time.Instant;
@@ -9,7 +8,6 @@ import java.util.Random;
 
 public class BloodDrop extends GameObject {
 
-    private final ObjectHandler objectHandler;
 
     private final int radiusSpawn = 50;
     private final int diameter;
@@ -19,9 +17,8 @@ public class BloodDrop extends GameObject {
 
     private final Random random = new Random();
 
-    public BloodDrop(float x, float y, ObjectHandler objectHandler) {
+    public BloodDrop(float x, float y) {
         super(x, y, 1, 1, ID.BLOOD);
-        this.objectHandler = objectHandler;
 
         this.diameter = random.nextInt(32);
 
@@ -46,10 +43,6 @@ public class BloodDrop extends GameObject {
 
     @Override
     public void tick() {
-        if (timeLeft <= 0) {
-            objectHandler.removeBlood(this);
-        }
-
         if (lastTime.plusSeconds(1).isBefore(Instant.now())) {
             lastTime = lastTime.plusSeconds(1);
             timeLeft -= 1;

@@ -1,8 +1,6 @@
 package com.od.game.handlers;
 
 import com.od.game.ID;
-import com.od.game.objects.BloodDrop;
-import com.od.game.objects.GameObject;
 import com.od.game.objects.creatures.enemies.Enemy;
 import com.od.game.objects.projectiles.Projectile;
 import com.od.game.objects.weapons.Weapon;
@@ -18,7 +16,7 @@ public class ProjectilesHandler extends Handler<Projectile> {
     @Override
     public void check() {
         List<Projectile> projectilesToRemove = new LinkedList<>();
-        Handler<BloodDrop> bloodHandler = (Handler<BloodDrop>) generalHandler.getHandler(ID.BLOOD);
+        BloodDropsHandler bloodHandler = (BloodDropsHandler) generalHandler.getHandler(ID.BLOOD);
 
         toHandle.removeIf(Projectile::isOver);
 
@@ -28,7 +26,7 @@ public class ProjectilesHandler extends Handler<Projectile> {
                     .forEach(enemy -> {
                         int damage = projectile.getDamage();
                         enemy.removeHp(damage);
-                        bloodHandler.add(new BloodDrop(damage, projectile.getX(), projectile.getY()));
+                        bloodHandler.addBlood(damage, projectile.getX(), projectile.getY());
                         //fixme:: no hardcode pls
                         if (!projectile.getWeapon().getType().equals(Weapon.Type.Sniper))
                             projectilesToRemove.add(projectile);
