@@ -1,20 +1,13 @@
 package com.od.input;
 
-import com.od.game.handlers.ObjectHandler;
-import com.od.game.objects.creatures.Hero;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MouseMotionInput extends MouseAdapter {
 
-    private MouseInput mouseInput;
-    private ObjectHandler objectHandler;
-    private Hero hero;
+    private final MouseInput mouseInput;
 
-    public MouseMotionInput(ObjectHandler objectHandler, MouseInput mouseInput) {
-        this.objectHandler = objectHandler;
-        this.hero = objectHandler.getHero();
+    public MouseMotionInput(MouseInput mouseInput) {
         this.mouseInput = mouseInput;
     }
 

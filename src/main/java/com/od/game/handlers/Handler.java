@@ -1,41 +1,31 @@
 package com.od.game.handlers;
 
 import com.od.game.ID;
-import com.od.game.objects.GameObject;
+import com.od.game.objects.GameObjects;
 import lombok.Getter;
 
 import java.awt.*;
 import java.util.LinkedList;
 
 @Getter
-public abstract class Handler<H extends GameObject> {
+public abstract class Handler<H extends GameObjects> {
 
-    protected LinkedList<H> toHandle = new LinkedList<>();
-    protected GeneralHandler generalHandler;
+    protected LinkedList<H> handled = new LinkedList<>();
     protected ID responsibility;
 
-    public Handler(GeneralHandler generalHandler, ID responsibility) {
-        this.generalHandler = generalHandler;
+    public Handler(ID responsibility) {
         this.responsibility = responsibility;
     }
 
     public void tick() {
-        check();
-        toHandle.forEach(GameObject::tick);
+        handled.forEach(GameObjects::tick);
     }
 
-    public abstract void check();
-
-    public void render(Graphics graphics) {
-        toHandle.forEach(h -> h.render(graphics));
+    public void render(Graphics2D graphics) {
+        handled.forEach(h -> h.render(graphics));
     }
 
     public void add(H toAdd) {
-        toHandle.add(toAdd);
+        handled.add(toAdd);
     }
-
-    public void remove(H toRemove) {
-        toHandle.remove(toRemove);
-    }
-
 }

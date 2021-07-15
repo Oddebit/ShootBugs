@@ -1,12 +1,11 @@
 package com.od.game.objects.creatures.enemies;
 
 import com.od.game.Game;
-import com.od.game.objects.creatures.Hero;
 
 public class BabySpider extends Enemy {
 
-    public BabySpider(Hero hero, double angle, float x, float y) {
-        super();
+    public BabySpider(double angle, float x, float y) {
+        super(EnemyType.BABY_SPIDER);
         this.speed = 2.5f;
         this.maxHP = 5;
         this.hp = maxHP;
@@ -16,12 +15,6 @@ public class BabySpider extends Enemy {
         this.y = y;
         this.velocityX = (float) Math.cos(angle) * speed;
         this.velocityY = (float) Math.sin(angle) * speed;
-    }
-
-    @Override
-    public void tick() {
-
-        move();
     }
 
     @Override

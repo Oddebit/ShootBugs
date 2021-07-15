@@ -1,24 +1,22 @@
 package com.od.input;
 
-import com.od.game.handlers.ObjectHandler;
-import com.od.game.objects.creatures.Hero;
+import com.od.game.handlers.GeneralHandler;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseWheelEvent;
 
 public class MouseWheelInput extends MouseAdapter {
 
-    ObjectHandler objectHandler;
-    Hero hero;
+    private final GeneralHandler generalHandler;
 
-    public MouseWheelInput(ObjectHandler objectHandler) {
-        this.objectHandler = objectHandler;
-        this.hero = objectHandler.getHero();
+    public MouseWheelInput(GeneralHandler generalHandler) {
+        this.generalHandler = generalHandler;
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent event) {
         int scroll = event.getWheelRotation();
-        hero.setNextActiveWeapon(scroll);
+        int increment = scroll / Math.abs(scroll);
+        generalHandler.weaponSetNextActiveWeapon(increment);
     }
 }

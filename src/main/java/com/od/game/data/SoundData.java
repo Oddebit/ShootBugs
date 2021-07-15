@@ -1,7 +1,7 @@
 package com.od.game.data;
 
-import com.od.game.objects.GameObject;
-import com.od.game.objects.creatures.Hero;
+import com.od.game.objects.GameObjects;
+import com.od.game.objects.creatures.hero.Hero;
 import com.od.game.objects.weapons.*;
 
 import java.util.Arrays;
@@ -21,11 +21,11 @@ public enum SoundData {
 
     HERO_DIE(Hero.class, Action.DIE, "sounds/manYawn.wav");
 
-    Class<? extends GameObject> objectClass;
+    Class<? extends GameObjects> objectClass;
     Action action;
     String soundLocation;
 
-    SoundData(Class<? extends GameObject> objectClass, Action action, String soundLocation) {
+    SoundData(Class<? extends GameObjects> objectClass, Action action, String soundLocation) {
         this.objectClass = objectClass;
         this.action = action;
         this.soundLocation = soundLocation;
@@ -35,7 +35,7 @@ public enum SoundData {
         return soundLocation;
     }
 
-    public static Optional<String> getSoundLocation(Class<? extends GameObject> objectClass, Action action) {
+    public static Optional<String> getSoundLocation(Class<? extends GameObjects> objectClass, Action action) {
         return Arrays.stream(SoundData.values())
                 .filter(weaponSoundData -> weaponSoundData.action.equals(action))
                 .filter(weaponSoundData -> weaponSoundData.objectClass.equals(objectClass))

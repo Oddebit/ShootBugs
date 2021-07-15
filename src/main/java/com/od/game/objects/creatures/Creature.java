@@ -1,13 +1,13 @@
 package com.od.game.objects.creatures;
 
 import com.od.game.ID;
-import com.od.game.objects.GameObject;
+import com.od.game.objects.GameObjects;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Creature extends GameObject {
+public abstract class Creature extends GameObjects {
 
     protected int hp;
     protected int maxHp;
@@ -19,6 +19,12 @@ public abstract class Creature extends GameObject {
 
     public Creature(float x, float y, float w, float h, ID id) {
         super(x, y, w, h, id);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        move();
     }
 
     public abstract void move();

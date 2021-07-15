@@ -2,7 +2,7 @@ package com.od.game;
 
 import com.od.game.data.ColorData;
 import com.od.game.handlers.GeneralHandler;
-import com.od.game.objects.DashBoard;
+//import com.od.game.objects.DashBoard;
 import com.od.input.InputHandler;
 import com.od.output.SoundPlayer;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1550691097823471818L;
 
     private GeneralHandler generalHandler;
-    private DashBoard dashBoard;
+//    private DashBoard dashBoard;
 
     private Thread thread;
     private boolean running = false;
@@ -32,10 +32,9 @@ public class Game extends Canvas implements Runnable {
         state = State.Play;
         SoundPlayer.playMusic("sounds/battlefieldTheme.wav");
 
-//        objectHandler =
         generalHandler = new GeneralHandler();
 
-        dashBoard = new DashBoard(generalHandler);
+//        dashBoard = new DashBoard(generalHandler);
 
         new InputHandler(this, generalHandler);
         new Window(WIDTH, HEIGHT, "Shoot Bugs", this);
@@ -95,7 +94,7 @@ public class Game extends Canvas implements Runnable {
     private void tick() {
         if (state == State.Play) {
             generalHandler.tick();
-            dashBoard.tick();
+//            dashBoard.tick();
         }
     }
 
@@ -105,13 +104,13 @@ public class Game extends Canvas implements Runnable {
             this.createBufferStrategy(3);
             return;
         }
-        Graphics graphics = bufferStrategy.getDrawGraphics();
+        Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
         graphics.setColor(Color.black);
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
 
         if (state == State.Play) {
             generalHandler.render(graphics);
-            dashBoard.render(graphics);
+//            dashBoard.render(graphics);
         } else if (state == State.GameOver) {
             graphics.setColor(Color.RED);
             graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 75));
@@ -121,9 +120,9 @@ public class Game extends Canvas implements Runnable {
             graphics.drawString(str, (int) (WIDTH_CENTER - width / 2d), (int) (HEIGHT_CENTER - height / 2d));
 
             graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
-            String kills = String.format("You killed %d zombies.", dashBoard.getKillCount());
-            int width2 = graphics.getFontMetrics().stringWidth(kills);
-            graphics.drawString(kills, (int) (WIDTH_CENTER - width2 / 2d), (int) (HEIGHT_CENTER));
+//            String kills = String.format("You killed %d zombies.", dashBoard.getKillCount());
+//            int width2 = graphics.getFontMetrics().stringWidth(kills);
+//            graphics.drawString(kills, (int) (WIDTH_CENTER - width2 / 2d), (int) (HEIGHT_CENTER));
         } else if (state == State.Win){
             graphics.setColor(ColorData.GREEN);
             graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 75));
@@ -133,9 +132,9 @@ public class Game extends Canvas implements Runnable {
             graphics.drawString(str, (int) (WIDTH_CENTER - width / 2d), (int) (HEIGHT_CENTER - height / 2d));
 
             graphics.setFont(new Font(Font.DIALOG, 1, 30));
-            String kills = String.format("You killed %d zombies.", dashBoard.getKillCount());
-            int width2 = graphics.getFontMetrics().stringWidth(kills);
-            graphics.drawString(kills, (int) (WIDTH_CENTER - width2 / 2d), HEIGHT_CENTER);
+//            String kills = String.format("You killed %d zombies.", dashBoard.getKillCount());
+//            int width2 = graphics.getFontMetrics().stringWidth(kills);
+//            graphics.drawString(kills, (int) (WIDTH_CENTER - width2 / 2d), HEIGHT_CENTER);
         } else {
             graphics.setColor(ColorData.HERO_ORANGE);
             graphics.setFont(new Font(Font.DIALOG, Font.BOLD, 75));

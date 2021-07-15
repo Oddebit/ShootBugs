@@ -1,23 +1,17 @@
 package com.od.game.objects.weapons;
 
-import com.od.game.Game;
-
 public class Pistol extends Weapon {
 
-    public Pistol(Game game) {
-        super(Type.Pistol, game);
-        this.damage = 6;
-        this.maxMagMunition = 10;
-        this.reshotTimeMillis = 0;
-        this.reloadTimeMillis = 1_500;
-        this.range = 350;
-        this.speed = 10;
-        this.totalMunition = maxMagMunition;
+    public Pistol() {
+        super(WeaponType.PISTOL,
+                350, 6, 10, 4,
+                10, 0,
+                0, 50, 1_500);
     }
 
     @Override
-    public void askInitShot(float mouseX, float mouseY) {
-        super.askInitShot(mouseX, mouseY);
+    public void askInitShot(float targetX, float targetY) {
+        super.askInitShot(targetX, targetY);
         totalMunition++;
     }
 }

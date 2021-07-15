@@ -1,23 +1,18 @@
 package com.od.input;
 
-import com.od.game.Game;
-import com.od.game.handlers.ObjectHandler;
-import com.od.game.objects.creatures.Hero;
+import com.od.game.handlers.GeneralHandler;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
-    ObjectHandler objectHandler;
-    Hero hero;
-    Game game;
+    private final GeneralHandler generalHandler;
 
-    public KeyInput(ObjectHandler objectHandler, Game game) {
-        this.objectHandler = objectHandler;
-        this.game = game;
-        this.hero = objectHandler.getHero();
+    public KeyInput(GeneralHandler generalHandler) {
+        this.generalHandler = generalHandler;
     }
+
 
     @Override
     public void keyPressed(KeyEvent event) {
@@ -26,30 +21,30 @@ public class KeyInput extends KeyAdapter {
         switch (key) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_Z:
-                hero.setVelocityY(-hero.getSpeed());
+                generalHandler.heroSetMovementY(-1);
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
-                hero.setVelocityY(+hero.getSpeed());
+                generalHandler.heroSetMovementY(+1);
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_Q:
-                hero.setVelocityX(-hero.getSpeed());
+                generalHandler.heroSetMovementX(-1);
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                hero.setVelocityX(+hero.getSpeed());
+                generalHandler.heroSetMovementX(+1);
                 break;
             case KeyEvent.VK_SHIFT:
             case KeyEvent.VK_R:
-                hero.getActiveWeapon().askInitReload();
+                generalHandler.weaponAskInitReload();
                 break;
             case KeyEvent.VK_NUMPAD0:
             case KeyEvent.VK_CONTROL:
-                hero.setNextActiveWeapon(1);
+                generalHandler.weaponSetNextActiveWeapon(1);
                 break;
             case KeyEvent.VK_P:
-                game.changeState();
+//                game.changeState();
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(1);
@@ -64,19 +59,15 @@ public class KeyInput extends KeyAdapter {
         switch (key) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_Z:
-                hero.setVelocityY(0);
-                break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
-                hero.setVelocityY(0);
+                generalHandler.heroSetMovementY(0);
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_Q:
-                hero.setVelocityX(0);
-                break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                hero.setVelocityX(0);
+                generalHandler.heroSetMovementX(0);
                 break;
         }
     }

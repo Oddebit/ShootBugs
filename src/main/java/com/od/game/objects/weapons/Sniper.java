@@ -1,16 +1,10 @@
 package com.od.game.objects.weapons;
 
-import com.od.game.Game;
-
 public class Sniper extends Weapon {
-    public Sniper(Game game) {
-        super(Type.Sniper, game);
-        this.damage = 15;
-        this.maxMagMunition = 1;
-        this.reshotTimeMillis = 3_000;
-        this.reloadTimeMillis = 3_000;
-        this.range = 900;
-        this.speed = 15;
-        this.refillMunition = 20;
+    public Sniper() {
+        super(WeaponType.SNIPER,
+                900, 15, 15, 7,
+                1, 20,
+                0, 0, 3000);
     }
 }

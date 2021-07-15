@@ -1,37 +1,39 @@
 package com.od.game.handlers;
 
 import com.od.game.ID;
-import com.od.game.objects.creatures.enemies.Enemy;
 import com.od.game.objects.projectiles.Projectile;
 import com.od.game.objects.weapons.Weapon;
-
-import java.util.LinkedList;
-import java.util.List;
+import com.od.game.util.GeomUtil;
 
 public class ProjectilesHandler extends Handler<Projectile> {
-    public ProjectilesHandler(GeneralHandler generalHandler) {
-        super(generalHandler, ID.PROJECTILE);
+
+    private final int shotgunProjectiles = 6;
+
+    public ProjectilesHandler() {
+        super(ID.PROJECTILE);
     }
 
-    @Override
-    public void check() {
-        List<Projectile> projectilesToRemove = new LinkedList<>();
-        BloodDropsHandler bloodHandler = (BloodDropsHandler) generalHandler.getHandler(ID.BLOOD);
+    public void createProjectile(Weapon weapon, float x, float y, float targetX, float targetY) {
 
-        toHandle.removeIf(Projectile::isOver);
+        handled.add(new Projectile(weapon, x, y, targetX, targetY));
+    }
 
-        toHandle.forEach(projectile -> {
-            ((LinkedList<Enemy>)generalHandler.getHandler(ID.ENEMY).getToHandle()).stream()
-                    .filter(enemy -> enemy.intersects(projectile))
-                    .forEach(enemy -> {
-                        int damage = projectile.getDamage();
-                        enemy.removeHp(damage);
-                        bloodHandler.addBlood(damage, projectile.getX(), projectile.getY());
-                        //fixme:: no hardcode pls
-                        if (!projectile.getWeapon().getType().equals(Weapon.Type.Sniper))
-                            projectilesToRemove.add(projectile);
-                    });
-        });
-        toHandle.removeAll(projectilesToRemove);
+    public void createShotgunProjectiles(Weapon weapon, float x, float y, float targetX, float targetY) {
+
+        float deltaX = targetX - x;
+        float deltaY = targetY - y;
+        double angle = GeomUtil.getAngle(deltaX, deltaY);
+
+        for (int i = -2; i < 3; i++) {
+
+            double tempAngle = angle + i * Math.PI/27;
+            float newTargetX = (float) (x + Math.cos(tempAngle) * 1000);
+            float newTargetY = (float) (y + Math.sin(tempAngle) * 1000);
+            createProjectile(weapon, x, y, newTargetX, newTargetY);
+        }
+    }
+
+    public void checkProjectiles() {
+        handled.removeIf(Projectile::isOver);
     }
 }

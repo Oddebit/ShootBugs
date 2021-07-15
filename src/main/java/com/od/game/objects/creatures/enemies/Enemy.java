@@ -2,14 +2,13 @@ package com.od.game.objects.creatures.enemies;
 
 import com.od.game.Game;
 import com.od.game.ID;
-import com.od.game.handlers.ObjectHandler;
-import com.od.game.objects.DashBoard;
 import com.od.game.objects.creatures.Creature;
 import com.od.game.util.GeomUtil;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 @Getter
@@ -18,24 +17,27 @@ public abstract class Enemy extends Creature {
 
     Random random = new Random();
 
-    ObjectHandler objectHandler;
-    DashBoard dashBoard;
-
+    private EnemyType type;
     protected float diameter;
     protected int maxHP;
 
-    public Enemy() {
+    public Enemy(EnemyType type) {
         super(0, 0, 40, 40, ID.ENEMY);
         this.diameter = 40;
-
+        this.type = type;
         setStartingPosition();
+        this.shape = new Ellipse2D.Float(x, y, diameter, diameter);
     }
 
     @Override
-    public void render(Graphics graphics) {
+    public void tick() {
+        super.tick();
+        updateColor();
+    }
+
+    private void updateColor() {
         int shade = (int) GeomUtil.clamp((int) ((double) (getHp() * 255) / maxHP), 0, 255);
-        graphics.setColor(new Color(0, shade, shade));
-        graphics.fillOval((int) x, (int) y, (int) diameter, (int) diameter);
+        color = new Color(0, shade, shade);
     }
 
     public void setStartingPosition() {
@@ -57,5 +59,11 @@ public abstract class Enemy extends Creature {
                 this.x = Game.REAL_WIDTH - (int) this.getDiameter();
                 break;
         }
+    }
+
+    public enum EnemyType {
+        BUG,
+        SPIDER,
+        BABY_SPIDER
     }
 }

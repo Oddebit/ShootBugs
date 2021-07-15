@@ -1,5 +1,9 @@
 package com.od.game.util;
 
+import com.od.game.Game;
+
+import java.util.Random;
+
 public class GeomUtil {
 
     public static double getAngle(double deltaX, double deltaY) {
@@ -29,5 +33,13 @@ public class GeomUtil {
             return min;
         else
             return var;
+    }
+
+    public static float randomX() {
+        return new Random().nextInt(Game.REAL_WIDTH);
+    }
+
+    public static float randomY() {
+        return new Random().nextInt(Game.REAL_HEIGHT);
     }
 }

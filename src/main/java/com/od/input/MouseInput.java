@@ -1,8 +1,6 @@
 package com.od.input;
 
 import com.od.game.handlers.GeneralHandler;
-import com.od.game.objects.creatures.Hero;
-import com.od.game.objects.weapons.Weapon;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,13 +8,13 @@ import java.awt.event.MouseWheelListener;
 
 public class MouseInput extends MouseAdapter implements MouseWheelListener {
 
-    private Hero hero;
+    private final GeneralHandler generalHandler;
     private float x;
     private float y;
     private boolean mousePressed;
 
     public MouseInput(GeneralHandler generalHandler) {
-        this.hero = generalHandler.getHero();
+        this.generalHandler = generalHandler;
     }
 
 
@@ -24,8 +22,8 @@ public class MouseInput extends MouseAdapter implements MouseWheelListener {
         new Thread() {
             public void run() {
                 do {
-                    hero.getActiveWeapon().askInitShot(x, y);
-                } while (mousePressed && hero.getActiveWeapon().getTotalMunition() > 0);
+                    generalHandler.weaponAskInitShot(x, y);
+                } while (mousePressed);
             }
         }.start();
     }
@@ -33,24 +31,22 @@ public class MouseInput extends MouseAdapter implements MouseWheelListener {
     // // PLAYER SHOOTING EVENTS // //
 
     public void mousePressed(MouseEvent event) {
+
         int click = event.getButton();
 
         switch (click) {
             case 1:
                 x = event.getX();
                 y = event.getY();
-                if(hero.getActiveWeapon().getType() == Weapon.Type.Rifle) {
-                    mousePressed = true;
-                    initShootingThread();
-                } else {
-                    hero.getActiveWeapon().askInitShot(x, y);
-                }
-                break;
-            case 2:
-                hero.setNextActiveWeapon(1);
+//                if(hero.getActiveWeapon().getWeaponType() == Weapon.WeaponType.RIFLE) {
+//                    mousePressed = true;
+//                    initShootingThread();
+//                } else {
+                    generalHandler.weaponAskInitShot(x, y);
+//                }
                 break;
             case 3:
-                hero.getActiveWeapon().askInitReload();
+                generalHandler.weaponAskInitReload();
                 break;
         }
         x = event.getX();
@@ -58,7 +54,7 @@ public class MouseInput extends MouseAdapter implements MouseWheelListener {
     }
 
     public void mouseDragged(MouseEvent e) {
-        hero.getActiveWeapon().askInitShot(x, y);
+        generalHandler.weaponAskInitShot(x, y);
         x = e.getX();
         y = e.getY();
     }

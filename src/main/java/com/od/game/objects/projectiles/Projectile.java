@@ -2,40 +2,35 @@ package com.od.game.objects.projectiles;
 
 import com.od.game.ID;
 import com.od.game.data.ColorData;
-import com.od.game.handlers.GeneralHandler;
-import com.od.game.objects.GameObject;
-import com.od.game.objects.creatures.Hero;
+import com.od.game.objects.GameObjects;
 import com.od.game.objects.weapons.Weapon;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.*;
-
 @Getter
 @Setter
-public class Projectile extends GameObject {
+public class Projectile extends GameObjects {
 
-    private GeneralHandler objectHandler;
-
-    private static final float diameter = 5;
-    private final float speed;
-    private final Hero shooter;
     private final Weapon weapon;
+    private final float speed;
     private final int damage;
     private final float range;
+    private final float calibre;
 
     private float distanceLeft;
     private final float targetX;
     private final float targetY;
 
-    public Projectile(float targetX, float targetY, GameObject shooter, GeneralHandler generalHandler) {
-        super(shooter.getX() + shooter.getW() / 2, shooter.getY() + shooter.getH() / 2, diameter, diameter, ID.PROJECTILE);
-        this.objectHandler = generalHandler;
-        this.shooter = (Hero) shooter;
-        this.weapon = this.shooter.getActiveWeapon();
+    public Projectile(Weapon weapon, float x, float y, float targetX, float targetY) {
+        super(x, y, weapon.getCalibre(), weapon.getCalibre(), ID.PROJECTILE);
+
+        this.weapon = weapon;
         this.speed = weapon.getSpeed();
-        this.damage = this.shooter.getActiveWeapon().getDamage();
-        this.range = this.shooter.getActiveWeapon().getRange();
+        this.damage = weapon.getDamage();
+        this.range = weapon.getRange();
+        this.calibre = weapon.getCalibre();
+
+        this.color = ColorData.PROJECTILE_YELLOW;
 
         //initial triangle
         float deltaX = targetX - x;
@@ -57,7 +52,7 @@ public class Projectile extends GameObject {
 
     @Override
     public void tick() {
-
+        super.tick();
         move();
     }
 
@@ -69,12 +64,5 @@ public class Projectile extends GameObject {
 
     public boolean isOver() {
         return distanceLeft <= 0;
-    }
-
-    @Override
-    public void render(Graphics graphics) {
-
-        graphics.setColor(ColorData.PROJECTILE_YELLOW);
-        graphics.fillOval((int) x, (int) y, (int) diameter, (int) diameter);
     }
 }
