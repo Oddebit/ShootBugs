@@ -1,8 +1,7 @@
 package com.od.game.objects.bonus;
 
-import com.od.game.Game;
 import com.od.game.ID;
-import com.od.game.objects.GameObjects;
+import com.od.game.objects.GameObject;
 import com.od.game.util.GeomUtil;
 import lombok.Getter;
 
@@ -12,11 +11,11 @@ import java.time.Instant;
 import java.util.Random;
 
 @Getter
-public abstract class Bonus extends GameObjects {
+public abstract class Bonus extends GameObject {
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
-    protected BonusType type;
+    protected final BonusType type;
     protected String name;
 
     private final Instant startingTime;
@@ -24,13 +23,14 @@ public abstract class Bonus extends GameObjects {
 
 
     public Bonus(BonusType type) {
-        super(GeomUtil.randomX(), GeomUtil.randomX(), 24, 24, ID.BONUS);
+        super(GeomUtil.randomWithDimension(24), GeomUtil.randomWithDimension(24), 24, 24, ID.BONUS);
 
         this.type = type;
         this.startingTime = Instant.now();
 
 //        setRandomPosition();
-        this.shape = new Rectangle2D.Float(x - w / 2, y - h / 2, w, h);
+        this.shape = new Rectangle2D.Double();
+        shape.setFrame(getFrame());
     }
 
     @Override
@@ -38,17 +38,19 @@ public abstract class Bonus extends GameObjects {
         super.render(graphics);
 
         graphics.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
-        graphics.drawString(name, (int) (x + w + 3), (int) y);
+        graphics.drawString(name, (int) (position.getX() + dimension.getX() + 3), (int) position.getY());
     }
 
     public boolean isOver() {
         return startingTime.plusMillis(lifeTimeMillis).isBefore(Instant.now());
     }
 
-    public void setRandomPosition() {
-        this.x = random.nextInt(Game.REAL_WIDTH - (int) w);
-        this.y = random.nextInt(Game.REAL_HEIGHT - (int) h);
-    }
+//    public void setRandomPosition() {
+//
+//        double x = random.nextInt(Game.REAL_WIDTH - (int) dimension.getX());
+//        double y = random.nextInt(Game.REAL_HEIGHT - (int) dimension.getY());
+//        position.setLocation(x, y);
+//    }
 
     public enum BonusType {
         WEAPON,

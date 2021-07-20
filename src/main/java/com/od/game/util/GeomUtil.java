@@ -1,10 +1,16 @@
 package com.od.game.util;
 
 import com.od.game.Game;
+import com.od.game.objects.GameObject;
 
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class GeomUtil {
+
+    public static double getAngle(Point2D vector) {
+        return getAngle(vector.getX(), vector.getY());
+    }
 
     public static double getAngle(double deltaX, double deltaY) {
 
@@ -26,14 +32,41 @@ public class GeomUtil {
         return angle;
     }
 
-    public static float clamp(float var, float min, float max) {
-        if (var >= max)
-            return max;
-        else if (var <= min)
-            return min;
-        else
-            return var;
+
+    public static boolean intersects(GameObject gameObject1, GameObject gameObject2){
+        return getDistance(gameObject1, gameObject2) < gameObject1.getW()/2 + gameObject2.getW()/2;
     }
+
+    public static Point2D.Double getVector(GameObject gameObject1, GameObject gameObject2) {
+        return new Point2D.Double(gameObject2.getX() - gameObject1.getX(), gameObject2.getY() - gameObject1.getY());
+    }
+
+    public static double getDistance(GameObject gameObject1, GameObject gameObject2) {
+        return gameObject2.getPosition().distance(gameObject1.getPosition());
+    }
+
+    public static Point2D.Double getVector(Point2D position1, Point2D position2) {
+        return new Point2D.Double(position2.getX() - position1.getX(), position2.getY() - position1.getY());
+    }
+
+    public static Point2D.Double getTrigonometricVector(Point2D position1, Point2D position2) {
+        Point2D vector = getVector(position1, position2);
+        double distance = getDistance(position1, position2);
+        return new Point2D.Double(vector.getX()/distance, vector.getY()/distance);
+    }
+
+    public static double getDistance(Point2D position1, Point2D position2) {
+        return position2.distance(position1);
+    }
+
+    public static Point2D.Double randomPositionWithDimension(Point2D.Double dimension) {
+        return new Point2D.Double(randomWithDimension(dimension.getX()), randomWithDimension(dimension.getY()));
+    }
+
+    public static double randomWithDimension(double dimension) {
+        return dimension/2 + new Random().nextInt(Game.REAL_WIDTH - (int) dimension);
+    }
+
 
     public static float randomX() {
         return new Random().nextInt(Game.REAL_WIDTH);
@@ -41,5 +74,32 @@ public class GeomUtil {
 
     public static float randomY() {
         return new Random().nextInt(Game.REAL_HEIGHT);
+    }
+
+    public static void translate(Point2D.Double position, double dx, double dy) {
+        translate(position, new Point2D.Double(dx, dy));
+    }
+
+    public static void translate(Point2D.Double position, Point2D.Double vector) {
+        position.setLocation(position.getX() + vector.getX(), position.getY() + vector.getY());
+    }
+
+    public static void translateAndClamp(Point2D.Double position, double dx, double dy) {
+        double x = clamp(position.getX() + dx, 0, Game.REAL_WIDTH);
+        double y = clamp(position.getY() + dy, 0, Game.REAL_HEIGHT);
+        position.setLocation(x, y);
+    }
+
+    public static void translateAndClamp(Point2D.Double position, Point2D.Double vector) {
+        translateAndClamp(position, vector.getX(), vector.getY());
+    }
+
+    public static double clamp(double var, double min, double max) {
+        if (var >= max)
+            return max;
+        else if (var <= min)
+            return min;
+        else
+            return var;
     }
 }

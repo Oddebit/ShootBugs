@@ -1,28 +1,22 @@
 package com.od.game.objects.creatures.enemies;
 
 import com.od.game.Game;
+import com.od.game.util.GeomUtil;
 
 public class BabySpider extends Enemy {
 
-    public BabySpider(double angle, float x, float y) {
-        super(EnemyType.BABY_SPIDER);
-        this.speed = 2.5f;
-        this.maxHP = 5;
-        this.hp = maxHP;
-        this.diameter = 15;
+    public BabySpider(double angle, double x, double y) {
+        super(EnemyType.BABY_SPIDER, 15, 2.5d, 5);
 
-        this.x = x;
-        this.y = y;
-        this.velocityX = (float) Math.cos(angle) * speed;
-        this.velocityY = (float) Math.sin(angle) * speed;
+        setPosition(x, y);
+        setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
     }
 
     @Override
     public void move() {
-        if (0 >= x || x >= Game.REAL_WIDTH) velocityX *= -1;
-        if (0 >= y || y >= Game.REAL_HEIGHT) velocityY *= -1;
+        if (GeomUtil.clamp(getX(), 0, Game.REAL_WIDTH) != getX()) setVelX(getVelX() * -1);
+        if (GeomUtil.clamp(getY(), 0, Game.REAL_HEIGHT) != getY()) setVelY(getVelY() * -1);
 
-        x += velocityX;
-        y += velocityY;
+        GeomUtil.translate(position, velocity);
     }
 }

@@ -1,16 +1,18 @@
 package com.od.game.handlers;
 
 import com.od.game.ID;
-import com.od.game.objects.GameObjects;
+import com.od.game.objects.GameObject;
 import com.od.game.objects.bonus.Bonus;
 import com.od.game.objects.bonus.WeaponBonus;
 import com.od.game.objects.creatures.enemies.Enemy;
 import com.od.game.objects.creatures.hero.Hero;
 import com.od.game.objects.projectiles.Projectile;
 import com.od.game.objects.weapons.Weapon;
+import com.od.game.util.GeomUtil;
 import lombok.Getter;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
@@ -29,7 +31,7 @@ public class GeneralHandler {
     private final ProjectilesHandler projectilesHandler;
     private final WeaponsHandler weaponsHandler;
 
-    private final LinkedList<Handler<? extends GameObjects>> handlers = new LinkedList<>();
+    private final LinkedList<Handler<? extends GameObject>> handlers = new LinkedList<>();
 
     public GeneralHandler() {
 
@@ -72,7 +74,7 @@ public class GeneralHandler {
     }
 
     private void checkHero() {
-        if(heroHandler.heroIsDead()) /*do something*/;
+        if (heroHandler.heroIsDead()) /*do something*/ ;
     }
 
     private void checkSpawn() {
@@ -109,11 +111,14 @@ public class GeneralHandler {
         List<Projectile> projectilesToRemove = new LinkedList<>();
         projectiles.forEach(projectile ->
                 enemies.stream()
+
                         .filter(enemy -> enemy.intersects(projectile))
                         .forEach(enemy -> {
+
                             int damage = projectile.getDamage();
                             enemy.removeHp(damage);
                             bloodDropsHandler.addBlood(damage, projectile.getX(), projectile.getY());
+
                             //fixme:: no hardcode pls -> field in weapon > projectile : "hp"
                             if (!projectile.getWeapon().getWeaponType().equals(Weapon.WeaponType.SNIPER))
                                 projectilesToRemove.add(projectile);
@@ -123,34 +128,33 @@ public class GeneralHandler {
     }
 
     private void checkHeroEnemiesCollisions() {
-        Hero hero = heroHandler.getHero();
+
         List<Enemy> enemies = enemiesHandler.getHandled();
 
-        if (!hero.isUntouchable()) return;
+        if (heroHandler.heroIsUntouchable())
         enemies.stream()
-                .filter(enemy -> enemy.intersects(hero))
-                .forEach(enemy -> {
-                    hero.removeHp(enemy.getHp());
-                    hero.setUntouchable();
-                });
+
+                .filter(enemy -> enemy.intersects(heroHandler.getHero()))
+                .forEach(enemy -> heroHandler.heroRemoveHp(enemy.getHp()));
     }
 
     private void checkHeroBonusCollisions() {
         Hero hero = heroHandler.getHero();
-        List<Bonus> bonuses = bonusesHandler.getHandled();
+        Bonus bonus;
 
-        List<Bonus> bonusesToRemove = bonusesHandler.getHandled();
-        bonuses.stream()
-                .filter(bonus -> bonus.intersects(hero))
-                .forEach(bonus -> {
-                    Bonus.BonusType type = bonus.getType();
-                    if (type == Bonus.BonusType.HEALTH)
-                        hero.resetHP();
-                    else
-                        weaponsHandler.refillWeapon(((WeaponBonus) bonus).getWeaponType());
-                    bonusesToRemove.add(bonus);
-                });
-        bonuses.removeAll(bonusesToRemove);
+        if (bonusesHandler.getBonus().isPresent()) {
+            bonus = bonusesHandler.getBonus().get();
+        } else {
+            return;
+        }
+
+        if (bonus.intersects(hero)) {
+            if (bonus.getType() == Bonus.BonusType.HEALTH)
+                hero.resetHP();
+            else
+                weaponsHandler.refillWeapon(((WeaponBonus) bonus).getWeaponType());
+            bonusesHandler.clear();
+        }
     }
 
     private void checkEnemies() {
@@ -162,19 +166,18 @@ public class GeneralHandler {
         Hero hero = heroHandler.getHero();
         List<Enemy> enemies = enemiesHandler.getHandled();
         enemies.stream()
+
                 .filter(enemy -> enemy.getType() == Enemy.EnemyType.BUG || enemy.getType() == Enemy.EnemyType.SPIDER)
                 .forEach(enemy -> {
-                    float x = enemy.getX();
-                    float y = enemy.getY();
-                    float diameter = enemy.getDiameter();
-                    float speed = enemy.getSpeed();
 
-                    float deltaX = x + diameter / 2 - hero.getX() - hero.getW() / 2;
-                    float deltaY = y + diameter / 2 - hero.getY() - hero.getH() / 2;
-                    float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+                    Point2D vector = GeomUtil.getVector(hero, enemy);
+                    double dx = vector.getX();
+                    double dy = vector.getY();
 
-                    enemy.setVelocityX(-speed * deltaX / distance);
-                    enemy.setVelocityY(-speed * deltaY / distance);
+                    double distance = GeomUtil.getDistance(hero, enemy);
+                    double speed = enemy.getSpeed();
+
+                    enemy.getVelocity().setLocation(-speed * dx / distance, -speed * dy / distance);
                 });
     }
 
@@ -196,16 +199,14 @@ public class GeneralHandler {
         if (weaponsHandler.activeWeaponIsAskingToShoot()) {
 
             Weapon weapon = weaponsHandler.getActiveWeapon();
-            float x = heroHandler.heroGetX();
-            float y = heroHandler.heroGetY();
-            float targetX = weaponsHandler.activeWeaponGetTargetX();
-            float targetY = weaponsHandler.activeWeaponGetTargetY();
+            Point2D position = heroHandler.heroGetPosition();
+            Point2D target = weaponsHandler.activeWeaponGetTarget();
 
             Weapon.WeaponType weaponType = weapon.getWeaponType();
             if (weaponType == Weapon.WeaponType.SHOTGUN)
-                projectilesHandler.createShotgunProjectiles(weapon, x, y, targetX, targetY);
+                projectilesHandler.createShotgunProjectiles(weapon, position, target);
             else
-                projectilesHandler.createProjectile(weapon, x, y, targetX, targetY);
+                projectilesHandler.createProjectile(weapon, position, target);
 
             weaponsHandler.activeWeaponShoot();
         }
@@ -219,7 +220,7 @@ public class GeneralHandler {
         handlers.forEach(handler -> handler.render(graphics));
     }
 
-    public Handler<? extends GameObjects> getHandler(ID responsibility) {
+    public Handler<? extends GameObject> getHandler(ID responsibility) {
         return handlers.stream().filter(handler -> handler.getResponsibility() == responsibility).findFirst().orElseThrow();
     }
 

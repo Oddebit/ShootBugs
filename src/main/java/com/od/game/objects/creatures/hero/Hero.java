@@ -5,12 +5,12 @@ import com.od.game.data.ColorData;
 import com.od.game.data.SoundData;
 import com.od.game.objects.creatures.Creature;
 import com.od.game.objects.creatures.hero.threads.UntouchableThread;
-import com.od.game.util.GeomUtil;
 import com.od.output.SoundPlayer;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.od.game.Game.*;
+import static com.od.game.Game.HEIGHT_CENTER;
+import static com.od.game.Game.WIDTH_CENTER;
 
 @Getter
 @Setter
@@ -19,14 +19,13 @@ public class Hero extends Creature {
     private static final float diameter = 51;
 
     private int maxHP = 100;
-    private int HP;
 
     private int untouchableTimeMillis = 2500;
     private UntouchableThread untouchableThread;
 
     public Hero() {
-        super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, ID.HERO);
-        this.HP = maxHP;
+        super(WIDTH_CENTER, HEIGHT_CENTER, diameter, diameter, 100, ID.HERO);
+
         this.speed = 5;
         this.color = ColorData.HERO_ORANGE;
 
@@ -47,16 +46,6 @@ public class Hero extends Creature {
 
     public void dieSound() {
         SoundData.getSoundLocation(this.getClass(), SoundData.Action.DIE).ifPresent(SoundPlayer::playSound);
-    }
-
-    @Override
-    public void move() {
-
-        x += velocityX;
-        y += velocityY;
-
-        x = GeomUtil.clamp(x, 0, REAL_WIDTH - diameter);
-        y = GeomUtil.clamp(y, 0, REAL_HEIGHT - diameter);
     }
 
     public boolean isUntouchable() {

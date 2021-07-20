@@ -13,7 +13,7 @@ public class BloodDropsHandler extends Handler<BloodDrop> {
     }
 
 
-    public void addBlood(int amount, float x, float y) {
+    public void addBlood(int amount, double x, double y) {
         Random random = new Random();
         handled.addAll(
                 IntStream.range(0, amount)

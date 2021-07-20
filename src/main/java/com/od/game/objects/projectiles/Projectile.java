@@ -2,26 +2,28 @@ package com.od.game.objects.projectiles;
 
 import com.od.game.ID;
 import com.od.game.data.ColorData;
-import com.od.game.objects.GameObjects;
+import com.od.game.objects.GameObject;
 import com.od.game.objects.weapons.Weapon;
+import com.od.game.util.GeomUtil;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.geom.Point2D;
+
 @Getter
 @Setter
-public class Projectile extends GameObjects {
+public class Projectile extends GameObject {
 
     private final Weapon weapon;
-    private final float speed;
+    private final double speed;
     private final int damage;
-    private final float range;
-    private final float calibre;
+    private final double range;
+    private final double calibre;
 
-    private float distanceLeft;
-    private final float targetX;
-    private final float targetY;
+    private double distanceLeft;
+    private final Point2D.Double target;
 
-    public Projectile(Weapon weapon, float x, float y, float targetX, float targetY) {
+    public Projectile(Weapon weapon, double x, double y, double targetX, double targetY) {
         super(x, y, weapon.getCalibre(), weapon.getCalibre(), ID.PROJECTILE);
 
         this.weapon = weapon;
@@ -33,21 +35,19 @@ public class Projectile extends GameObjects {
         this.color = ColorData.PROJECTILE_YELLOW;
 
         //initial triangle
-        float deltaX = targetX - x;
-        float deltaY = targetY - y;
-        distanceLeft = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        double dx = targetX - x;
+        double dy = targetY - y;
+        distanceLeft = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 
         //conversion
-        deltaX *= range / distanceLeft;
-        deltaY *= range / distanceLeft;
+        dx *= range / distanceLeft;
+        dy *= range / distanceLeft;
 
         //within range
-        this.targetX = x + deltaX;
-        this.targetY = y + deltaY;
+        this.target = new Point2D.Double(x + dx, y + dy);
         distanceLeft = range;
 
-        velocityX = deltaX * speed / range;
-        velocityY = deltaY * speed / range;
+        velocity.setLocation(dx * speed / range, dy * speed / range);
     }
 
     @Override
@@ -57,8 +57,7 @@ public class Projectile extends GameObjects {
     }
 
     private void move() {
-        x += velocityX;
-        y += velocityY;
+        GeomUtil.translate(position, getVelX(), getVelY());
         distanceLeft -= speed;
     }
 

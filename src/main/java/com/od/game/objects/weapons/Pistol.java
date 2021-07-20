@@ -7,6 +7,7 @@ public class Pistol extends Weapon {
                 350, 6, 10, 4,
                 10, 0,
                 0, 50, 1_500);
+        this.totalMunition = 100;
     }
 
     @Override

@@ -7,6 +7,6 @@ public class HealthBonus extends Bonus{
     public HealthBonus() {
         super(BonusType.HEALTH);
         this.color = HEALTH_TURQUOISE;
-        this.name = "Health";
+        this.name = "HEALTH";
     }
 }

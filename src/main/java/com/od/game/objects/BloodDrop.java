@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
-public class BloodDrop extends GameObjects {
+public class BloodDrop extends GameObject {
 
 
     private final int radiusSpawn = 50;
@@ -18,28 +18,29 @@ public class BloodDrop extends GameObjects {
 
     private final Random random = new Random();
 
-    public BloodDrop(float x, float y, int diameter) {
+    public BloodDrop(double x, double y, int diameter) {
         super(x, y, diameter, diameter, ID.BLOOD_DROP);
 
         this.bloodDropThread = new BloodDropThread(dryTimeMillis);
         bloodDropThread.start();
 
         setRandomPosition();
-        this.shape = new Ellipse2D.Float(x, y, diameter, diameter);
+        this.shape = new Ellipse2D.Float();
+        shape.setFrame(getFrame());
     }
 
     public void setRandomPosition() {
 
-        float tempX;
-        float tempY;
+        float dx;
+        float dy;
 
         do {
-            tempX = random.nextFloat() * 2 * radiusSpawn - radiusSpawn;
-            tempY = random.nextFloat() * 2 * radiusSpawn - radiusSpawn;
-        } while (Math.sqrt(Math.pow(tempX, 2) + Math.pow(tempY, 2)) > radiusSpawn);
+            dx = random.nextFloat() * 2 * radiusSpawn - radiusSpawn;
+            dy = random.nextFloat() * 2 * radiusSpawn - radiusSpawn;
+        } while (Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) > radiusSpawn);
 
-        this.x += tempX;
-        this.y += tempY;
+
+        GeomUtil.translate(position, dx, dy);
     }
 
     @Override
@@ -49,12 +50,12 @@ public class BloodDrop extends GameObjects {
     }
 
     private void updateColor() {
-        float shade = GeomUtil.clamp(255f * getThreadState(), 0, 255);
+        double shade = GeomUtil.clamp(255d * getThreadState(), 0, 255);
         this.color = new Color((int)shade, 0, 0);
     }
 
-    private float getThreadState() {
-        return (dryTimeMillis - bloodDropThread.getTimeMillis()) / (float) dryTimeMillis;
+    private double getThreadState() {
+        return (dryTimeMillis - bloodDropThread.getTimeMillis()) / (double) dryTimeMillis;
     }
 
     public boolean isOver() {

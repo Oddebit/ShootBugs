@@ -1,14 +1,14 @@
 package com.od.game.handlers;
 
 import com.od.game.ID;
-import com.od.game.objects.GameObjects;
+import com.od.game.objects.GameObject;
 import lombok.Getter;
 
 import java.awt.*;
 import java.util.LinkedList;
 
 @Getter
-public abstract class Handler<H extends GameObjects> {
+public abstract class Handler<H extends GameObject> {
 
     protected LinkedList<H> handled = new LinkedList<>();
     protected ID responsibility;
@@ -18,7 +18,7 @@ public abstract class Handler<H extends GameObjects> {
     }
 
     public void tick() {
-        handled.forEach(GameObjects::tick);
+        handled.forEach(GameObject::tick);
     }
 
     public void render(Graphics2D graphics) {

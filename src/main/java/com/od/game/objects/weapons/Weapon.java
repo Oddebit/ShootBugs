@@ -2,7 +2,7 @@ package com.od.game.objects.weapons;
 
 import com.od.game.ID;
 import com.od.game.data.SoundData;
-import com.od.game.objects.GameObjects;
+import com.od.game.objects.GameObject;
 import com.od.game.objects.weapons.threads.ReloadThread;
 import com.od.game.objects.weapons.threads.ShotThread;
 import com.od.output.SoundPlayer;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Getter
 @Setter
-public abstract class Weapon extends GameObjects {
+public abstract class Weapon extends GameObject {
 
     private WeaponType weaponType;
 

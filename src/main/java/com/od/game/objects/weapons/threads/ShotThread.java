@@ -2,18 +2,18 @@ package com.od.game.objects.weapons.threads;
 
 import lombok.Getter;
 
+import java.awt.geom.Point2D;
+
 @Getter
 public class ShotThread extends StartedReadyDoneFinishedThread {
 
-    private float targetX;
-    private float targetY;
+    private Point2D.Double target;
 
     public ShotThread(long beforeShotMillis, long afterShotMillis) {
         super(beforeShotMillis, afterShotMillis);
     }
 
-    public void setTarget(float x, float y) {
-        targetX = x;
-        targetY = y;
+    public void setTarget(double x, double y) {
+        target = new Point2D.Double(x, y);
     }
 }

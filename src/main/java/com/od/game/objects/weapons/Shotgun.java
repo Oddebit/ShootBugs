@@ -6,20 +6,10 @@ public class Shotgun extends Weapon {
 
     public Shotgun() {
         super(WeaponType.SHOTGUN,
-                250, 6, 8, 2,
+                250, 8, 8, 2,
                 8, 40,
                 100, 800, 800);
     }
-
-//    @Override
-//    public void shoot(float targetX, float targetY) {
-//
-//        shootSound();
-//
-//        new ShotgunProjectilesLauncher(targetX, targetY, owner, generalHandler);
-//
-//        this.totalMunition--;
-//    }
 
     @Override
     public double getReloadState() {
