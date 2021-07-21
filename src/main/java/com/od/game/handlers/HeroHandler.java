@@ -57,13 +57,17 @@ public class HeroHandler extends Handler<Hero> {
     @Override
     public void render(Graphics2D graphics) {
         super.render(graphics);
-        int hp = hero.getHp();
 
-        int red = (int) GeomUtil.clamp(360 - 3.6f * hp, 0, 255);
-        int green = (int) GeomUtil.clamp((int) (-1.8 + 3.6f * hp), 0, 255);
-        int blue = (int) GeomUtil.clamp(1.8f * hp, 0, 255);
-        graphics.setColor(new Color(red, green, blue));
+        if (heroIsUntouchable() && hero.getUntouchableThread().getTimeMillis() % 500 < 250){
+        } else {
 
-        graphics.fillRect(Game.WIDTH_CENTER - hero.getMaxHp() / 2, 20, hp, 3);
+            int hp = hero.getHp();
+            int red = (int) GeomUtil.clamp(360 - 3.6f * hp, 0, 255);
+            int green = (int) GeomUtil.clamp((int) (-1.8 + 3.6f * hp), 0, 255);
+            int blue = (int) GeomUtil.clamp(1.8f * hp, 0, 255);
+            graphics.setColor(new Color(red, green, blue));
+
+            graphics.fillRect(Game.WIDTH_CENTER - hero.getMaxHp() / 2, 20, hp, 3);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.od.game.objects.weapons.threads;
+package com.od.game.threads;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -47,6 +47,10 @@ public class StartedReadyDoneFinishedThread {
         return this.state == state;
     }
 
+    public void set(ThreadState state) {
+        this.state = state;
+    }
+
     public void start() {
         state = ThreadState.STARTED;
         startedTime = Instant.now();
@@ -61,7 +65,7 @@ public class StartedReadyDoneFinishedThread {
         return ChronoUnit.MILLIS.between(startedTime, Instant.now());
     }
 
-    private enum ThreadState {
+    public enum ThreadState {
         STARTED,
         READY,
         DONE,

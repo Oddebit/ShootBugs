@@ -43,7 +43,6 @@ public class Hero extends Creature {
         dieSound();
     }
 
-
     public void dieSound() {
         SoundData.getSoundLocation(this.getClass(), SoundData.Action.DIE).ifPresent(SoundPlayer::playSound);
     }

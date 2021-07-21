@@ -1,7 +1,7 @@
 package com.od.game.objects;
 
 import com.od.game.ID;
-import com.od.game.handlers.threads.StartedFinishedThread;
+import com.od.game.threads.StartedFinishedThread;
 import com.od.game.util.GeomUtil;
 
 import java.awt.*;

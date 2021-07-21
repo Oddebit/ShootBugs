@@ -8,13 +8,18 @@ import lombok.Getter;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.stream.IntStream;
 
 
 public class WeaponsHandler extends Handler<Weapon> {
 
     @Getter
     private Weapon activeWeapon;
-    private Weapon pistol;
+    private Pistol pistol;
+    private Rifle rifle;
+    private Shotgun shotgun;
+    private Sniper sniper;
+    private AirStrike airStrike;
 
     public WeaponsHandler() {
         super(ID.WEAPON);
@@ -23,11 +28,17 @@ public class WeaponsHandler extends Handler<Weapon> {
 
     private void initWeapons() {
         pistol = new Pistol();
+        rifle = new Rifle();
+        shotgun = new Shotgun();
+        sniper = new Sniper();
+        airStrike = new AirStrike();
+
         handled.add(pistol);
-        handled.add(new Rifle());
-        handled.add(new Shotgun());
-        handled.add(new Sniper());
-        handled.add(new AirStrike());
+        handled.add(rifle);
+        handled.add(shotgun);
+        handled.add(sniper);
+        handled.add(airStrike);
+
         activeWeapon = pistol;
     }
 
@@ -35,20 +46,31 @@ public class WeaponsHandler extends Handler<Weapon> {
     public void tick() {
         super.tick();
         activeWeaponAskAutoReload();
+        activeWeaponAskAutoShot();
     }
 
+
     public void activeWeaponAskAutoReload() {
-        if(!activeWeapon.hasMagMunitionLeft() && !activeWeapon.isReloading()) {
+        if (!activeWeapon.hasMagMunitionLeft() && !activeWeapon.isReloading()) {
             activeWeaponAskInitReload();
         }
     }
 
+    private void activeWeaponAskAutoShot() {
+        if (activeWeapon.equals(rifle) && rifle.isBursting()) {
+            activeWeaponAskInitShot();
+        }
+    }
+
     public void setNextActiveWeapon(int increment) {
-//        Weapon tempWeapon = activeWeapon;
-//        IntStream.range(0, increment)
-//                .forEach(n -> setNextActiveWeapon());
-//
-//        if(!tempWeapon.equals(activeWeapon)) tempWeapon.stopReloading();
+        Weapon tempWeapon = activeWeapon;
+        IntStream.range(0, increment)
+                .forEach(n -> setNextActiveWeapon());
+
+        if(!tempWeapon.equals(activeWeapon)) {
+            tempWeapon.stopReloading();
+            activeWeaponStopBurst();
+        }
         setNextActiveWeapon();
     }
 
@@ -64,8 +86,8 @@ public class WeaponsHandler extends Handler<Weapon> {
         return handled.indexOf(activeWeapon);
     }
 
-    private int getNextWeaponIndex(int start){
-        return (start+1) % handled.size();
+    private int getNextWeaponIndex(int start) {
+        return (start + 1) % handled.size();
     }
 
     public void refillWeapon(Weapon.WeaponType weaponType) {
@@ -83,8 +105,8 @@ public class WeaponsHandler extends Handler<Weapon> {
         activeWeapon.askInitReload();
     }
 
-    public void activeWeaponAskInitShot(float x, float y) {
-        activeWeapon.askInitShot(x, y);
+    public void activeWeaponAskInitShot() {
+        activeWeapon.askInitShot();
     }
 
     public boolean activeWeaponIsAskingToShoot() {
@@ -109,10 +131,29 @@ public class WeaponsHandler extends Handler<Weapon> {
     }
 
     public void checkTotalMunitionLeft() {
-        if(!activeWeapon.hasTotalMunitionLeft()) {
+        if (!activeWeapon.hasTotalMunitionLeft()) {
             activeWeapon = pistol;
         }
     }
+
+    public void activeWeaponAskInitBurst() {
+        if (activeWeapon.equals(rifle)) {
+            rifle.askInitBurst();
+        } else {
+            activeWeapon.askInitShot();
+        }
+    }
+
+    public void activeWeaponStopBurst() {
+        if (activeWeapon.equals(rifle)) {
+            rifle.stopBurst();
+        }
+    }
+
+    public void activeWeaponRetarget(double x, double y) {
+        activeWeapon.retarget(x, y);
+    }
+
 
     @Override
     public void render(Graphics2D graphics) {
@@ -125,10 +166,11 @@ public class WeaponsHandler extends Handler<Weapon> {
 
         graphics.setFont(FontData.NORMAL.getFont());
         String munition;
-        if(activeWeapon == pistol)
-            munition =  String.format("%c | %d", '\u221E', activeWeapon.getMagMunition());
+        if (activeWeapon == pistol)
+            munition = String.format("%c | %d", '\u221E', activeWeapon.getMagMunition());
         else
-            munition =  String.format("%d | %d", activeWeapon.getTotalMunition(), activeWeapon.getMagMunition());
+            munition = String.format("%d | %d",
+                    activeWeapon.getTotalMunition() - activeWeapon.getMagMunition(), activeWeapon.getMagMunition());
         graphics.drawString(munition, 20, 50);
     }
 }

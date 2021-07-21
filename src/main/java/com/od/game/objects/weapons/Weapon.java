@@ -75,11 +75,10 @@ public abstract class Weapon extends GameObject {
         askReload();
     }
 
-    public void askInitShot(float targetX, float targetY) {
+    public void askInitShot() {
 
         if (hasMagMunitionLeft() && !isReloading() && !isShooting()) {
 
-            shotThread.setTarget(targetX, targetY);
             shotThread.start();
         }
     }
@@ -164,6 +163,10 @@ public abstract class Weapon extends GameObject {
 
     public void refillMunition() {
         this.totalMunition += refillMunition;
+    }
+
+    public void retarget(double x, double y) {
+        this.shotThread.setTarget(x, y);
     }
 
 

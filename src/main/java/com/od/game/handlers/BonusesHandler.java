@@ -1,11 +1,11 @@
 package com.od.game.handlers;
 
 import com.od.game.ID;
-import com.od.game.handlers.threads.StartedFinishedThread;
 import com.od.game.objects.bonus.Bonus;
 import com.od.game.objects.bonus.HealthBonus;
 import com.od.game.objects.bonus.WeaponBonus;
 import com.od.game.objects.weapons.Weapon;
+import com.od.game.threads.StartedFinishedThread;
 
 import java.util.Optional;
 import java.util.Random;

@@ -1,8 +1,13 @@
-package com.od.game.handlers.threads;
+package com.od.game.threads;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+@Getter
+@Setter
 public class StartedFinishedThread {
 
     private Instant startedTime;

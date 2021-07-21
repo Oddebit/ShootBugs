@@ -9,10 +9,9 @@ public class InputHandler {
 
         MouseInput mouseInput = new MouseInput(generalHandler);
         game.addMouseListener(mouseInput);
-        game.addMouseWheelListener(new MouseWheelInput(generalHandler));
+        game.addMouseMotionListener(mouseInput);
+        game.addMouseWheelListener(mouseInput);
 
         game.addKeyListener(new KeyInput(generalHandler));
-/*        //fonctionne pas
-        this.addMouseMotionListener(new MouseMotionInput(objectHandler, mouseInput));*/
     }
 }

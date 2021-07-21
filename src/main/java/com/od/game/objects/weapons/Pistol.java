@@ -11,8 +11,8 @@ public class Pistol extends Weapon {
     }
 
     @Override
-    public void askInitShot(float targetX, float targetY) {
-        super.askInitShot(targetX, targetY);
+    public void askInitShot() {
+        super.askInitShot();
         totalMunition++;
     }
 }

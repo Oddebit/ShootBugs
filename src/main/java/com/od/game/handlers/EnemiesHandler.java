@@ -4,7 +4,7 @@ import com.od.game.Game;
 import com.od.game.ID;
 import com.od.game.data.ColorData;
 import com.od.game.data.FontData;
-import com.od.game.handlers.threads.StartedFinishedThread;
+import com.od.game.threads.StartedFinishedThread;
 import com.od.game.objects.creatures.Creature;
 import com.od.game.objects.creatures.enemies.BabySpider;
 import com.od.game.objects.creatures.enemies.Bug;

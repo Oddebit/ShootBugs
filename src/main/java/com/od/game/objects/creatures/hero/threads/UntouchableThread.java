@@ -1,6 +1,6 @@
 package com.od.game.objects.creatures.hero.threads;
 
-import com.od.game.handlers.threads.StartedFinishedThread;
+import com.od.game.threads.StartedFinishedThread;
 
 public class UntouchableThread extends StartedFinishedThread {
 

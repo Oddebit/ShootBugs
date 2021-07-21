@@ -2,77 +2,50 @@ package com.od.input;
 
 import com.od.game.handlers.GeneralHandler;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 
-public class MouseInput extends MouseAdapter implements MouseWheelListener {
+public class MouseInput extends MouseAdapter implements MouseWheelListener, MouseMotionListener {
 
     private final GeneralHandler generalHandler;
-    private float x;
-    private float y;
-    private boolean mousePressed;
 
     public MouseInput(GeneralHandler generalHandler) {
         this.generalHandler = generalHandler;
     }
 
-
-    private void initShootingThread() {
-        new Thread() {
-            public void run() {
-                do {
-                    generalHandler.weaponAskInitShot(x, y);
-                } while (mousePressed);
-            }
-        }.start();
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        generalHandler.weaponRetarget(e.getX(), e.getY());
     }
 
-    // // PLAYER SHOOTING EVENTS // //
+    @Override
+    public void mousePressed(MouseEvent e) {
 
-    public void mousePressed(MouseEvent event) {
-
-        int click = event.getButton();
+        int click = e.getButton();
 
         switch (click) {
             case 1:
-                x = event.getX();
-                y = event.getY();
-//                if(hero.getActiveWeapon().getWeaponType() == Weapon.WeaponType.RIFLE) {
-//                    mousePressed = true;
-//                    initShootingThread();
-//                } else {
-                    generalHandler.weaponAskInitShot(x, y);
-//                }
+                generalHandler.weaponAskInitBurst();
                 break;
             case 3:
                 generalHandler.weaponAskInitReload();
                 break;
         }
-        x = event.getX();
-        y = event.getY();
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
-        generalHandler.weaponAskInitShot(x, y);
-        x = e.getX();
-        y = e.getY();
+        generalHandler.weaponRetarget(e.getX(), e.getY());
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
-        mousePressed = false;
+        generalHandler.weaponStopBurst();
     }
 
-    public void mouseMoved(MouseEvent e) {
-        x = e.getX();
-        y = e.getY();
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent event) {
+        int scroll = event.getWheelRotation();
+        int increment = scroll / Math.abs(scroll);
+        generalHandler.weaponSetNextActiveWeapon(increment);
     }
 }

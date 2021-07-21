@@ -131,7 +131,7 @@ public class GeneralHandler {
 
         List<Enemy> enemies = enemiesHandler.getHandled();
 
-        if (heroHandler.heroIsUntouchable())
+        if (!heroHandler.heroIsUntouchable())
         enemies.stream()
 
                 .filter(enemy -> enemy.intersects(heroHandler.getHero()))
@@ -240,7 +240,19 @@ public class GeneralHandler {
         weaponsHandler.setNextActiveWeapon(increment);
     }
 
-    public void weaponAskInitShot(float x, float y) {
-        weaponsHandler.activeWeaponAskInitShot(x, y);
+    public void weaponAskInitShot() {
+        weaponsHandler.activeWeaponAskInitShot();
+    }
+
+    public void weaponAskInitBurst() {
+        weaponsHandler.activeWeaponAskInitBurst();
+    }
+
+    public void weaponStopBurst() {
+        weaponsHandler.activeWeaponStopBurst();
+    }
+
+    public void weaponRetarget(double x, double y) {
+        weaponsHandler.activeWeaponRetarget(x, y);
     }
 }
