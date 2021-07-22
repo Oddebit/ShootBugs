@@ -1,14 +1,14 @@
-package com.od.game.handlers;
+package com.od.game.handlers.playhandler;
 
-import com.od.game.Game;
 import com.od.game.ID;
+import com.od.game.data.DimensionData;
 import com.od.game.objects.creatures.hero.Hero;
 import com.od.game.util.GeomUtil;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class HeroHandler extends Handler<Hero> {
+public class HeroHandler extends PlayHandler<Hero> {
     private final Hero hero;
 
     public HeroHandler() {
@@ -67,7 +67,7 @@ public class HeroHandler extends Handler<Hero> {
             int blue = (int) GeomUtil.clamp(1.8f * hp, 0, 255);
             graphics.setColor(new Color(red, green, blue));
 
-            graphics.fillRect(Game.WIDTH_CENTER - hero.getMaxHp() / 2, 20, hp, 3);
+            graphics.fillRect(DimensionData.WIDTH_CENTER - hero.getMaxHp() / 2, 20, hp, 3);
         }
     }
 }

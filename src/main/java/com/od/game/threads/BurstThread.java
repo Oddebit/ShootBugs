@@ -1,4 +1,4 @@
-package com.od.game.objects.weapons.threads;
+package com.od.game.threads;
 
 import com.od.game.threads.StartedFinishedThread;
 import lombok.Getter;

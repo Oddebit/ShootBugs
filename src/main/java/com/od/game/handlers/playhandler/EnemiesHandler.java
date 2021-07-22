@@ -1,15 +1,15 @@
-package com.od.game.handlers;
+package com.od.game.handlers.playhandler;
 
-import com.od.game.Game;
 import com.od.game.ID;
 import com.od.game.data.ColorData;
+import com.od.game.data.DimensionData;
 import com.od.game.data.FontData;
-import com.od.game.threads.StartedFinishedThread;
 import com.od.game.objects.creatures.Creature;
 import com.od.game.objects.creatures.enemies.BabySpider;
 import com.od.game.objects.creatures.enemies.Bug;
 import com.od.game.objects.creatures.enemies.Enemy;
 import com.od.game.objects.creatures.enemies.Spider;
+import com.od.game.threads.StartedFinishedThread;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class EnemiesHandler extends Handler<Enemy> {
+public class EnemiesHandler extends PlayHandler<Enemy> {
 
     private int killCount;
     private final int miniSpiders = 4;
@@ -85,7 +85,7 @@ public class EnemiesHandler extends Handler<Enemy> {
         String killCount = String.valueOf(this.killCount);
         int width = graphics.getFontMetrics().stringWidth(killCount);
 
-        graphics.drawString(killCount, Game.REAL_WIDTH - 20 - width, 30);
+        graphics.drawString(killCount, DimensionData.REAL_WIDTH - 20 - width, 30);
     }
 
     public static class EnemySpawnThread extends StartedFinishedThread {

@@ -1,4 +1,4 @@
-package com.od.game.handlers;
+package com.od.game.handlers.playhandler;
 
 import com.od.game.ID;
 import com.od.game.objects.projectiles.Projectile;
@@ -8,7 +8,7 @@ import com.od.game.util.GeomUtil;
 import java.awt.geom.Point2D;
 import java.util.stream.IntStream;
 
-public class ProjectilesHandler extends Handler<Projectile> {
+public class ProjectilesHandler extends PlayHandler<Projectile> {
 
     private final int shotgunProjectiles = 6;
 

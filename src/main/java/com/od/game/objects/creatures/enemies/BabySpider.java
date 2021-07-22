@@ -1,6 +1,6 @@
 package com.od.game.objects.creatures.enemies;
 
-import com.od.game.Game;
+import com.od.game.data.DimensionData;
 import com.od.game.util.GeomUtil;
 
 public class BabySpider extends Enemy {
@@ -14,8 +14,8 @@ public class BabySpider extends Enemy {
 
     @Override
     public void move() {
-        if (GeomUtil.clamp(getX(), 0, Game.REAL_WIDTH) != getX()) setVelX(getVelX() * -1);
-        if (GeomUtil.clamp(getY(), 0, Game.REAL_HEIGHT) != getY()) setVelY(getVelY() * -1);
+        if (GeomUtil.clamp(getX(), 0, DimensionData.REAL_WIDTH) != getX()) setVelX(getVelX() * -1);
+        if (GeomUtil.clamp(getY(), 0, DimensionData.REAL_HEIGHT) != getY()) setVelY(getVelY() * -1);
 
         GeomUtil.translate(position, velocity);
     }

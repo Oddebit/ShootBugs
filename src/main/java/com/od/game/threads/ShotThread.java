@@ -1,6 +1,5 @@
-package com.od.game.objects.weapons.threads;
+package com.od.game.threads;
 
-import com.od.game.threads.StartedReadyDoneFinishedThread;
 import lombok.Getter;
 
 import java.awt.geom.Point2D;

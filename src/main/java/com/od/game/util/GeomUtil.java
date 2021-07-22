@@ -1,6 +1,6 @@
 package com.od.game.util;
 
-import com.od.game.Game;
+import com.od.game.data.DimensionData;
 import com.od.game.objects.GameObject;
 
 import java.awt.geom.Point2D;
@@ -64,16 +64,16 @@ public class GeomUtil {
     }
 
     public static double randomWithDimension(double dimension) {
-        return dimension/2 + new Random().nextInt(Game.REAL_WIDTH - (int) dimension);
+        return dimension/2 + new Random().nextInt(DimensionData.REAL_WIDTH - (int) dimension);
     }
 
 
     public static float randomX() {
-        return new Random().nextInt(Game.REAL_WIDTH);
+        return new Random().nextInt(DimensionData.REAL_WIDTH);
     }
 
     public static float randomY() {
-        return new Random().nextInt(Game.REAL_HEIGHT);
+        return new Random().nextInt(DimensionData.REAL_HEIGHT);
     }
 
     public static void translate(Point2D.Double position, double dx, double dy) {
@@ -85,8 +85,8 @@ public class GeomUtil {
     }
 
     public static void translateAndClamp(Point2D.Double position, double dx, double dy) {
-        double x = clamp(position.getX() + dx, 0, Game.REAL_WIDTH);
-        double y = clamp(position.getY() + dy, 0, Game.REAL_HEIGHT);
+        double x = clamp(position.getX() + dx, 0, DimensionData.REAL_WIDTH);
+        double y = clamp(position.getY() + dy, 0, DimensionData.REAL_HEIGHT);
         position.setLocation(x, y);
     }
 

@@ -1,4 +1,4 @@
-package com.od.game.handlers;
+package com.od.game.handlers.playhandler;
 
 import com.od.game.ID;
 import com.od.game.data.ColorData;
@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
 import java.util.stream.IntStream;
 
 
-public class WeaponsHandler extends Handler<Weapon> {
+public class WeaponsHandler extends PlayHandler<Weapon> {
 
     @Getter
     private Weapon activeWeapon;
@@ -88,6 +88,10 @@ public class WeaponsHandler extends Handler<Weapon> {
 
     private int getNextWeaponIndex(int start) {
         return (start + 1) % handled.size();
+    }
+
+    private int getPreviousWeaponIndex(int start) {
+        return (start - 1) % handled.size();
     }
 
     public void refillWeapon(Weapon.WeaponType weaponType) {

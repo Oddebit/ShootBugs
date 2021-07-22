@@ -1,21 +1,18 @@
-package com.od.input;
+package com.od.input.key;
 
-import com.od.game.handlers.GeneralHandler;
+import com.od.game.handlers.playhandler.PlayGeneralHandler;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class KeyInput extends KeyAdapter {
+public class PlayKeyInput extends KeyInput<PlayGeneralHandler> {
 
-    private final GeneralHandler generalHandler;
-
-    public KeyInput(GeneralHandler generalHandler) {
-        this.generalHandler = generalHandler;
+    public PlayKeyInput(PlayGeneralHandler generalHandler) {
+        super(generalHandler);
     }
-
 
     @Override
     public void keyPressed(KeyEvent event) {
+
         int key = event.getKeyCode();
 
         switch (key) {
@@ -44,7 +41,7 @@ public class KeyInput extends KeyAdapter {
                 generalHandler.weaponSetNextActiveWeapon(1);
                 break;
             case KeyEvent.VK_P:
-//                game.changeState();
+                generalHandler.pause();
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(1);

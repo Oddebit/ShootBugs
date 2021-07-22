@@ -1,7 +1,7 @@
 package com.od.game.objects.creatures.enemies;
 
-import com.od.game.Game;
 import com.od.game.ID;
+import com.od.game.data.DimensionData;
 import com.od.game.objects.creatures.Creature;
 import com.od.game.util.GeomUtil;
 import lombok.Getter;
@@ -55,10 +55,10 @@ public abstract class Enemy extends Creature {
                 setY(0);
                 break;
             case 2:
-                setX(Game.REAL_WIDTH - (int) this.getDiameter());
+                setX(DimensionData.REAL_WIDTH - (int) this.getDiameter());
                 break;
             case 3:
-                setY(Game.REAL_HEIGHT - (int) this.getDiameter());
+                setY(DimensionData.REAL_HEIGHT - (int) this.getDiameter());
                 break;
         }
     }

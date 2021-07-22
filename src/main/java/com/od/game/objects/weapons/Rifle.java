@@ -1,6 +1,6 @@
 package com.od.game.objects.weapons;
 
-import com.od.game.objects.weapons.threads.BurstThread;
+import com.od.game.threads.BurstThread;
 import lombok.Getter;
 
 public class Rifle extends Weapon {

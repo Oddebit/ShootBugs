@@ -1,4 +1,4 @@
-package com.od.game.handlers;
+package com.od.game.handlers.playhandler;
 
 import com.od.game.ID;
 import com.od.game.objects.BloodDrop;
@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class BloodDropsHandler extends Handler<BloodDrop> {
+public class BloodDropsHandler extends PlayHandler<BloodDrop> {
     public BloodDropsHandler() {
         super(ID.BLOOD_DROP);
     }

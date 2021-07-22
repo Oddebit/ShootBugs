@@ -1,4 +1,4 @@
-package com.od.game.handlers;
+package com.od.game.handlers.playhandler;
 
 import com.od.game.ID;
 import com.od.game.objects.bonus.Bonus;
@@ -10,7 +10,7 @@ import com.od.game.threads.StartedFinishedThread;
 import java.util.Optional;
 import java.util.Random;
 
-public class BonusesHandler extends Handler<Bonus> {
+public class BonusesHandler extends PlayHandler<Bonus> {
 
     private final BonusSpawnThread bonusSpawnThread;
     private final long spawnTimeMillis = 30_000;

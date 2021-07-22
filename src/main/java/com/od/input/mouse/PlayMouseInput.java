@@ -1,15 +1,13 @@
-package com.od.input;
+package com.od.input.mouse;
 
-import com.od.game.handlers.GeneralHandler;
+import com.od.game.handlers.playhandler.PlayGeneralHandler;
 
 import java.awt.event.*;
 
-public class MouseInput extends MouseAdapter implements MouseWheelListener, MouseMotionListener {
+public class PlayMouseInput extends MouseInput<PlayGeneralHandler> {
 
-    private final GeneralHandler generalHandler;
-
-    public MouseInput(GeneralHandler generalHandler) {
-        this.generalHandler = generalHandler;
+    public PlayMouseInput(PlayGeneralHandler generalHandler) {
+        super(generalHandler);
     }
 
     @Override
