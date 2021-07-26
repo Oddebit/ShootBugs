@@ -61,5 +61,5 @@ public class Projectile extends GameObject {
 
     public Consumer<Enemy> getDeathDamage() {
         return enemy -> {};
-    };
+    }
 }

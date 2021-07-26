@@ -58,8 +58,7 @@ public class HeroHandler extends PlayHandler<Hero> {
     public void render(Graphics2D graphics) {
         super.render(graphics);
 
-        if (heroIsUntouchable() && hero.getUntouchableThread().getTimeMillis() % 500 < 250){
-        } else {
+        if (!(heroIsUntouchable() && hero.getUntouchableThread().getTimeMillis() % 500 < 250)){
 
             int hp = hero.getHp();
             int red = (int) GeomUtil.clamp(360 - 3.6f * hp, 0, 255);

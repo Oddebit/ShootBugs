@@ -105,6 +105,6 @@ public class StatesHandler {
         PLAY,
         PAUSE,
         LOSS,
-        WIN;
+        WIN
     }
 }

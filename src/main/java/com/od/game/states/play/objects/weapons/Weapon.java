@@ -76,7 +76,7 @@ public abstract class Weapon extends GameObject {
 
     public void askInitShot() {
 
-        if (hasMagMunitionLeft() && !isReloading() && !isShooting()) {
+        if (hasMagMunitionLeft() && isNotReloading() && isNotShooting()) {
 
             shotThread.start();
         }
@@ -92,7 +92,7 @@ public abstract class Weapon extends GameObject {
 
     public void askInitReload() {
 
-        if (!isReloading()) {
+        if (isNotReloading()) {
             initReload();
         }
     }
@@ -116,16 +116,16 @@ public abstract class Weapon extends GameObject {
         return shotThread.isReady();
     }
 
-    public boolean isShooting() {
-        return !shotThread.isFinished();
+    public boolean isNotShooting() {
+        return shotThread.isFinished();
     }
 
     public boolean isAskingToReload() {
         return reloadThread.isReady();
     }
 
-    public boolean isReloading() {
-        return !reloadThread.isFinished();
+    public boolean isNotReloading() {
+        return reloadThread.isFinished();
     }
 
     public void stopReloading() {
@@ -136,8 +136,8 @@ public abstract class Weapon extends GameObject {
         return magMunition > 0;
     }
 
-    public boolean hasTotalMunitionLeft() {
-        return totalMunition > 0;
+    public boolean hasNoTotalMunitionLeft() {
+        return totalMunition <= 0;
     }
 
     private int getMagMunitions() {

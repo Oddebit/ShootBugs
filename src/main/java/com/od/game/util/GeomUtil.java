@@ -110,9 +110,6 @@ public class GeomUtil {
     public static double clamp(double var, double min, double max) {
         if (var >= max)
             return max;
-        else if (var <= min)
-            return min;
-        else
-            return var;
+        else return Math.max(var, min);
     }
 }

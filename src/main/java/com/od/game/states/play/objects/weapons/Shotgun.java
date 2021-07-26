@@ -13,7 +13,7 @@ public class Shotgun extends Weapon {
 
     public void askInitShot() {
 
-        if (hasMagMunitionLeft() && !isShooting()) {
+        if (hasMagMunitionLeft() && isNotShooting()) {
 
             shotThread.start();
             reloadThread.done();

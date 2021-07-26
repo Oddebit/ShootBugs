@@ -53,7 +53,7 @@ public class WeaponsHandler extends PlayHandler<Weapon> {
 
 
     public void activeWeaponAskAutoReload() {
-        if (!activeWeapon.hasMagMunitionLeft() && !activeWeapon.isReloading()) {
+        if (!activeWeapon.hasMagMunitionLeft() && activeWeapon.isNotReloading()) {
             activeWeaponAskInitReload();
         }
     }
@@ -72,7 +72,7 @@ public class WeaponsHandler extends PlayHandler<Weapon> {
         do {
             index = getNextWeaponIndex(index, increment);
             activeWeapon = handled.get(index);
-        } while (!activeWeapon.hasTotalMunitionLeft());
+        } while (activeWeapon.hasNoTotalMunitionLeft());
 
         if (!tempWeapon.equals(activeWeapon)) {
             tempWeapon.stopReloading();
@@ -135,7 +135,7 @@ public class WeaponsHandler extends PlayHandler<Weapon> {
     }
 
     public void checkTotalMunitionLeft() {
-        if (!activeWeapon.hasTotalMunitionLeft()) {
+        if (activeWeapon.hasNoTotalMunitionLeft()) {
             activeWeapon = pistol;
         }
     }

@@ -18,7 +18,7 @@ public class Rifle extends Weapon {
     }
 
     public void askInitBurst() {
-        if (hasMagMunitionLeft() && !isReloading() && !isBursting()) {
+        if (hasMagMunitionLeft() && isNotReloading() && !isBursting()) {
 
             burstThread.start();
         }
