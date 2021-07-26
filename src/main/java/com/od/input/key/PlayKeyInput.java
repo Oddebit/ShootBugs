@@ -1,12 +1,13 @@
 package com.od.input.key;
 
-import com.od.game.handlers.playhandler.PlayGeneralHandler;
+import com.od.game.states.StatesHandler;
+import com.od.game.states.play.PlayDispatcher;
 
 import java.awt.event.KeyEvent;
 
-public class PlayKeyInput extends KeyInput<PlayGeneralHandler> {
+public class PlayKeyInput extends KeyInput<PlayDispatcher> {
 
-    public PlayKeyInput(PlayGeneralHandler generalHandler) {
+    public PlayKeyInput(PlayDispatcher generalHandler) {
         super(generalHandler);
     }
 
@@ -41,10 +42,10 @@ public class PlayKeyInput extends KeyInput<PlayGeneralHandler> {
                 generalHandler.weaponSetNextActiveWeapon(1);
                 break;
             case KeyEvent.VK_P:
-                generalHandler.pause();
+                generalHandler.setWantedState(StatesHandler.GameState.PAUSE);
                 break;
             case KeyEvent.VK_ESCAPE:
-                System.exit(1);
+                generalHandler.setWantedState(StatesHandler.GameState.LOSS);
                 break;
         }
     }

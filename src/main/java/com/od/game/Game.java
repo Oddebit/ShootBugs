@@ -1,8 +1,7 @@
 package com.od.game;
 
 import com.od.game.data.DimensionData;
-import com.od.game.handlers.StatesHandler;
-import com.od.input.InputHandler;
+import com.od.game.states.StatesHandler;
 import com.od.output.SoundPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +25,7 @@ public class Game extends Canvas implements Runnable {
 
         handler = new StatesHandler(this);
 
-        new InputHandler(this, handler);
+//        new InputHandler(this, handler);
         new Window(DimensionData.WIDTH, DimensionData.HEIGHT, "Shoot Bugs", this);
     }
 

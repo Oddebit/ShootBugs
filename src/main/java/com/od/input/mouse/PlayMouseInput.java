@@ -1,12 +1,12 @@
 package com.od.input.mouse;
 
-import com.od.game.handlers.playhandler.PlayGeneralHandler;
+import com.od.game.states.play.PlayDispatcher;
 
 import java.awt.event.*;
 
-public class PlayMouseInput extends MouseInput<PlayGeneralHandler> {
+public class PlayMouseInput extends MouseInput<PlayDispatcher> {
 
-    public PlayMouseInput(PlayGeneralHandler generalHandler) {
+    public PlayMouseInput(PlayDispatcher generalHandler) {
         super(generalHandler);
     }
 

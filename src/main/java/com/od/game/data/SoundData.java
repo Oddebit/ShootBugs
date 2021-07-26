@@ -1,8 +1,8 @@
 package com.od.game.data;
 
-import com.od.game.objects.GameObject;
-import com.od.game.objects.creatures.hero.Hero;
-import com.od.game.objects.weapons.*;
+import com.od.game.states.play.objects.GameObject;
+import com.od.game.states.play.objects.creatures.hero.Hero;
+import com.od.game.states.play.objects.weapons.*;
 
 import java.util.Arrays;
 import java.util.Optional;

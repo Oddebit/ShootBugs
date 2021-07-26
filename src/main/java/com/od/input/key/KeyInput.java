@@ -1,10 +1,10 @@
 package com.od.input.key;
 
-import com.od.game.handlers.GeneralHandler;
+import com.od.game.states.Dispatcher;
 
 import java.awt.event.KeyAdapter;
 
-public abstract class KeyInput<G extends GeneralHandler> extends KeyAdapter {
+public abstract class KeyInput<G extends Dispatcher> extends KeyAdapter {
 
     protected final G generalHandler;
 

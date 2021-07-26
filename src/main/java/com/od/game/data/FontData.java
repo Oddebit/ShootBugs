@@ -5,7 +5,8 @@ import java.awt.*;
 public enum FontData {
 
     NORMAL(Font.DIALOG, Font.PLAIN, 12),
-    BOLD(Font.DIALOG, Font.BOLD, 24);
+    BOLD(Font.DIALOG, Font.BOLD, 24),
+    TITLE(Font.DIALOG, Font.BOLD, 75);
 
     Font font;
 
