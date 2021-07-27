@@ -4,6 +4,7 @@ import com.od.game.data.SoundData;
 import com.od.game.states.play.objects.GameObject;
 import com.od.game.states.play.threads.ReloadThread;
 import com.od.game.states.play.threads.ShotThread;
+import com.od.game.util.GeomUtil;
 import com.od.output.SoundPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public abstract class Weapon extends GameObject {
 
     protected float range;
     protected int damage;
-    protected int speed;
+    protected double speed;
     protected float calibre;
 
     protected int magMunition;
@@ -38,11 +39,11 @@ public abstract class Weapon extends GameObject {
 
 
     public Weapon(WeaponType weaponType,
-                  float range, int damage, int speed, float calibre,
+                  float range, int damage, double speed, float calibre,
                   int maxMagMunition, int refillMunition,
                   long beforeShotMillis, long afterShotMillis, long reloadTimeMillis) {
 
-        super(-1000, -1000, 1, 1, ID.WEAPON);
+        super(GeomUtil.getSquare(-1000), GeomUtil.getSquare(0), ID.WEAPON);
 
         this.weaponType = weaponType;
 
@@ -149,7 +150,7 @@ public abstract class Weapon extends GameObject {
     }
 
     public double getReloadState() {
-        return (float) reloadThread.getTimeMillis() / reloadTimeMillis;
+        return (float) reloadThread.getTimeFromStartedMillis() / reloadTimeMillis;
     }
 
     public void reloadSound() {
@@ -170,11 +171,21 @@ public abstract class Weapon extends GameObject {
 
 
     public enum WeaponType {
-        PISTOL,
-        RIFLE,
-        SHOTGUN,
-        SNIPER,
-        AIR_STRIKE,
-        GRENADE
+        PISTOL("Pistol"),
+        RIFLE("Rifle"),
+        SHOTGUN("Shotgun"),
+        SNIPER("Sniper"),
+        AIR_STRIKE("Air Strike"),
+        GRENADE("Grenade");
+
+        private final String name;
+
+        WeaponType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }

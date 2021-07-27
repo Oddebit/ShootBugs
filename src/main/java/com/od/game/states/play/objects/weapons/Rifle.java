@@ -11,8 +11,8 @@ public class Rifle extends Weapon {
 
     public Rifle() {
         super(WeaponType.RIFLE,
-                600, 8, 12, 5,
-                25, 50,
+                600, 8, 7.2, 5,
+                25, 75,
                 0, 100, 3_000);
         this.burstThread = new BurstThread();
     }

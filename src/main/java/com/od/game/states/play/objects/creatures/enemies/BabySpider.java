@@ -7,13 +7,6 @@ import java.util.Random;
 
 public class BabySpider extends Enemy {
 
-    public BabySpider(double angle, double x, double y) {
-        super(EnemyType.BABY_SPIDER, 15, 2.5d, 5);
-
-        setPosition(x, y);
-        setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
-    }
-
     public BabySpider(double x, double y) {
         super(EnemyType.BABY_SPIDER, 15, 2.5d, 5);
 

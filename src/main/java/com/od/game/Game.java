@@ -48,7 +48,7 @@ public class Game extends Canvas implements Runnable {
     public void run() {
 
         long lastTime = System.nanoTime();
-        double amountOfTicks = 60;
+        double amountOfTicks = 100;
         double tickTime = 1_000_000_000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();

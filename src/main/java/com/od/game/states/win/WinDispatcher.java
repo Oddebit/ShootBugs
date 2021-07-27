@@ -22,13 +22,13 @@ public class WinDispatcher extends Dispatcher {
     @Override
     public void render(Graphics2D graphics) {
         graphics.setColor(ColorData.HEALTH_TURQUOISE);
-        graphics.setFont(FontData.TITLE.getFont());
+        graphics.setFont(FontData.TITLE);
         String string = "YOU WON";
         int height = graphics.getFontMetrics().getHeight();
         int width = graphics.getFontMetrics().stringWidth(string);
         graphics.drawString(string, (int) (DimensionData.WIDTH_CENTER - width / 2d), (int) (DimensionData.HEIGHT_CENTER - height / 2d));
 
-        graphics.setFont(FontData.BOLD.getFont());
+        graphics.setFont(FontData.BOLD);
         string = "Press 'P' to Restart";
         height = graphics.getFontMetrics().getHeight();
         width = graphics.getFontMetrics().stringWidth(string);

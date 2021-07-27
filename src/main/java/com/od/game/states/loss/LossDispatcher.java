@@ -27,7 +27,7 @@ public class LossDispatcher extends Dispatcher {
         int width = graphics.getFontMetrics().stringWidth(string);
         graphics.drawString(string, (int) (DimensionData.WIDTH_CENTER - width / 2d), (int) (DimensionData.HEIGHT_CENTER - height / 2d));
 
-        graphics.setFont(FontData.BOLD.getFont());
+        graphics.setFont(FontData.BOLD);
         string = "Press 'P' to Restart";
         height = graphics.getFontMetrics().getHeight();
         width = graphics.getFontMetrics().stringWidth(string);

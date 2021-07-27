@@ -14,6 +14,6 @@ public class WeaponBonus extends Bonus{
         super(BonusType.WEAPON);
         this.weaponType = weaponType;
         this.color = HERO_ORANGE;
-        this.name = weaponType.toString();
+        this.name = weaponType.getName();
     }
 }

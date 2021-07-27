@@ -5,6 +5,7 @@ import com.od.game.util.GeomUtil;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class BloodDrop extends GameObject {
@@ -17,8 +18,8 @@ public class BloodDrop extends GameObject {
 
     private final Random random = new Random();
 
-    public BloodDrop(double x, double y, int diameter) {
-        super(x, y, diameter, diameter, ID.BLOOD_DROP);
+    public BloodDrop(Point2D position, int diameter) {
+        super(position, GeomUtil.getSquare(diameter), ID.BLOOD_DROP);
 
         this.bloodDropThread = new BloodDropThread(dryTimeMillis);
         bloodDropThread.start();

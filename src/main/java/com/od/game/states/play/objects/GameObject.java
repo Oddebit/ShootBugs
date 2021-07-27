@@ -22,11 +22,7 @@ public abstract class GameObject {
     protected Point2D dimension;
     protected Point2D velocity;
 
-    public GameObject(double x, double y, double w, double h, GameObject.ID id) {
-        this(new Point2D.Double(x, y), new Point2D.Double(w, h), id);
-    }
-
-    public GameObject(Point2D.Double position, Point2D.Double dimension, GameObject.ID id) {
+    public GameObject(Point2D position, Point2D dimension, GameObject.ID id) {
         this.id = id;
 
         this.shape = new Ellipse2D.Double();
@@ -46,8 +42,8 @@ public abstract class GameObject {
     }
 
 
-    public boolean intersects(GameObject gameObject){
-         return GeomUtil.intersects(this, gameObject);
+    public boolean intersects(GameObject gameObject) {
+        return GeomUtil.intersects(this, gameObject);
     }
 
     public double getX() {

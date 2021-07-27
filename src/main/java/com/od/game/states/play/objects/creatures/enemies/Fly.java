@@ -10,7 +10,7 @@ public class Fly extends Enemy{
     ChangeDirectionThread changeDirectionThread;
 
     public Fly() {
-        super(EnemyType.FLY, 32, 1.8, 10);
+        super(EnemyType.FLY, 32, 1.1, 10);
         changeDirectionThread = new ChangeDirectionThread(0);
     }
 

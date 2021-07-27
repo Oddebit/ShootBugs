@@ -164,11 +164,11 @@ public class WeaponsHandler extends PlayHandler<Weapon> {
         super.render(graphics);
         graphics.setColor(ColorData.HERO_ORANGE);
 
-        graphics.setFont(FontData.BOLD.getFont());
-        String weaponName = activeWeapon.getWeaponType().toString();
+        graphics.setFont(FontData.BOLD);
+        String weaponName = activeWeapon.getWeaponType().getName();
         graphics.drawString(weaponName, 20, 30);
 
-        graphics.setFont(FontData.NORMAL.getFont());
+        graphics.setFont(FontData.NORMAL);
         String munition;
         if (activeWeapon == pistol)
             munition = String.format("%c | %d", '\u221E', activeWeapon.getMagMunition());

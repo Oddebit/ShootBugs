@@ -7,8 +7,6 @@ import com.od.game.states.play.objects.weapons.Weapon;
 import com.od.game.util.GeomUtil;
 
 import java.awt.geom.Point2D;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ProjectilesHandler extends PlayHandler<Projectile> {
@@ -21,7 +19,7 @@ public class ProjectilesHandler extends PlayHandler<Projectile> {
 
     public void createProjectile(Weapon weapon, Point2D position, Point2D target) {
 
-        handled.add(new Projectile(weapon, position, target));
+        handled.add(new Projectile(weapon, GeomUtil.getCopy(position), target));
     }
 
     public void createShotgunProjectiles(Weapon weapon, Point2D position, Point2D target) {
@@ -30,7 +28,7 @@ public class ProjectilesHandler extends PlayHandler<Projectile> {
         double angle = GeomUtil.getAngle(vector);
 
         IntStream.rangeClosed(-2, 2)
-                .forEach( n -> {
+                .forEach(n -> {
 
             double tempAngle = angle + n * Math.PI / 27;
             Point2D newTarget = new Point2D.Double(position.getX() + Math.cos(tempAngle) * 1000d,
@@ -44,10 +42,8 @@ public class ProjectilesHandler extends PlayHandler<Projectile> {
         handled.add(new GrenadeProjectile(weapon, position, target));
     }
 
-    public List<Projectile> removeOverProjectiles() {
+    public void removeOverProjectiles() {
 
-        List<Projectile> toRemove = handled.stream().filter(Projectile::isOver).collect(Collectors.toList());
-        handled.removeAll(toRemove);
-        return toRemove;
+        handled.removeIf(Projectile::isOver);
     }
 }

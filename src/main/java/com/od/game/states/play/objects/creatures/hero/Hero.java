@@ -13,22 +13,21 @@ import lombok.Setter;
 @Setter
 public class Hero extends Creature {
 
-    private static final float diameter = 51;
-
-    private int maxHP = 100;
-
     private int untouchableTimeMillis = 2500;
     private UntouchableThread untouchableThread;
 
     public Hero() {
-        super(DimensionData.WIDTH_CENTER, DimensionData.HEIGHT_CENTER, diameter, diameter, 100, ID.HERO);
+        super(51,3.5,100, ID.HERO);
 
-        this.speed = 5;
         this.color = ColorData.HERO_ORANGE;
 
         this.untouchableThread = new UntouchableThread(untouchableTimeMillis);
     }
 
+    @Override
+    public void setStartingPosition() {
+        setPosition(DimensionData.WIDTH_CENTER, DimensionData.HEIGHT_CENTER);
+    }
 
     @Override
     public void tick() {

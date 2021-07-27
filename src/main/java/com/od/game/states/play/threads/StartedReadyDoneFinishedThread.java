@@ -61,8 +61,12 @@ public class StartedReadyDoneFinishedThread {
         doneTime = Instant.now();
     }
 
-    public long getTimeMillis() {
+    public long getTimeFromStartedMillis() {
         return ChronoUnit.MILLIS.between(startedTime, Instant.now());
+    }
+
+    public long getTimeFromDoneMillis() {
+        return ChronoUnit.MILLIS.between(doneTime, Instant.now());
     }
 
     public enum ThreadState {

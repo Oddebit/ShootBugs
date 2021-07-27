@@ -16,6 +16,7 @@ public class BonusesHandler extends PlayHandler<Bonus> {
     public BonusesHandler() {
         super(GameObject.ID.BONUS);
         this.bonusSpawnThread = new BonusSpawnThread(spawnTimeMillis);
+        bonusSpawnThread.start();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class BonusesHandler extends PlayHandler<Bonus> {
 //            handled.add(new HealthBonus());
 //        else
 //            handled.add(new WeaponBonus(Weapon.WeaponType.values()[rnd]));
-        handled.add(new WeaponBonus(Weapon.WeaponType.GRENADE));
+        handled.add(new WeaponBonus(Weapon.WeaponType.AIR_STRIKE));
     }
 
     public Optional<Bonus> getBonus() {

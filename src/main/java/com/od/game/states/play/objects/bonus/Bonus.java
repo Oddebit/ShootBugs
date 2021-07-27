@@ -22,7 +22,7 @@ public abstract class Bonus extends GameObject {
 
 
     public Bonus(BonusType type) {
-        super(GeomUtil.randomWithDimension(24), GeomUtil.randomWithDimension(24), 24, 24, ID.BONUS);
+        super(GeomUtil.randomPosition(24), GeomUtil.getSquare(24), ID.BONUS);
 
         this.type = type;
         this.startingTime = Instant.now();
@@ -37,7 +37,7 @@ public abstract class Bonus extends GameObject {
         super.render(graphics);
 
         graphics.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
-        graphics.drawString(name, (int) (position.getX() + dimension.getX() + 3), (int) position.getY());
+        graphics.drawString(name, (int) (position.getX() + dimension.getX() + 1), (int) position.getY());
     }
 
     public boolean isOver() {

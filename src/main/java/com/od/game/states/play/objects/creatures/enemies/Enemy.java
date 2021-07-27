@@ -19,13 +19,9 @@ public abstract class Enemy extends Creature {
     private EnemyType type;
 
     public Enemy(EnemyType type, int diameter, double speed, int hp) {
-        super(0, 0, diameter, diameter, hp, ID.ENEMY);
+        super(diameter, speed, hp, ID.ENEMY);
 
         this.type = type;
-
-        setStartingPosition();
-        this.diameter = diameter;
-        this.speed = speed;
 
         this.shape = new Ellipse2D.Double();
         shape.setFrame(getFrame());
@@ -42,10 +38,11 @@ public abstract class Enemy extends Creature {
         color = new Color(0, shade, shade);
     }
 
+    @Override
     public void setStartingPosition() {
-        setPosition(GeomUtil.randomPositionWithDimension(dimension));
+        setPosition(GeomUtil.randomPosition(diameter));
 
-        int proba = random.nextInt(4);
+        int proba = new Random().nextInt(4);
         switch (proba) {
             case 0:
                 setX(0);

@@ -1,5 +1,8 @@
 package com.od.game.states.play;
 
+import com.od.game.data.ColorData;
+import com.od.game.data.DimensionData;
+import com.od.game.data.FontData;
 import com.od.game.states.Dispatcher;
 import com.od.game.states.StatesHandler;
 import com.od.game.states.play.objects.GameObject;
@@ -10,21 +13,20 @@ import com.od.game.states.play.objects.creatures.hero.Hero;
 import com.od.game.states.play.objects.handlers.*;
 import com.od.game.states.play.objects.projectiles.Projectile;
 import com.od.game.states.play.objects.weapons.Weapon;
+import com.od.game.states.play.threads.LevelThread;
 import com.od.game.util.GeomUtil;
 import lombok.Getter;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 
 @Getter
 public class PlayDispatcher extends Dispatcher {
 
-    private final Instant initTime;
     private int level;
+    private final LevelThread levelThread;
 
     private final HeroHandler heroHandler;
     private final BloodDropsHandler bloodDropsHandler;
@@ -39,8 +41,9 @@ public class PlayDispatcher extends Dispatcher {
 
         super(StatesHandler.GameState.PLAY);
 
-        this.initTime = Instant.now();
         this.level = 0;
+        this.levelThread = new LevelThread(30_000);
+        levelThread.start();
 
         this.heroHandler = new HeroHandler();
         this.bloodDropsHandler = new BloodDropsHandler();
@@ -58,6 +61,7 @@ public class PlayDispatcher extends Dispatcher {
     }
 
     public void tick() {
+        levelThread.tick();
         tickHandlers();
         check();
     }
@@ -90,11 +94,9 @@ public class PlayDispatcher extends Dispatcher {
     }
 
     private void checkSpawn() {
-        long timeInGame = ChronoUnit.MILLIS.between(initTime, Instant.now());
-
-        if (timeInGame % 60_000 == 0) {
+        if (levelThread.isFinished()) {
             level++;
-            System.out.println(level);
+            levelThread.start();
         }
 
         enemiesHandler.askSpawn(level);
@@ -121,53 +123,49 @@ public class PlayDispatcher extends Dispatcher {
         List<Enemy> enemies = enemiesHandler.getHandled();
 
         List<Projectile> projectilesToRemove = new LinkedList<>();
-        projectiles.stream()
-                .filter(projectile -> projectile.getWeapon().getWeaponType() != Weapon.WeaponType.GRENADE)
+        projectiles
                 .forEach(projectile ->
                 enemies.stream()
+                        .filter(projectile::intersects)
+                        .forEach(enemy ->  {
+                            removeHp(enemy, projectile.getDamage());
 
-                        .filter(enemy -> enemy.intersects(projectile))
-                        .forEach(enemy -> {
-
-                            int damage = projectile.getDamage();
-                            enemy.removeHp(damage);
-                            bloodDropsHandler.addBlood(damage, projectile.getX(), projectile.getY());
-
-                            //fixme:: no hardcode pls -> projectile.hp ?
-                            if (!projectile.getWeapon().getWeaponType().equals(Weapon.WeaponType.SNIPER))
+                            //fixme:: no hardcode -> projectile.hp or enum Projectile.IntersectionEffect ?
+                            Weapon.WeaponType weaponType = projectile.getWeapon().getWeaponType();
+                            if (!weaponType.equals(Weapon.WeaponType.SNIPER) && !weaponType.equals(Weapon.WeaponType.GRENADE))
                                 projectilesToRemove.add(projectile);
                         })
         );
         projectiles.removeAll(projectilesToRemove);
     }
 
+    private void removeHp(Enemy enemy, int damage) {
+        damage = Math.min(damage, enemy.getHp());
+        enemy.removeHp(damage);
+        bloodDropsHandler.addBlood(damage, enemy.getPosition());
+    }
+
     private void checkHeroEnemiesCollisions() {
 
-        List<Enemy> enemies = enemiesHandler.getHandled();
-
         if (!heroHandler.heroIsUntouchable())
-        enemies.stream()
-
+            enemiesHandler.getHandled().stream()
                 .filter(enemy -> enemy.intersects(heroHandler.getHero()))
                 .forEach(enemy -> heroHandler.heroRemoveHp(enemy.getHp()));
     }
 
     private void checkHeroBonusCollisions() {
-        Hero hero = heroHandler.getHero();
-        Bonus bonus;
 
         if (bonusesHandler.getBonus().isPresent()) {
-            bonus = bonusesHandler.getBonus().get();
-        } else {
-            return;
-        }
+            Hero hero = heroHandler.getHero();
+            Bonus bonus = bonusesHandler.getBonus().get();
 
-        if (bonus.intersects(hero)) {
-            if (bonus.getType() == Bonus.BonusType.HEALTH)
-                hero.resetHP();
-            else
-                weaponsHandler.refillWeapon(((WeaponBonus) bonus).getWeaponType());
-            bonusesHandler.clear();
+            if (bonus.intersects(hero)) {
+                if (bonus.getType() == Bonus.BonusType.HEALTH)
+                    hero.resetHP();
+                else
+                    weaponsHandler.refillWeapon(((WeaponBonus) bonus).getWeaponType());
+                bonusesHandler.clear();
+            }
         }
     }
 
@@ -200,12 +198,12 @@ public class PlayDispatcher extends Dispatcher {
     public void checkWeaponShot() {
 
         if (weaponsHandler.activeWeaponIsAskingToShoot()) {
-
             Weapon weapon = weaponsHandler.getActiveWeapon();
+            Weapon.WeaponType weaponType = weapon.getWeaponType();
+
             Point2D position = heroHandler.heroGetPosition();
             Point2D target = weaponsHandler.activeWeaponGetTarget();
 
-            Weapon.WeaponType weaponType = weapon.getWeaponType();
             if (weaponType == Weapon.WeaponType.SHOTGUN)
                 projectilesHandler.createShotgunProjectiles(weapon, position, target);
             else if (weaponType == Weapon.WeaponType.GRENADE)
@@ -218,12 +216,18 @@ public class PlayDispatcher extends Dispatcher {
     }
 
     public void checkProjectiles() {
-        List<Projectile> projectilesToRemove = projectilesHandler.removeOverProjectiles();
-        projectilesToRemove.forEach(projectile -> enemiesHandler.getHandled().forEach(projectile.getDeathDamage()));
-
+        projectilesHandler.removeOverProjectiles();
     }
 
     public void render(Graphics2D graphics) {
+        graphics.setFont(FontData.ENORMOUS);
+        graphics.setColor(ColorData.LEVEL_GREY);
+
+        String level = String.valueOf(this.level);
+        int x = - graphics.getFontMetrics().stringWidth(level) / 3;
+        int y = DimensionData.REAL_HEIGHT;
+
+        graphics.drawString(level, x, y);
         playHandlers.forEach(handler -> handler.render(graphics));
     }
 

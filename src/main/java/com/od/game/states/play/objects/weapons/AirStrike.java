@@ -1,15 +1,22 @@
 package com.od.game.states.play.objects.weapons;
 
+import com.od.game.states.play.objects.GameObject;
+
 public class AirStrike extends Weapon {
 
     public AirStrike() {
         super(WeaponType.AIR_STRIKE,
                 1000, 1000, 1000, 1000,
-                1, 1,
+                1, 2,
                 2000, 2000, 2000);
     }
 
-//    @Override
+    @Override
+    public boolean intersects(GameObject gameObject) {
+        return true;
+    }
+
+    //    @Override
 //    public void initShot(float targetX, float targetY) {
 //
 //        super.initShot(targetX, targetY);

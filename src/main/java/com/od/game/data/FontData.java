@@ -2,19 +2,10 @@ package com.od.game.data;
 
 import java.awt.*;
 
-public enum FontData {
+public class FontData {
 
-    NORMAL(Font.DIALOG, Font.PLAIN, 12),
-    BOLD(Font.DIALOG, Font.BOLD, 24),
-    TITLE(Font.DIALOG, Font.BOLD, 75);
-
-    Font font;
-
-    FontData(String name, int style, int size) {
-        this.font = new Font(name, style, size);
-    }
-
-    public Font getFont() {
-        return font;
-    }
+    public static final Font NORMAL = new Font(Font.DIALOG, Font.PLAIN, 12);
+    public static final Font BOLD = new Font(Font.DIALOG, Font.BOLD, 24);
+    public static final Font TITLE = new Font(Font.DIALOG, Font.BOLD, 75);
+    public static final Font ENORMOUS = new Font(Font.SERIF, Font.BOLD, 1_100);
 }

@@ -1,38 +1,40 @@
 package com.od.game.states.play.objects.projectiles;
 
 import com.od.game.data.ColorData;
-import com.od.game.states.play.objects.creatures.enemies.Enemy;
+import com.od.game.states.play.objects.GameObject;
 import com.od.game.states.play.objects.weapons.Weapon;
+import com.od.game.states.play.threads.ExplosionThread;
 import com.od.game.util.GeomUtil;
 
 import java.awt.geom.Point2D;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.function.Consumer;
 
-public class GrenadeProjectile extends Projectile{
+public class GrenadeProjectile extends Projectile {
 
     private final Point2D initialPosition;
-    private final Instant initialTime;
-
-    //todo : cleaner impl
-    private Instant explosionTime;
+    private final ExplosionThread explosionThread;
 
     public GrenadeProjectile(Weapon weapon, Point2D position, Point2D target) {
         super(weapon, position, target);
-        this.initialPosition = position;
-        this.initialTime = Instant.now();
-        this.explosionTime = Instant.MAX.minusSeconds(1000);
+        this.initialPosition = GeomUtil.getCopy(position);
         setTarget(target);
-        setDistanceLeft(GeomUtil.getDistance(position, target));
+
+        double distance = GeomUtil.getDistance(initialPosition, target);
+        setDistanceLeft(distance);
+
+        setSpeed(distance/100);
+        setVelocity(GeomUtil.getVector(initialPosition, target, getSpeed()));
+
+        this.explosionThread = new ExplosionThread(1000, 500);
+        explosionThread.start();
     }
 
     @Override
     public void tick() {
-        if(getDistanceLeft() > 0) {
+        super.tick();
+        explosionThread.tick();
 
-            super.tick();
-            int minDiameter = 10;
+        if (isSet()) {
+            int minDiameter = 20;
             int maxDiameter = 30;
             double distance = GeomUtil.getDistance(initialPosition, getTarget());
             double distanceTraveled = distance - getDistanceLeft();
@@ -41,26 +43,50 @@ public class GrenadeProjectile extends Projectile{
                             + 4 * (maxDiameter - minDiameter) / distance * distanceTraveled
                             + 5;
             setDimension(diameter, diameter);
-        } else {
-
-            explosionTime = Instant.now();
+        }
+        else if(isAskingToExplode()) {
+            explosionThread.done();
+        }
+        else if(isExploding()) {
+            setSpeed(0);
             setColor(ColorData.EXPLOSION_YELLOW);
-            if(ChronoUnit.MILLIS.between(initialTime, Instant.now()) % 100 < 50) {
-                setDimension(50, 50);
-
-            } else {
+            if (explosionThread.getTimeFromDoneMillis() % 250 < 125) {
+                setDimension(140, 140);
+            }
+            else {
                 setDimension(0, 0);
             }
         }
     }
 
     @Override
-    public Consumer<Enemy> getDeathDamage() {
-        return enemy -> enemy.removeHp((int) Math.abs(100_000 / Math.pow(GeomUtil.getDistance(this, enemy), 2)));
+    public boolean intersects(GameObject gameObject) {
+        return super.intersects(gameObject) && isExploding();
     }
 
     @Override
     public boolean isOver() {
-        return super.isOver() && explosionTime.plusMillis(1000).isBefore(Instant.now());
+        boolean isOver = super.isOver() && hasExploded();
+        if(isOver) {
+            System.out.println("is over");
+        }
+        return isOver;
+//        return super.isOver() && hasExploded();
+    }
+
+    private boolean isSet() {
+        return explosionThread.isStarted();
+    }
+
+    private boolean isAskingToExplode() {
+        return explosionThread.isReady();
+    }
+
+    private boolean isExploding() {
+        return explosionThread.isDone();
+    }
+
+    private boolean hasExploded() {
+        return explosionThread.isFinished();
     }
 }

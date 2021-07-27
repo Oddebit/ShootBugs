@@ -6,8 +6,8 @@ public class Shotgun extends Weapon {
 
     public Shotgun() {
         super(WeaponType.SHOTGUN,
-                250, 8, 8, 2,
-                8, 24,
+                250, 8, 4.8, 2,
+                8, 40,
                 100, 800, 800);
     }
 
@@ -23,7 +23,6 @@ public class Shotgun extends Weapon {
     @Override
     public double getReloadState() {
 
-//        long period = ChronoUnit.SECONDS.between(lastInitReload, Instant.now());
         long period = 0;
         return ((float) maxMagMunition + (float) period / reloadTimeMillis - 1) / (float) maxMagMunition;
     }

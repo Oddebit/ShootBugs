@@ -47,13 +47,13 @@ public class EnemiesHandler extends PlayHandler<Enemy> {
     private void spawn(int level) {
         Random random = new Random();
 
-        if (random.nextInt(100) < 15 + level * 15) {
+        if (random.nextInt(100) < 25 + level * 5) {
             handled.add(new Bug());
         }
-        if (random.nextInt(100) < 8 + level * 9) {
+        if (random.nextInt(100) < 12 + level * 2) {
             handled.add(new Fly());
         }
-        if (random.nextInt(100) < 1 + level * 2) {
+        if (random.nextInt(100) < 2 + level * 1) {
             handled.add(new Spider());
         }
     }
@@ -82,7 +82,7 @@ public class EnemiesHandler extends PlayHandler<Enemy> {
         super.render(graphics);
 
         graphics.setColor(ColorData.KILLCOUNT_TURQUOISE);
-        graphics.setFont(FontData.BOLD.getFont());
+        graphics.setFont(FontData.BOLD);
 
         String killCount = String.valueOf(this.killCount);
         int width = graphics.getFontMetrics().stringWidth(killCount);

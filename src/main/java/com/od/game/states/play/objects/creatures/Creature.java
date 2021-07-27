@@ -12,14 +12,21 @@ public abstract class Creature extends GameObject {
     protected int hp;
     protected int maxHp;
 
-    protected float diameter;
+    protected double diameter;
+    //todo : move to game object & /sec insteadof /tick
     protected double speed;
 
-    public Creature(double x, double y, double w, double h, int hp, ID id) {
-        super(x, y, w, h, id);
+    public Creature(double diameter, double speed, int hp, ID id) {
+        super(GeomUtil.getSquare(0), GeomUtil.getSquare(diameter), id);
         this.maxHp = hp;
         this.hp = hp;
+
+        this.diameter = diameter;
+        this.speed = speed;
+        setStartingPosition();
     }
+
+    public abstract void setStartingPosition();
 
     @Override
     public void tick() {

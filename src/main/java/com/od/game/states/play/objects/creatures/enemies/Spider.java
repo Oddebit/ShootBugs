@@ -8,6 +8,6 @@ public class Spider extends Enemy {
     private final int miniSpiders = 4;
 
     public Spider() {
-        super(EnemyType.SPIDER, 60, 1, 50);
+        super(EnemyType.SPIDER, 55, 0.7, 50);
     }
 }

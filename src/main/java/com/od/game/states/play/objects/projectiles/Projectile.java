@@ -2,21 +2,19 @@ package com.od.game.states.play.objects.projectiles;
 
 import com.od.game.data.ColorData;
 import com.od.game.states.play.objects.GameObject;
-import com.od.game.states.play.objects.creatures.enemies.Enemy;
 import com.od.game.states.play.objects.weapons.Weapon;
 import com.od.game.util.GeomUtil;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.geom.Point2D;
-import java.util.function.Consumer;
 
 @Getter
 @Setter
 public class Projectile extends GameObject {
 
     private final Weapon weapon;
-    private final double speed;
+    private double speed;
     private final int damage;
     private final double calibre;
 
@@ -25,7 +23,7 @@ public class Projectile extends GameObject {
     private Point2D target;
 
     public Projectile(Weapon weapon, Point2D position, Point2D target) {
-        super(position.getX(), position.getY(), weapon.getCalibre(), weapon.getCalibre(), ID.PROJECTILE);
+        super(position, new Point2D.Double(weapon.getCalibre(), weapon.getCalibre()), ID.PROJECTILE);
 
         this.color = ColorData.PROJECTILE_YELLOW;
 
@@ -39,9 +37,6 @@ public class Projectile extends GameObject {
 
         Point2D trajectory = GeomUtil.getVector(position, target, range);
         this.target = GeomUtil.getPoint(position, trajectory);
-
-        Point2D velocity = GeomUtil.getVector(position, target, speed);
-        setVelocity(velocity);
     }
 
     @Override
@@ -51,15 +46,13 @@ public class Projectile extends GameObject {
     }
 
     private void move() {
-        GeomUtil.translate(position, getVelX(), getVelY());
+        Point2D velocity = GeomUtil.getVector(position, target, speed);
+        setVelocity(velocity);
+        GeomUtil.translate(position, getVelocity());
         distanceLeft -= speed;
     }
 
     public boolean isOver() {
         return distanceLeft <= 0;
-    }
-
-    public Consumer<Enemy> getDeathDamage() {
-        return enemy -> {};
     }
 }
