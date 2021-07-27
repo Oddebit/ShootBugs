@@ -2,6 +2,7 @@ package com.od.game.states.play.objects.weapons;
 
 import com.od.game.data.SoundData;
 import com.od.game.states.play.objects.GameObject;
+import com.od.game.states.play.objects.munition.Munition;
 import com.od.game.states.play.threads.ReloadThread;
 import com.od.game.states.play.threads.ShotThread;
 import com.od.game.util.GeomUtil;
@@ -16,11 +17,6 @@ import java.util.Optional;
 public abstract class Weapon extends GameObject {
 
     private WeaponType weaponType;
-
-    protected float range;
-    protected int damage;
-    protected double speed;
-    protected float calibre;
 
     protected int magMunition;
     protected int maxMagMunition;
@@ -38,19 +34,12 @@ public abstract class Weapon extends GameObject {
     protected Optional<String> reloadSoundLocation;
 
 
-    public Weapon(WeaponType weaponType,
-                  float range, int damage, double speed, float calibre,
-                  int maxMagMunition, int refillMunition,
+    public Weapon(WeaponType weaponType,int maxMagMunition, int refillMunition,
                   long beforeShotMillis, long afterShotMillis, long reloadTimeMillis) {
 
         super(GeomUtil.getSquare(-1000), GeomUtil.getSquare(0), ID.WEAPON);
 
         this.weaponType = weaponType;
-
-        this.range = range;
-        this.damage = damage;
-        this.speed = speed;
-        this.calibre = calibre;
 
         this.magMunition = maxMagMunition;
         this.maxMagMunition = maxMagMunition;
@@ -152,6 +141,8 @@ public abstract class Weapon extends GameObject {
     public double getReloadState() {
         return (float) reloadThread.getTimeFromStartedMillis() / reloadTimeMillis;
     }
+
+    public abstract Munition getMunition();
 
     public void reloadSound() {
         reloadSoundLocation.ifPresent(SoundPlayer::playSound);

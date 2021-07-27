@@ -19,7 +19,7 @@ public class BloodDropsHandler extends PlayHandler<BloodDrop> {
         Random random = new Random();
         handled.addAll(
                 IntStream.range(0, amount)
-                        .mapToObj(n -> new BloodDrop(GeomUtil.getCopy(position), random.nextInt(24)))
+                        .mapToObj(n -> new BloodDrop(GeomUtil.copyOf(position), random.nextInt(24)))
                         .collect(Collectors.toList()));
     }
 

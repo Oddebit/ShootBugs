@@ -1,5 +1,7 @@
 package com.od.game.states.play.objects.weapons;
 
+import com.od.game.states.play.objects.munition.Munition;
+import com.od.game.states.play.objects.munition.RifleMunition;
 import com.od.game.states.play.threads.BurstThread;
 import lombok.Getter;
 
@@ -10,10 +12,7 @@ public class Rifle extends Weapon {
     private final BurstThread burstThread;
 
     public Rifle() {
-        super(WeaponType.RIFLE,
-                600, 8, 7.2, 5,
-                25, 75,
-                0, 100, 3_000);
+        super(WeaponType.RIFLE,25, 75, 0, 100, 3_000);
         this.burstThread = new BurstThread();
     }
 
@@ -30,6 +29,11 @@ public class Rifle extends Weapon {
 
     public boolean isBursting() {
         return !burstThread.isFinished();
+    }
+
+    @Override
+    public Munition getMunition() {
+        return new RifleMunition();
     }
 
     public void retarget(double x, double y) {

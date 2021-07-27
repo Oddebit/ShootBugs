@@ -1,21 +1,28 @@
-package com.od.game.states.play.objects.projectiles;
+package com.od.game.states.play.objects.munition;
 
 import com.od.game.data.ColorData;
 import com.od.game.states.play.objects.GameObject;
-import com.od.game.states.play.objects.weapons.Weapon;
 import com.od.game.states.play.threads.ExplosionThread;
 import com.od.game.util.GeomUtil;
 
 import java.awt.geom.Point2D;
 
-public class GrenadeProjectile extends Projectile {
+public class GrenadeMunition extends Munition {
 
-    private final Point2D initialPosition;
+    private Point2D initialPosition;
     private final ExplosionThread explosionThread;
 
-    public GrenadeProjectile(Weapon weapon, Point2D position, Point2D target) {
-        super(weapon, position, target);
-        this.initialPosition = GeomUtil.getCopy(position);
+    public GrenadeMunition() {
+        super(0, 40, 1, 1000, false);
+
+        this.explosionThread = new ExplosionThread(1000, 500);
+        explosionThread.start();
+    }
+
+    @Override
+    public void setTrajectory(Point2D position, Point2D target) {
+        this.initialPosition = position;
+        setPosition(GeomUtil.copyOf(initialPosition));
         setTarget(target);
 
         double distance = GeomUtil.getDistance(initialPosition, target);
@@ -23,9 +30,6 @@ public class GrenadeProjectile extends Projectile {
 
         setSpeed(distance/100);
         setVelocity(GeomUtil.getVector(initialPosition, target, getSpeed()));
-
-        this.explosionThread = new ExplosionThread(1000, 500);
-        explosionThread.start();
     }
 
     @Override
@@ -66,12 +70,7 @@ public class GrenadeProjectile extends Projectile {
 
     @Override
     public boolean isOver() {
-        boolean isOver = super.isOver() && hasExploded();
-        if(isOver) {
-            System.out.println("is over");
-        }
-        return isOver;
-//        return super.isOver() && hasExploded();
+        return super.isOver() && hasExploded();
     }
 
     private boolean isSet() {

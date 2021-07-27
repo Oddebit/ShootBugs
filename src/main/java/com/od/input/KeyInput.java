@@ -1,4 +1,4 @@
-package com.od.input.key;
+package com.od.input;
 
 import com.od.game.states.Dispatcher;
 

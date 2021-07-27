@@ -47,10 +47,10 @@ public class EnemiesHandler extends PlayHandler<Enemy> {
     private void spawn(int level) {
         Random random = new Random();
 
-        if (random.nextInt(100) < 25 + level * 5) {
+        if (random.nextInt(100) < 25 + level * 3) {
             handled.add(new Bug());
         }
-        if (random.nextInt(100) < 12 + level * 2) {
+        if (random.nextInt(100) < 10 + level * 2) {
             handled.add(new Fly());
         }
         if (random.nextInt(100) < 2 + level * 1) {

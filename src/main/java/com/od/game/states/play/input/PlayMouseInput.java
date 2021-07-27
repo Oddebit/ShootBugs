@@ -1,8 +1,10 @@
-package com.od.input.mouse;
+package com.od.game.states.play.input;
 
 import com.od.game.states.play.PlayDispatcher;
+import com.od.input.MouseInput;
 
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class PlayMouseInput extends MouseInput<PlayDispatcher> {
 

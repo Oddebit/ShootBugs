@@ -40,7 +40,7 @@ public class BloodDrop extends GameObject {
         } while (Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) > radiusSpawn);
 
 
-        GeomUtil.translate(position, dx, dy);
+        GeomUtil.translate(position, new Point2D.Double(dx, dy));
     }
 
     @Override

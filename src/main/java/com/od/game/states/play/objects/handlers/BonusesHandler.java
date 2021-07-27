@@ -40,7 +40,7 @@ public class BonusesHandler extends PlayHandler<Bonus> {
 //            handled.add(new HealthBonus());
 //        else
 //            handled.add(new WeaponBonus(Weapon.WeaponType.values()[rnd]));
-        handled.add(new WeaponBonus(Weapon.WeaponType.AIR_STRIKE));
+        handled.add(new WeaponBonus(Weapon.WeaponType.SHOTGUN));
     }
 
     public Optional<Bonus> getBonus() {

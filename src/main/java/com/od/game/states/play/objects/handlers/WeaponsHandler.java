@@ -41,6 +41,7 @@ public class WeaponsHandler extends PlayHandler<Weapon> {
         handled.add(airStrike);
         handled.add(grenade);
 
+        refillWeapon(Weapon.WeaponType.AIR_STRIKE);
         activeWeapon = pistol;
     }
 

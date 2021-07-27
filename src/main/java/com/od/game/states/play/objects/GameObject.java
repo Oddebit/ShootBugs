@@ -117,7 +117,7 @@ public abstract class GameObject {
         HERO,
         ENEMY,
         WEAPON,
-        PROJECTILE,
+        MUNITION,
         BLOOD_DROP,
         BONUS,
         DASHBOARD

@@ -1,14 +1,14 @@
 package com.od.game.states.play.objects.weapons;
 
+import com.od.game.states.play.objects.munition.Munition;
+import com.od.game.states.play.objects.munition.ShotgunMunition;
+
 public class Shotgun extends Weapon {
     //20DPS
     private int reloadCounter = 0;
 
     public Shotgun() {
-        super(WeaponType.SHOTGUN,
-                250, 8, 4.8, 2,
-                8, 40,
-                100, 800, 800);
+        super(WeaponType.SHOTGUN,8, 40, 100, 800, 800);
     }
 
     public void askInitShot() {
@@ -28,11 +28,15 @@ public class Shotgun extends Weapon {
     }
 
     @Override
+    public Munition getMunition() {
+        return new ShotgunMunition();
+    }
+
+    @Override
     protected void initReload() {
         reloadThread.start();
     }
 
-    //fixme :: to tesy
     @Override
     public void reload() {
         reloadSound();

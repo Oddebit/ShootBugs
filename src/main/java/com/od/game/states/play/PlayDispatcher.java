@@ -11,7 +11,7 @@ import com.od.game.states.play.objects.bonus.WeaponBonus;
 import com.od.game.states.play.objects.creatures.enemies.Enemy;
 import com.od.game.states.play.objects.creatures.hero.Hero;
 import com.od.game.states.play.objects.handlers.*;
-import com.od.game.states.play.objects.projectiles.Projectile;
+import com.od.game.states.play.objects.munition.Munition;
 import com.od.game.states.play.objects.weapons.Weapon;
 import com.od.game.states.play.threads.LevelThread;
 import com.od.game.util.GeomUtil;
@@ -32,7 +32,7 @@ public class PlayDispatcher extends Dispatcher {
     private final BloodDropsHandler bloodDropsHandler;
     private final BonusesHandler bonusesHandler;
     private final EnemiesHandler enemiesHandler;
-    private final ProjectilesHandler projectilesHandler;
+    private final MunitionsHandler munitionsHandler;
     private final WeaponsHandler weaponsHandler;
 
     private final LinkedList<PlayHandler<? extends GameObject>> playHandlers = new LinkedList<>();
@@ -49,14 +49,14 @@ public class PlayDispatcher extends Dispatcher {
         this.bloodDropsHandler = new BloodDropsHandler();
         this.bonusesHandler = new BonusesHandler();
         this.enemiesHandler = new EnemiesHandler();
-        this.projectilesHandler = new ProjectilesHandler();
+        this.munitionsHandler = new MunitionsHandler();
         this.weaponsHandler = new WeaponsHandler();
 
         playHandlers.add(bloodDropsHandler);
         playHandlers.add(heroHandler);
         playHandlers.add(bonusesHandler);
         playHandlers.add(enemiesHandler);
-        playHandlers.add(projectilesHandler);
+        playHandlers.add(munitionsHandler);
         playHandlers.add(weaponsHandler);
     }
 
@@ -72,14 +72,13 @@ public class PlayDispatcher extends Dispatcher {
 
     public void check() {
         checkSpawn();
+        checkCollisions();
 
         checkBonuses();
         checkBloodDrops();
         checkWeapons();
         checkEnemies();
         checkProjectiles();
-
-        checkCollisions();
 
         checkLoss();
         checkWin();
@@ -90,7 +89,7 @@ public class PlayDispatcher extends Dispatcher {
     }
 
     private void checkWin() {
-        if(enemiesHandler.getKillCount() >= 100) setWantedState(StatesHandler.GameState.WIN);
+        if (enemiesHandler.getKillCount() >= 250) setWantedState(StatesHandler.GameState.WIN);
     }
 
     private void checkSpawn() {
@@ -119,24 +118,22 @@ public class PlayDispatcher extends Dispatcher {
     }
 
     private void checkProjectilesEnemiesCollisions() {
-        List<Projectile> projectiles = projectilesHandler.getHandled();
+        List<Munition> munitions = munitionsHandler.getHandled();
         List<Enemy> enemies = enemiesHandler.getHandled();
 
-        List<Projectile> projectilesToRemove = new LinkedList<>();
-        projectiles
-                .forEach(projectile ->
-                enemies.stream()
-                        .filter(projectile::intersects)
-                        .forEach(enemy ->  {
-                            removeHp(enemy, projectile.getDamage());
+        List<Munition> munitionsToRemove = new LinkedList<>();
+        munitions
+                .forEach(munition ->
+                        enemies.stream()
+                                .filter(munition::intersects)
+                                .forEach(enemy -> {
+                                    removeHp(enemy, munition.getDamage());
 
-                            //fixme:: no hardcode -> projectile.hp or enum Projectile.IntersectionEffect ?
-                            Weapon.WeaponType weaponType = projectile.getWeapon().getWeaponType();
-                            if (!weaponType.equals(Weapon.WeaponType.SNIPER) && !weaponType.equals(Weapon.WeaponType.GRENADE))
-                                projectilesToRemove.add(projectile);
-                        })
-        );
-        projectiles.removeAll(projectilesToRemove);
+                                    if (munition.isStoppable())
+                                        munitionsToRemove.add(munition);
+                                })
+                );
+        munitions.removeAll(munitionsToRemove);
     }
 
     private void removeHp(Enemy enemy, int damage) {
@@ -149,8 +146,8 @@ public class PlayDispatcher extends Dispatcher {
 
         if (!heroHandler.heroIsUntouchable())
             enemiesHandler.getHandled().stream()
-                .filter(enemy -> enemy.intersects(heroHandler.getHero()))
-                .forEach(enemy -> heroHandler.heroRemoveHp(enemy.getHp()));
+                    .filter(enemy -> enemy.intersects(heroHandler.getHero()))
+                    .forEach(enemy -> heroHandler.heroRemoveHp(enemy.getHp()));
     }
 
     private void checkHeroBonusCollisions() {
@@ -204,27 +201,22 @@ public class PlayDispatcher extends Dispatcher {
             Point2D position = heroHandler.heroGetPosition();
             Point2D target = weaponsHandler.activeWeaponGetTarget();
 
-            if (weaponType == Weapon.WeaponType.SHOTGUN)
-                projectilesHandler.createShotgunProjectiles(weapon, position, target);
-            else if (weaponType == Weapon.WeaponType.GRENADE)
-                projectilesHandler.createGrenadeProjectiles(weapon, position, target);
-            else
-                projectilesHandler.createProjectile(weapon, position, target);
+            munitionsHandler.createMunition(weapon, position, target);
 
             weaponsHandler.activeWeaponShoot();
         }
     }
 
     public void checkProjectiles() {
-        projectilesHandler.removeOverProjectiles();
+        munitionsHandler.removeOverProjectiles();
     }
 
     public void render(Graphics2D graphics) {
         graphics.setFont(FontData.ENORMOUS);
-        graphics.setColor(ColorData.LEVEL_GREY);
+        graphics.setColor(ColorData.LEVEL_TURQUOISE);
 
         String level = String.valueOf(this.level);
-        int x = - graphics.getFontMetrics().stringWidth(level) / 3;
+        int x = -graphics.getFontMetrics().stringWidth(level) / 3;
         int y = DimensionData.REAL_HEIGHT;
 
         graphics.drawString(level, x, y);

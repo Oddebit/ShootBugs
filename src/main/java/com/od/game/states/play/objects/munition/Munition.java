@@ -1,8 +1,7 @@
-package com.od.game.states.play.objects.projectiles;
+package com.od.game.states.play.objects.munition;
 
 import com.od.game.data.ColorData;
 import com.od.game.states.play.objects.GameObject;
-import com.od.game.states.play.objects.weapons.Weapon;
 import com.od.game.util.GeomUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,32 +10,37 @@ import java.awt.geom.Point2D;
 
 @Getter
 @Setter
-public class Projectile extends GameObject {
+public abstract class Munition extends GameObject {
 
-    private final Weapon weapon;
     private double speed;
     private final int damage;
     private final double calibre;
+
+    private boolean isStoppable;
 
     private final double range;
     private double distanceLeft;
     private Point2D target;
 
-    public Projectile(Weapon weapon, Point2D position, Point2D target) {
-        super(position, new Point2D.Double(weapon.getCalibre(), weapon.getCalibre()), ID.PROJECTILE);
+    public Munition(double speed, int damage, double calibre, double range, boolean isStoppable) {
+        super(GeomUtil.getSquare(0), GeomUtil.getSquare(calibre), ID.MUNITION);
 
         this.color = ColorData.PROJECTILE_YELLOW;
 
-        this.weapon = weapon;
-        this.speed = weapon.getSpeed();
-        this.damage = weapon.getDamage();
-        this.calibre = weapon.getCalibre();
+        this.speed = speed;
+        this.damage = damage;
+        this.calibre = calibre;
 
-        this.range = weapon.getRange();
+        this.isStoppable = isStoppable;
+
+        this.range = range;
         this.distanceLeft = range;
+    }
 
+    public void setTrajectory(Point2D position, Point2D target) {
+        setPosition(position);
         Point2D trajectory = GeomUtil.getVector(position, target, range);
-        this.target = GeomUtil.getPoint(position, trajectory);
+        setTarget(GeomUtil.getPoint(position, trajectory));
     }
 
     @Override

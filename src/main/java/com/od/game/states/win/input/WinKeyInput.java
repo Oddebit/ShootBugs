@@ -1,7 +1,8 @@
-package com.od.input.key;
+package com.od.game.states.win.input;
 
 import com.od.game.states.StatesHandler;
 import com.od.game.states.win.WinDispatcher;
+import com.od.input.KeyInput;
 
 import java.awt.event.KeyEvent;
 

@@ -1,8 +1,6 @@
 package com.od.input;
 
 import com.od.game.states.Dispatcher;
-import com.od.input.key.KeyInput;
-import com.od.input.mouse.MouseInput;
 import lombok.Data;
 
 @Data

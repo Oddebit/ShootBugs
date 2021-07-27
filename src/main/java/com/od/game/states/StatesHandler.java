@@ -2,15 +2,19 @@ package com.od.game.states;
 
 import com.od.game.Game;
 import com.od.game.states.loss.LossDispatcher;
+import com.od.game.states.loss.input.LossMouseInput;
 import com.od.game.states.pause.PauseDispatcher;
+import com.od.game.states.pause.input.PauseMouseInput;
 import com.od.game.states.play.PlayDispatcher;
+import com.od.game.states.play.input.PlayMouseInput;
 import com.od.game.states.win.WinDispatcher;
+import com.od.game.states.win.input.WinMouseInput;
 import com.od.input.Input;
-import com.od.input.key.LossKeyInput;
-import com.od.input.key.PauseKeyInput;
-import com.od.input.key.PlayKeyInput;
-import com.od.input.key.WinKeyInput;
-import com.od.input.mouse.*;
+import com.od.input.MouseInput;
+import com.od.game.states.loss.input.LossKeyInput;
+import com.od.game.states.pause.input.PauseKeyInput;
+import com.od.game.states.play.input.PlayKeyInput;
+import com.od.game.states.win.input.WinKeyInput;
 import lombok.Getter;
 import lombok.Setter;
 

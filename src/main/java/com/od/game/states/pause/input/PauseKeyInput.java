@@ -1,7 +1,8 @@
-package com.od.input.key;
+package com.od.game.states.pause.input;
 
 import com.od.game.states.StatesHandler;
 import com.od.game.states.pause.PauseDispatcher;
+import com.od.input.KeyInput;
 
 import java.awt.event.KeyEvent;
 
