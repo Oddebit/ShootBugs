@@ -1,4 +1,4 @@
-package com.od.game.states.play.objects.handlers;
+package com.od.game.states.play.handlers;
 
 import com.od.game.data.ColorData;
 import com.od.game.data.DimensionData;
@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 public class EnemiesHandler extends PlayHandler<Enemy> {
 
     private int killCount;
-    private final int miniSpiders = 5;
+    private final int miniSpiders = 3;
 
     private final EnemySpawnThread enemySpawnThread;
     private final int spawnTimeMillis = 1_000;

@@ -1,4 +1,4 @@
-package com.od.game.states.play.objects.handlers;
+package com.od.game.states.play.handlers;
 
 import com.od.game.states.play.objects.GameObject;
 import com.od.game.states.play.objects.munition.Munition;

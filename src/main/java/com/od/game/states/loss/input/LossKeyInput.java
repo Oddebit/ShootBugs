@@ -14,6 +14,6 @@ public class LossKeyInput extends KeyInput<LossDispatcher> {
 
     @Override
     public void keyPressed(KeyEvent event) {
-        if(event.getKeyCode() == KeyEvent.VK_P) generalHandler.setWantedState(StatesHandler.GameState.PLAY);
+        if(event.getKeyCode() == KeyEvent.VK_P) dispatcher.setWantedState(StatesHandler.GameState.PLAY);
     }
 }

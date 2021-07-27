@@ -10,6 +10,6 @@ public class ColorData {
     public static final Color HEALTH_TURQUOISE = new Color(0, 255, 180);
     public static final Color KILLCOUNT_TURQUOISE = new Color(0, 120, 120);
     public static final Color LEVEL_TURQUOISE = new Color(0, 30, 30);
-    public static final Color LEVEL_GREY = new Color(50, 50, 50);
+    public static final Color SHOOTBUGS_RED = new Color(180, 0, 0);
 }
 

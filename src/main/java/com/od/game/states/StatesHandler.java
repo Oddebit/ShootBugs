@@ -3,6 +3,9 @@ package com.od.game.states;
 import com.od.game.Game;
 import com.od.game.states.loss.LossDispatcher;
 import com.od.game.states.loss.input.LossMouseInput;
+import com.od.game.states.menu.MenuDispatcher;
+import com.od.game.states.menu.input.MenuKeyInput;
+import com.od.game.states.menu.input.MenuMouseInput;
 import com.od.game.states.pause.PauseDispatcher;
 import com.od.game.states.pause.input.PauseMouseInput;
 import com.od.game.states.play.PlayDispatcher;
@@ -33,6 +36,7 @@ public class StatesHandler {
     private PauseDispatcher pauseDispatcher;
     private WinDispatcher winDispatcher;
     private LossDispatcher lossDispatcher;
+    private MenuDispatcher menuDispatcher;
 
     private Map<GameState, Dispatcher> dispatchers = new HashMap<>();
     private Map<Dispatcher, Input<?>> inputs = new HashMap<>();
@@ -45,19 +49,22 @@ public class StatesHandler {
         pauseDispatcher = new PauseDispatcher();
         winDispatcher = new WinDispatcher();
         lossDispatcher = new LossDispatcher();
+        menuDispatcher = new MenuDispatcher();
 
         dispatchers.put(GameState.PLAY, playDispatcher);
         dispatchers.put(GameState.PAUSE, pauseDispatcher);
         dispatchers.put(GameState.WIN, winDispatcher);
         dispatchers.put(GameState.LOSS, lossDispatcher);
+        dispatchers.put(GameState.MENU, menuDispatcher);
 
         inputs.put(playDispatcher, new Input<>(new PlayMouseInput(playDispatcher), new PlayKeyInput(playDispatcher)));
         inputs.put(pauseDispatcher, new Input<>(new PauseMouseInput(pauseDispatcher), new PauseKeyInput(pauseDispatcher)));
         inputs.put(winDispatcher, new Input<>(new WinMouseInput(winDispatcher), new WinKeyInput(winDispatcher)));
         inputs.put(lossDispatcher, new Input<>(new LossMouseInput(lossDispatcher), new LossKeyInput(lossDispatcher)));
+        inputs.put(menuDispatcher, new Input<>(new MenuMouseInput(menuDispatcher), new MenuKeyInput(menuDispatcher)));
 
         currentDispatcher = pauseDispatcher;
-        setCurrentDispatcher(winDispatcher);
+        setCurrentDispatcher(menuDispatcher);
     }
 
     public void tick() {
@@ -109,6 +116,7 @@ public class StatesHandler {
         PLAY,
         PAUSE,
         LOSS,
-        WIN
+        WIN,
+        MENU
     }
 }

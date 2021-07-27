@@ -1,9 +1,12 @@
 package com.od.game.states.play.objects.munition;
 
 import com.od.game.data.ColorData;
+import com.od.game.data.SoundData;
 import com.od.game.states.play.objects.GameObject;
+import com.od.game.states.play.objects.weapons.Grenade;
 import com.od.game.states.play.threads.ExplosionThread;
 import com.od.game.util.GeomUtil;
+import com.od.output.SoundPlayer;
 
 import java.awt.geom.Point2D;
 
@@ -49,6 +52,7 @@ public class GrenadeMunition extends Munition {
             setDimension(diameter, diameter);
         }
         else if(isAskingToExplode()) {
+            SoundPlayer.playSound(SoundData.getSoundLocation(Grenade.class, SoundData.Action.SHOOT).get());
             explosionThread.done();
         }
         else if(isExploding()) {

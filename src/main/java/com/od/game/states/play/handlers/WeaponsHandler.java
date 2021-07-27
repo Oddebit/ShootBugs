@@ -1,4 +1,4 @@
-package com.od.game.states.play.objects.handlers;
+package com.od.game.states.play.handlers;
 
 import com.od.game.data.ColorData;
 import com.od.game.data.FontData;
@@ -41,7 +41,7 @@ public class WeaponsHandler extends PlayHandler<Weapon> {
         handled.add(airStrike);
         handled.add(grenade);
 
-        refillWeapon(Weapon.WeaponType.AIR_STRIKE);
+        refillWeapon(Weapon.WeaponType.GRENADE);
         activeWeapon = pistol;
     }
 

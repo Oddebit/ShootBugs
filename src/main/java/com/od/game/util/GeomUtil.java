@@ -105,12 +105,20 @@ public class GeomUtil {
         return dimension / 2 + new Random().nextInt(DimensionData.REAL_HEIGHT - (int) dimension);
     }
 
-    public static float randomX() {
+    public static double randomX() {
         return new Random().nextInt(DimensionData.REAL_WIDTH);
     }
 
-    public static float randomY() {
+    public static double randomY() {
         return new Random().nextInt(DimensionData.REAL_HEIGHT);
+    }
+
+    public static double centerX(double width) {
+        return DimensionData.WIDTH_CENTER - width/2;
+    }
+
+    public static double centerY(double height) {
+        return DimensionData.HEIGHT_CENTER - height/2;
     }
 
 

@@ -13,6 +13,8 @@ public enum SoundData {
     SHOTGUN_SHOOT(Shotgun.class, Action.SHOOT, "sounds/shotgunShoot.wav"),
     SNIPER_SHOOT(Sniper.class, Action.SHOOT, "sounds/sniperShoot.wav"),
     AIRSTRIKE_SHOOT(AirStrike.class, Action.SHOOT, "sounds/airstrikeShoot.wav"),
+    GRENADE_SHOOT(Grenade.class, Action.SHOOT, "sounds/grenadeShoot.wav"),
+
 
     PISTOL_RELOAD(Pistol.class, Action.RELOAD, "sounds/pistolReload.wav"),
     RIFLE_RELOAD(Rifle.class, Action.RELOAD, "sounds/rifleReload.wav"),

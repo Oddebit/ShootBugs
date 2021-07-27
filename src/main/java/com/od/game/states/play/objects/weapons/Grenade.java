@@ -12,4 +12,12 @@ public class Grenade extends Weapon{
     public Munition getMunition() {
         return new GrenadeMunition();
     }
+
+    @Override
+    public void shoot() {
+
+        magMunition--;
+        totalMunition--;
+        shotThread.done();
+    }
 }

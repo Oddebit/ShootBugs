@@ -6,9 +6,9 @@ import java.awt.event.KeyAdapter;
 
 public abstract class KeyInput<G extends Dispatcher> extends KeyAdapter {
 
-    protected final G generalHandler;
+    protected final G dispatcher;
 
-    protected KeyInput(G generalHandler) {
-        this.generalHandler = generalHandler;
+    protected KeyInput(G dispatcher) {
+        this.dispatcher = dispatcher;
     }
 }

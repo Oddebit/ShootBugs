@@ -120,6 +120,8 @@ public abstract class GameObject {
         MUNITION,
         BLOOD_DROP,
         BONUS,
-        DASHBOARD
+        DASHBOARD,
+        //shouldn't be there
+        BUTTON
     }
 }

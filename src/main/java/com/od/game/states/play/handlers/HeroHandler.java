@@ -1,6 +1,5 @@
-package com.od.game.states.play.objects.handlers;
+package com.od.game.states.play.handlers;
 
-import com.od.game.data.DimensionData;
 import com.od.game.states.play.objects.GameObject;
 import com.od.game.states.play.objects.creatures.hero.Hero;
 import com.od.game.util.GeomUtil;
@@ -66,7 +65,11 @@ public class HeroHandler extends PlayHandler<Hero> {
             int blue = (int) GeomUtil.clamp(1.8f * hp, 0, 255);
             graphics.setColor(new Color(red, green, blue));
 
-            graphics.fillRect(DimensionData.WIDTH_CENTER - hero.getMaxHp() / 2, 20, hp, 3);
+            int x = (int) GeomUtil.centerX(hero.getMaxHp() * 2);
+            int y  = 20;
+            int h = 10;
+            graphics.fillRect(x, y, hp * 2, h);
+            graphics.drawRect(x, y, getHero().getMaxHp() * 2, h);
         }
     }
 }
