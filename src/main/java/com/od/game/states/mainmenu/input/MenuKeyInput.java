@@ -1,12 +1,12 @@
-package com.od.game.states.menu.input;
+package com.od.game.states.mainmenu.input;
 
-import com.od.game.states.menu.MenuDispatcher;
+import com.od.game.states.mainmenu.MainMenuDispatcher;
 import com.od.input.KeyInput;
 
 import java.awt.event.KeyEvent;
 
-public class MenuKeyInput extends KeyInput<MenuDispatcher> {
-    public MenuKeyInput(MenuDispatcher dispatcher) {
+public class MenuKeyInput extends KeyInput<MainMenuDispatcher> {
+    public MenuKeyInput(MainMenuDispatcher dispatcher) {
         super(dispatcher);
     }
 
